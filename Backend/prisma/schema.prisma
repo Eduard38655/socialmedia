@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model activity_logs {
+  activity_logsid Int       @id @default(autoincrement())
+  activity        String?
+  created_at      DateTime? @default(now()) @db.Timestamp(6)
+  userid          Int?
+  users           users?    @relation(fields: [userid], references: [userid], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model channel_members {
+  id        Int       @id @default(autoincrement())
+  channelid Int?
+  userid    Int?
+  joined_at DateTime? @default(now()) @db.Timestamp(6)
+  channels  channels? @relation(fields: [channelid], references: [channelid], onDelete: Cascade, onUpdate: NoAction)
+  users     users?    @relation(fields: [userid], references: [userid], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model channels {
+  channelid       Int               @id @default(autoincrement())
+  workspaceid     Int?
+  name            String
+  is_private      Boolean?          @default(false)
+  created_by      Int?
+  created_at      DateTime?         @default(now()) @db.Timestamp(6)
+  updated_at      DateTime?         @db.Timestamp(6)
+  channel_members channel_members[]
+  users           users?            @relation(fields: [created_by], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+  workspaces      workspaces?       @relation(fields: [workspaceid], references: [workspaceid], onDelete: Cascade, onUpdate: NoAction)
+  messages        messages[]
+}
+
+model direct_messages {
+  id                                       Int       @id @default(autoincrement())
+  sender_id                                Int?
+  receiver_id                              Int?
+  message                                  String?
+  created_at                               DateTime? @default(now()) @db.Timestamp(6)
+  users_direct_messages_receiver_idTousers users?    @relation("direct_messages_receiver_idTousers", fields: [receiver_id], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+  users_direct_messages_sender_idTousers   users?    @relation("direct_messages_sender_idTousers", fields: [sender_id], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model files {
+  fileid      Int       @id @default(autoincrement())
+  messageid   Int?
+  file_url    String?
+  file_type   String?
+  uploaded_at DateTime? @default(now()) @db.Timestamp(6)
+  messages    messages? @relation(fields: [messageid], references: [messageid], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model logins {
+  loginid    Int       @id @default(autoincrement())
+  username   String    @unique
+  password   String
+  status     String?   @default("ACTIVE")
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  last_login DateTime? @db.Timestamp(6)
+  userid     Int?
+  users      users?    @relation(fields: [userid], references: [userid], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model messages {
+  messageid  Int         @id @default(autoincrement())
+  channelid  Int?
+  userid     Int?
+  message    String?
+  status     String?     @default("SENT")
+  created_at DateTime?   @default(now()) @db.Timestamp(6)
+  updated_at DateTime?   @db.Timestamp(6)
+  files      files[]
+  channels   channels?   @relation(fields: [channelid], references: [channelid], onDelete: Cascade, onUpdate: NoAction)
+  users      users?      @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+  reactions  reactions[]
+}
+
+model notifications {
+  notificationid Int       @id @default(autoincrement())
+  userid         Int?
+  message        String?
+  is_read        Boolean?  @default(false)
+  created_at     DateTime? @default(now()) @db.Timestamp(6)
+  users          users?    @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model reactions {
+  reactionid Int       @id @default(autoincrement())
+  messageid  Int?
+  userid     Int?
+  emoji      String?
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  messages   messages? @relation(fields: [messageid], references: [messageid], onDelete: Cascade, onUpdate: NoAction)
+  users      users?    @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  userid                                             Int                 @id @default(autoincrement())
+  name                                               String
+  img                                                String?
+  last_name                                          String?
+  phone                                              String?
+  address                                            String?
+  date_birth                                         DateTime?           @db.Date
+  created_at                                         DateTime?           @default(now()) @db.Timestamp(6)
+  activity_logs                                      activity_logs[]
+  channel_members                                    channel_members[]
+  channels                                           channels[]
+  direct_messages_direct_messages_receiver_idTousers direct_messages[]   @relation("direct_messages_receiver_idTousers")
+  direct_messages_direct_messages_sender_idTousers   direct_messages[]   @relation("direct_messages_sender_idTousers")
+  logins                                             logins[]
+  messages                                           messages[]
+  notifications                                      notifications[]
+  reactions                                          reactions[]
+  workspace_members                                  workspace_members[]
+  workspaces                                         workspaces[]
+}
+
+model workspace_members {
+  id          Int         @id @default(autoincrement())
+  workspaceid Int?
+  userid      Int?
+  role        String?     @default("MEMBER")
+  joined_at   DateTime?   @default(now()) @db.Timestamp(6)
+  users       users?      @relation(fields: [userid], references: [userid], onDelete: Cascade, onUpdate: NoAction)
+  workspaces  workspaces? @relation(fields: [workspaceid], references: [workspaceid], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model workspaces {
+  workspaceid       Int                 @id @default(autoincrement())
+  name              String
+  created_by        Int?
+  created_at        DateTime?           @default(now()) @db.Timestamp(6)
+  updated_at        DateTime?           @default(now()) @db.Timestamp(6)
+  channels          channels[]
+  workspace_members workspace_members[]
+  users             users?              @relation(fields: [created_by], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+}
