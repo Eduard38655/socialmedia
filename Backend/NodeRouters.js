@@ -7,8 +7,12 @@ import path from "path";
 import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import ChannelsModel from "./src/models/Channels.model.js";
+import ChatsMessagesListModel from "./src/models/ChatsMessagesList.model.js";
 import loginModel from "./src/models/login.model.js";
 import userdataModel from "./src/models/userdata.model.js";
+import WorkSpaceModel from "./src/models/WorkSpace.model.js";
+
+ 
 const app = express();
 
 const server = http.createServer(app);
@@ -50,6 +54,8 @@ io.on("connection", (socket) => {
 app.use("/public", loginModel);
 app.use("/private", userdataModel);
 app.use("/private", ChannelsModel);
+app.use("/private", WorkSpaceModel);
+app.use("/private", ChatsMessagesListModel);
 // Levantar servidor
 server.listen(3000, () => {
   console.log(`Servidor corriendo en http://localhost:3000`);

@@ -31,6 +31,7 @@ model channels {
   created_by      Int?
   created_at      DateTime?         @default(now()) @db.Timestamp(6)
   updated_at      DateTime?         @db.Timestamp(6)
+  icon            String?
   channel_members channel_members[]
   users           users?            @relation(fields: [created_by], references: [userid], onDelete: NoAction, onUpdate: NoAction)
   workspaces      workspaces?       @relation(fields: [workspaceid], references: [workspaceid], onDelete: Cascade, onUpdate: NoAction)
@@ -41,10 +42,11 @@ model direct_messages {
   id                                       Int       @id @default(autoincrement())
   sender_id                                Int?
   receiver_id                              Int?
-  message                                  String?
+  message                                  String
   created_at                               DateTime? @default(now()) @db.Timestamp(6)
-  users_direct_messages_receiver_idTousers users?    @relation("direct_messages_receiver_idTousers", fields: [receiver_id], references: [userid], onDelete: NoAction, onUpdate: NoAction)
-  users_direct_messages_sender_idTousers   users?    @relation("direct_messages_sender_idTousers", fields: [sender_id], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+  updated_at                               DateTime? @db.Timestamp(6)
+  users_direct_messages_receiver_idTousers users?    @relation("direct_messages_receiver_idTousers", fields: [receiver_id], references: [userid], onDelete: NoAction, onUpdate: NoAction, map: "fk_receiver")
+  users_direct_messages_sender_idTousers   users?    @relation("direct_messages_sender_idTousers", fields: [sender_id], references: [userid], onDelete: NoAction, onUpdate: NoAction, map: "fk_sender")
 }
 
 model files {
@@ -109,6 +111,7 @@ model users {
   address                                            String?
   date_birth                                         DateTime?           @db.Date
   created_at                                         DateTime?           @default(now()) @db.Timestamp(6)
+  status                                             String?
   activity_logs                                      activity_logs[]
   channel_members                                    channel_members[]
   channels                                           channels[]
@@ -138,6 +141,7 @@ model workspaces {
   created_by        Int?
   created_at        DateTime?           @default(now()) @db.Timestamp(6)
   updated_at        DateTime?           @default(now()) @db.Timestamp(6)
+  img               String?
   channels          channels[]
   workspace_members workspace_members[]
   users             users?              @relation(fields: [created_by], references: [userid], onDelete: NoAction, onUpdate: NoAction)

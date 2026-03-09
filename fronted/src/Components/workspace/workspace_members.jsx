@@ -1,7 +1,8 @@
 
 import { useEffect, useState } from "react";
-
+import AddWorkSpaces from "./AddWorkSpace";
 function WorkspaceMembers(params) {
+    const [NewWorkSpace, SetNewWorkSpace] = useState(false)
     const [workspace_members, setworkspace_members] = useState([])
     useEffect(() => {
         const GetDataUser = async () => {
@@ -27,12 +28,13 @@ function WorkspaceMembers(params) {
 
     }, [])
 
-    return (<nav>
+    return (<>
+        <nav>
 
-        {workspace_members && workspace_members.length > 0 ? (<>
-            {workspace_members.map((work, index) => (
-               
-                   
+            {workspace_members && workspace_members.length > 0 ? (<>
+                {workspace_members.map((work, index) => (
+
+
 
                     <div key={index}>
                         {work.workspaces.img ? (<>
@@ -47,13 +49,18 @@ function WorkspaceMembers(params) {
                         </>)}
 
                     </div>
-                 
-            ))}
-        </>) : (<>
-            There is not data
-        </>)}
-        <button><i className="fa-solid fa-circle-plus"></i></button>
-    </nav>)
+
+                ))}
+            </>) : (<>
+                There is not data
+            </>)}
+            <button onClick={(e) => { SetNewWorkSpace(true) }}><i className="fa-solid fa-circle-plus"></i></button>
+        </nav>
+
+        {NewWorkSpace == true ?
+            <AddWorkSpaces SetNewWorkSpace={SetNewWorkSpace} NewWorkSpace={NewWorkSpace} />
+            : <></>}
+    </>)
 }
 
 export default WorkspaceMembers

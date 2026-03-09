@@ -5,7 +5,7 @@ import TokenVerifyAuth from "../middleware/TokenVerify.auth.js";
 
 const router = express.Router();
 
-router.get("/channel_members", TokenVerifyAuth, async (req, res) => {
+router.get("/workspace_members", TokenVerifyAuth, async (req, res) => {
   try {
     // Intenta obtener userid de req.user o de req.login como fallback
     const userid = req.user?.userid ?? req.user?.id ?? req.login?.loginid;
@@ -16,12 +16,12 @@ router.get("/channel_members", TokenVerifyAuth, async (req, res) => {
         .json({ ok: false, message: "No user id available" });
     }
 
-    const workspace_members_Data = await db.channel_members.findMany({
-      where: { userid: Number(userid) },
-      include: {
-        channels: true,
-      },
-    });
+  const workspace_members_Data = await db.workspace_members.findMany({
+  where: { userid: Number(userid) },
+  include: {
+    workspaces: true,
+  },
+});
 
     return res.status(200).json({ ok: true, data: workspace_members_Data });
   } catch (error) {
