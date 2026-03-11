@@ -48,7 +48,7 @@ function MessageList(params) {
 
             {GetMessages && GetMessages.length > 0 ? (<>
                 {GetMessages.map((sender, index) => (
-                    <div key={index} onClick={()=>{navigate(`/dashboard/:${sender.userid}`)}}>
+                    <div key={index} onClick={()=>{navigate(`/dashboard/message/${sender.userid}`)}}>
                         <p>{sender.name}{" "}{sender.last_name}</p>
                         <span>{sender.status == "ONLINE" ? "Online" : "Offline"}</span>
                         <img style={{ width: "80px" }} src={sender.img} alt="" />

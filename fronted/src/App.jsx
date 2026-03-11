@@ -11,7 +11,9 @@ function App() {
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path='/' element={<LoginPage />} />
-          <Route path='/DashBoard' element={<DashBoardPage />} />
+          <Route path='/dashboard' element={<DashBoardPage />} />
+          <Route path='/dashboard/message/:senderid' element={<DashBoardPage />} />
+          <Route path='/dashboard/channel/:channelid' element={<DashBoardPage />} />
         </Routes>
       </Suspense>
     </>

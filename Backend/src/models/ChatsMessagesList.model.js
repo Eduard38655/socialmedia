@@ -54,5 +54,34 @@ router.get("/Direct_Messages", TokenVerifyAuth, async (req, res) => {
     });
   }
 });
+/*
+no la necesito se puede borarar
+router.get("/GetMessageByID/:messageid", TokenVerifyAuth, async (req, res) => {
+  try {
+    const { messageid } = req.params;
+
+    const userid = req.user?.userid ?? req.user?.id ?? req.login?.loginid;
+
+    const message = await db.direct_messages.findUnique({
+      where: {
+        id: Number(messageid),
+      },
+      include: {
+        users_direct_messages_sender_idTousers: true,
+      },
+    });
+
+    if (!message) {
+      return res.status(404).json({ ok: false, message: "Message not found" });
+    }
+
+    return res.json({ ok: true, data: message });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ ok: false, message: "Internal server error" });
+  }
+});*/
 
 export default router;

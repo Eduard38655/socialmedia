@@ -9,8 +9,7 @@ export default async function authMiddleware(req, res, next) {
       req.cookies?.token ||
       (req.headers["authorization"] ? req.headers["authorization"].split(" ")[1] : null);
 
-    console.log("Token recibido (middleware):", token ?? "NO_TOKEN");
-
+ 
     if (!token) {
       return res.status(401).json({ ok: false, message: "No token provided" });
     }
