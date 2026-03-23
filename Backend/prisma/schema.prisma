@@ -24,18 +24,20 @@ model channel_members {
 }
 
 model channels {
-  channelid       Int               @id @default(autoincrement())
-  workspaceid     Int?
-  name            String
-  is_private      Boolean?          @default(false)
-  created_by      Int?
-  created_at      DateTime?         @default(now()) @db.Timestamp(6)
-  updated_at      DateTime?         @db.Timestamp(6)
-  icon            String?
-  channel_members channel_members[]
-  users           users?            @relation(fields: [created_by], references: [userid], onDelete: NoAction, onUpdate: NoAction)
-  workspaces      workspaces?       @relation(fields: [workspaceid], references: [workspaceid], onDelete: Cascade, onUpdate: NoAction)
-  messages        messages[]
+  channelid        Int               @id @default(autoincrement())
+  workspaceid      Int?
+  name             String
+  is_private       Boolean?          @default(false)
+  created_by       Int?
+  created_at       DateTime?         @default(now()) @db.Timestamp(6)
+  updated_at       DateTime?         @default(now()) @db.Timestamp(6)
+  icon             String?
+  sectionid        Int?
+  channel_members  channel_members[]
+  users            users?            @relation(fields: [created_by], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+  channel_sections channel_sections? @relation(fields: [sectionid], references: [sectionid], onUpdate: NoAction)
+  workspaces       workspaces?       @relation(fields: [workspaceid], references: [workspaceid], onDelete: Cascade, onUpdate: NoAction)
+  messages         messages[]
 }
 
 model direct_messages {
@@ -44,9 +46,9 @@ model direct_messages {
   receiver_id                              Int?
   message                                  String
   created_at                               DateTime? @default(now()) @db.Timestamp(6)
-  updated_at                               DateTime? @db.Timestamp(6)
-  users_direct_messages_receiver_idTousers users?    @relation("direct_messages_receiver_idTousers", fields: [receiver_id], references: [userid], onDelete: NoAction, onUpdate: NoAction, map: "fk_receiver")
-  users_direct_messages_sender_idTousers   users?    @relation("direct_messages_sender_idTousers", fields: [sender_id], references: [userid], onDelete: NoAction, onUpdate: NoAction, map: "fk_sender")
+  updated_at                               DateTime? @default(now()) @db.Timestamp(6)
+  users_direct_messages_receiver_idTousers users?    @relation("direct_messages_receiver_idTousers", fields: [receiver_id], references: [userid], onDelete: Cascade, onUpdate: NoAction, map: "fk_receiver")
+  users_direct_messages_sender_idTousers   users?    @relation("direct_messages_sender_idTousers", fields: [sender_id], references: [userid], onDelete: Cascade, onUpdate: NoAction, map: "fk_sender")
 }
 
 model files {
@@ -76,7 +78,7 @@ model messages {
   message    String?
   status     String?     @default("SENT")
   created_at DateTime?   @default(now()) @db.Timestamp(6)
-  updated_at DateTime?   @db.Timestamp(6)
+  updated_at DateTime?   @default(now()) @db.Timestamp(6)
   files      files[]
   channels   channels?   @relation(fields: [channelid], references: [channelid], onDelete: Cascade, onUpdate: NoAction)
   users      users?      @relation(fields: [userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
@@ -142,7 +144,17 @@ model workspaces {
   created_at        DateTime?           @default(now()) @db.Timestamp(6)
   updated_at        DateTime?           @default(now()) @db.Timestamp(6)
   img               String?
+  channel_sections  channel_sections[]
   channels          channels[]
   workspace_members workspace_members[]
   users             users?              @relation(fields: [created_by], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model channel_sections {
+  sectionid   Int         @id @default(autoincrement())
+  workspaceid Int?
+  name        String
+  position    Int?        @default(0)
+  workspaces  workspaces? @relation(fields: [workspaceid], references: [workspaceid], onDelete: Cascade, onUpdate: NoAction)
+  channels    channels[]
 }

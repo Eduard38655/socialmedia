@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import express from "express";
 import jwt from "jsonwebtoken";
-import db from "../../prisma/db.js"; // Asegúrate de que la ruta sea correcta
+import db from "../../prisma/db.js";
 import TokenVerifyAuth from "../middleware/TokenVerify.auth.js";
 const router = express.Router();
 
@@ -19,6 +19,8 @@ router.post("/login", async (req, res) => {
     if (!LoginUser) {
       return res.status(404).json({ ok: false, message: "User not found" });
     }
+    const info = await bcrypt.hash(password, 10);
+    console.log(info,"detais");
 
     // comparar password
     const validPassword = await bcrypt.compare(password, LoginUser.password);
@@ -56,14 +58,20 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/me", TokenVerifyAuth, async (req, res) => {
-  if (!req.username || !req.loginid) {
+  console.log(req.user.userid, "duyaa");
+
+  if (!req.user.userid || !req.user.userid) {
     return res.status(401).json({ ok: false, message: "Not authenticated" });
   }
 
   return res.json({
     ok: true,
-    username: req.username,
-    loginid: req.loginid,
+
+    status: req.user.status,
+    userid: req.user.userid,
+    name: req.user.name,
+    last_name: req.user.last_name,
+    img: req.user.img,
   });
 });
 

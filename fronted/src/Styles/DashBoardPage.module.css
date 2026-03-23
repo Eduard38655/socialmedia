@@ -1,20 +1,146 @@
-body{
-    width: 100%;
-    height: 100%;
-  
+/* ===================== */
+/* LIGHT MODE */
+/* ===================== */
+* {
+  padding: 0;
+  margin: 0;
+
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 550;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
 }
-.container{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction:column;
+
+[data-theme="light"] {
+  /* Backgrounds */
+  --background: hsl(0, 0%, 100%);
+  --card: hsl(0, 0%, 100%);
+  --popover: hsl(0, 0%, 100%);
+
+  /* Text */
+  --foreground: hsl(222.2, 84%, 4.9%);
+  --card-foreground: hsl(222.2, 84%, 4.9%);
+  --popover-foreground: hsl(222.2, 84%, 4.9%);
+
+  /* Primary */
+  --primary: hsl(217.2, 91.2%, 59.8%);
+  --primary-foreground: hsl(0, 0%, 100%);
+
+  /* Secondary */
+  --secondary: hsl(210, 40%, 96.1%);
+  --secondary-foreground: hsl(222.2, 47.4%, 11.2%);
+
+  /* Muted */
+  --muted: hsl(210, 40%, 96.1%);
+  --muted-foreground: hsl(215.4, 16.3%, 46.9%);
+
+  /* Accent */
+  --accent: hsl(210, 40%, 96.1%);
+  --accent-foreground: hsl(222.2, 47.4%, 11.2%);
+
+  /* Danger */
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+
+  /* Borders & inputs */
+  --border: hsl(214.3, 31.8%, 91.4%);
+  --input: hsl(214.3, 31.8%, 91.4%);
+  --ring: hsl(217.2, 91.2%, 59.8%);
+
+  /* Sidebar */
+  --sidebar-background: hsl(210, 40%, 98%);
+  --sidebar-foreground: hsl(222.2, 47.4%, 11.2%);
+  --sidebar-primary: hsl(217.2, 91.2%, 59.8%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(210, 40%, 94%);
+  --sidebar-accent-foreground: hsl(222.2, 47.4%, 11.2%);
+  --sidebar-border: hsl(214.3, 31.8%, 91.4%);
+  --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
+}
+
+[data-theme="dark"] {
+  /* Backgrounds */
+  --background: hsl(0, 0%, 0%);
+  --card: hsl(0, 0%, 3%);
+  --popover: hsl(0, 0%, 4%);
+
+  /* Text */
+  --foreground: hsl(0, 0%, 98%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --popover-foreground: hsl(0, 0%, 98%);
+
+  /* Primary */
+  --primary: hsl(217.2, 91.2%, 59.8%);
+  --primary-foreground: hsl(0, 0%, 100%);
+
+  /* Secondary */
+  --secondary: hsl(0, 0%, 8%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+
+  /* Muted */
+  --muted: hsl(0, 0%, 10%);
+  --muted-foreground: hsl(0, 0%, 65%);
+
+  /* Accent */
+  --accent: hsl(0, 0%, 12%);
+  --accent-foreground: hsl(0, 0%, 98%);
+
+  /* Danger */
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+
+  /* Borders & inputs */
+  --border: hsl(0, 0%, 12%);
+  --input: hsl(0, 0%, 12%);
+  --ring: hsl(217.2, 91.2%, 59.8%);
+
+  /* Sidebar */
+  --sidebar-background: hsl(0, 0%, 2%);
+  --sidebar-foreground: hsl(0, 0%, 95%);
+  --sidebar-primary: hsl(217.2, 91.2%, 59.8%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(0, 0%, 6%);
+  --sidebar-accent-foreground: hsl(0, 0%, 100%);
+  --sidebar-border: hsl(0, 0%, 10%);
+  --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  background: var(--background);
+}
+
+.Page_container_dashboard {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+}
+.container_dashboard {
+  width: 70%;
+  height: 100%;
+  /*background: var(--bg-color);*/
+  display: flex;
+  flex-direction: row;
+      
+}
+.sidebar {
+  width: 26%;
+  height: 100vh;
+  background: var(--sidebar-background);
+  display: flex;
+  flex-direction: row;
  
 }
-.screen{
-    width: 100%;
-    height: 100%;
-    border: 1px solid red;
-    display: flex;
-    align-items: center;
-    justify-content: center
+.screen_container {
+  width: 74%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+ 
+  justify-content: space-between;
+  
 }
+ 

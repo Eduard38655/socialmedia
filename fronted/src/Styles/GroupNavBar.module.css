@@ -1,0 +1,348 @@
+[data-theme="light"] {
+  /* Backgrounds */
+  --background: hsl(0, 0%, 100%);
+  --card: hsl(0, 0%, 100%);
+  --popover: hsl(0, 0%, 100%);
+
+  /* Text */
+  --foreground: hsl(222.2, 84%, 4.9%);
+  --card-foreground: hsl(222.2, 84%, 4.9%);
+  --popover-foreground: hsl(222.2, 84%, 4.9%);
+
+  /* Primary */
+  --primary: hsl(217.2, 91.2%, 59.8%);
+  --primary-foreground: hsl(0, 0%, 100%);
+
+  /* Secondary */
+  --secondary: hsl(210, 40%, 96.1%);
+  --secondary-foreground: hsl(222.2, 47.4%, 11.2%);
+
+  /* Muted */
+  --muted: hsl(210, 40%, 96.1%);
+  --muted-foreground: hsl(215.4, 16.3%, 46.9%);
+
+  /* Accent */
+  --accent: hsl(210, 40%, 96.1%);
+  --accent-foreground: hsl(222.2, 47.4%, 11.2%);
+
+  /* Danger */
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+
+  /* Borders & inputs */
+  --border: hsl(214.3, 31.8%, 91.4%);
+  --input: hsl(214.3, 31.8%, 91.4%);
+  --ring: hsl(217.2, 91.2%, 59.8%);
+
+  /* Sidebar */
+  --sidebar-background: hsl(210, 40%, 98%);
+  --sidebar-foreground: hsl(222.2, 47.4%, 11.2%);
+  --sidebar-primary: hsl(217.2, 91.2%, 59.8%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(210, 40%, 94%);
+  --sidebar-accent-foreground: hsl(222.2, 47.4%, 11.2%);
+  --sidebar-border: hsl(214.3, 31.8%, 91.4%);
+  --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
+}
+
+[data-theme="dark"] {
+  /* Backgrounds */
+  --background: hsl(0, 0%, 0%);
+  --card: hsl(0, 0%, 3%);
+  --popover: hsl(0, 0%, 4%);
+
+  /* Text */
+  --foreground: hsl(0, 0%, 98%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --popover-foreground: hsl(0, 0%, 98%);
+
+  /* Primary */
+  --primary: hsl(217.2, 91.2%, 59.8%);
+  --primary-foreground: hsl(0, 0%, 100%);
+
+  /* Secondary */
+  --secondary: hsl(0, 0%, 8%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+
+  /* Muted */
+  --muted: hsl(0, 0%, 10%);
+  --muted-foreground: hsl(0, 0%, 65%);
+
+  /* Accent */
+  --accent: hsl(0, 0%, 12%);
+  --accent-foreground: hsl(0, 0%, 98%);
+
+  /* Danger */
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+
+  /* Borders & inputs */
+  --border: hsl(0, 0%, 12%);
+  --input: hsl(0, 0%, 12%);
+  --ring: hsl(217.2, 91.2%, 59.8%);
+
+  /* Sidebar */
+  --sidebar-background: hsl(0, 0%, 2%);
+  --sidebar-foreground: hsl(0, 0%, 95%);
+  --sidebar-primary: hsl(217.2, 91.2%, 59.8%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(0, 0%, 6%);
+  --sidebar-accent-foreground: hsl(0, 0%, 100%);
+  --sidebar-border: hsl(0, 0%, 10%);
+  --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
+}
+
+.sidebar_Channel_Group {
+  width: 15%;
+  height: auto;
+  background-color: var(--sidebar-background);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid var(--sidebar-border);
+  gap: 20px;
+}
+
+.navbarGroup {
+  width: auto;
+  height: auto;
+ 
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  overflow: scroll;
+  overflow-y: scroll; /* permite hacer scroll */
+  scrollbar-width: none; /* Firefox */
+}
+.navbarGroup ul {
+  height: auto;
+  text-decoration: none;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding-top: 20px;
+}
+
+.navbarGroup ul::-webkit-scrollbar {
+   
+  display: none; /* Chrome, Safari, Edge */
+}
+.navbarGroup ul li {
+  width: 30px;
+  height: auto;
+  padding: 15px;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  background: var(--sidebar-accent);
+  border: 1px solid var(--sidebar-border);
+  color: var(--muted-foreground);
+}
+.Profiles_Section_container {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  
+}
+.Profiles_Section_container button {
+  width: 55px;
+  height: 55px;
+  font-size: 1.4rem;
+  border-radius: 10px;
+  background: var(--sidebar-accent);
+  border: 1px solid var(--sidebar-border);
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+.Profiles_Section_container img {
+  width: 55px;
+  height: 55px;
+  border-radius: 10px;
+  cursor: pointer;
+  object-fit: cover;
+  border: 1px solid var(--sidebar-border);
+}
+/*********************************************************
+Add A NEW WORK SPACE 
+**********************************************************/
+.AddWorkSpaces_container {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.243);
+  display: flex;
+  position: absolute;
+  z-index: 100000;
+  align-items: center;
+  justify-content: center;
+}
+.AddWorkSpaces {
+  width: 400px;
+  height: auto;
+  padding: 25px;
+  background-color: var(--popover);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 15px;
+}
+
+.Header_NewWorkpace {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.Header_NewWorkpace h2 {
+  color: var(--foreground);
+  font-size: 20px;
+  font-weight: 800;
+}
+.Header_NewWorkpace p {
+  color: var(--muted-foreground);
+  font-size: 15px;
+  font-weight: 500;
+}
+.Header_NewWorkpace button {
+  color: var(--foreground);
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+form {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.InputContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.InputContainer label {
+  color: var(--muted-foreground);
+  font-size: 15px;
+  font-weight: 500;
+}
+.Div_Input {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding-left: 15px;
+  background: var(--sidebar-background);
+}
+
+.Div_Input input {
+  width: 100%;
+  height: auto;
+  padding: 20px;
+  font-size: 16px;
+  font-weight: 650;
+  border-radius: 10px;
+  border: none;
+  background-color: transparent;
+  color: var(--muted-foreground);
+  border: none;
+}
+.Div_Input input:focus {
+  outline: none;
+}
+.Div_Input {
+  outline-color: var(--border);
+}
+.Div_Input i {
+  color: var(--muted-foreground);
+  font-size: 20px;
+  cursor: pointer;
+}
+.Div_Input i:hover {
+  color: var(--foreground);
+}
+.DivButtons_Opt {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+
+  justify-content: flex-end;
+}
+.Logo_Discord{
+  width: auto;
+  height: auto;
+  font-size: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: var(--primary);
+ color: var(--primary-foreground);
+  border: 1px solid var(--sidebar-border);
+  padding: 10px;
+   
+}
+.DivButtons_Opt button {
+  width: auto;
+  height: auto;
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.DivButtons_Opt button:nth-child(1) {
+  color: var(--popover-foreground);
+
+  border: 1px solid var(--border);
+  background: var(--secondary);
+}
+.DivButtons_Opt button:nth-child(2) {
+  color: var(--popover-foreground);
+  background: var(--sidebar-ring);
+}
+.UploadImagen {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 20px;
+}
+.UploadImagen i {
+  font-size: 5rem;
+  color: var(--foreground);
+}
+.UploadImagen span {
+  color: var(--muted-foreground);
+  font-size: 15px;
+  font-weight: 500;
+}

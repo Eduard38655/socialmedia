@@ -1,0 +1,409 @@
+/* ===================== */
+/* LIGHT MODE */
+/* ===================== */
+* {
+  padding: 0;
+  margin: 0;
+
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 550;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+[data-theme="light"] {
+  /* Backgrounds */
+  --background: hsl(0, 0%, 100%);
+  --card: hsl(0, 0%, 100%);
+  --popover: hsl(0, 0%, 100%);
+
+
+  /*Shadow*/
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* Text */
+  --foreground: hsl(222.2, 84%, 4.9%);
+  --card-foreground: hsl(222.2, 84%, 4.9%);
+  --popover-foreground: hsl(222.2, 84%, 4.9%);
+
+  /* Primary */
+  --primary: hsl(217.2, 91.2%, 59.8%);
+  --primary-foreground: hsl(0, 0%, 100%);
+
+  /* Secondary */
+  --secondary: hsl(210, 40%, 96.1%);
+  --secondary-foreground: hsl(222.2, 47.4%, 11.2%);
+
+  /* Muted */
+  --muted: hsl(210, 40%, 96.1%);
+  --muted-foreground: hsl(215.4, 16.3%, 46.9%);
+
+  /* Accent */
+  --accent: hsl(210, 40%, 96.1%);
+  --accent-foreground: hsl(222.2, 47.4%, 11.2%);
+
+  /* Danger */
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+
+  /* Borders & inputs */
+  --border: hsl(214.3, 31.8%, 91.4%);
+  --input: hsl(214.3, 31.8%, 91.4%);
+  --ring: hsl(217.2, 91.2%, 59.8%);
+
+  /* Sidebar */
+  --sidebar-background: hsl(210, 40%, 98%);
+  --sidebar-foreground: hsl(222.2, 47.4%, 11.2%);
+  --sidebar-primary: hsl(217.2, 91.2%, 59.8%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(210, 40%, 94%);
+  --sidebar-accent-foreground: hsl(222.2, 47.4%, 11.2%);
+  --sidebar-border: hsl(214.3, 31.8%, 91.4%);
+  --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
+}
+
+[data-theme="dark"] {
+  /* Backgrounds */
+  --background: hsl(0, 0%, 0%);
+  --card: hsl(0, 0%, 3%);
+  --popover: hsl(0, 0%, 4%);
+
+  /* Text */
+  --foreground: hsl(0, 0%, 98%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --popover-foreground: hsl(0, 0%, 98%);
+
+  /* Primary */
+  --primary: hsl(217.2, 91.2%, 59.8%);
+  --primary-foreground: hsl(0, 0%, 100%);
+
+  /* Secondary */
+  --secondary: hsl(0, 0%, 8%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+
+  /* Muted */
+  --muted: hsl(0, 0%, 10%);
+  --muted-foreground: hsl(0, 0%, 65%);
+
+  /* Accent */
+  --accent: hsl(0, 0%, 12%);
+  --accent-foreground: hsl(0, 0%, 98%);
+
+  /* Danger */
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+
+  /* Borders & inputs */
+  --border: hsl(0, 0%, 12%);
+  --input: hsl(0, 0%, 12%);
+  --ring: hsl(217.2, 91.2%, 59.8%);
+
+  /* Sidebar */
+  --sidebar-background: hsl(0, 0%, 2%);
+  --sidebar-foreground: hsl(0, 0%, 95%);
+  --sidebar-primary: hsl(217.2, 91.2%, 59.8%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(0, 0%, 6%);
+  --sidebar-accent-foreground: hsl(0, 0%, 100%);
+  --sidebar-border: hsl(0, 0%, 10%);
+  --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
+}
+.header_container_Screen {
+  width: auto;
+  height: auto;
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.header_container_Screen nav {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.header_container_Screen nav ul {
+  width: auto;
+  height: auto;
+  display: flex;
+  list-style: none;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.header_container_Screen nav ul li {
+  padding: 10px;
+
+  cursor: pointer;
+  color: var(--accent-foreground);
+}
+.header_container_Screen div {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: var(--foreground);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.header_container_Screen div span:nth-child(3) {
+  width: auto;
+  background-color: var(--accent);
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+}
+.header_container_Screen div span:nth-child(3) i {
+  margin-right: 15px;
+}
+.container_NewMessage_chat {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+ 
+  align-items: center;
+  
+  justify-content: space-between;
+}
+.Infocontainer_messages {
+  width: 100%;
+  height: 89vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background);
+}
+.message_avatar{
+  width: 50px;
+  height: 50px;
+  border-radius: 30%;
+  flex-shrink: 0;
+}
+.editActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.Send_Message_container {
+  width: auto;
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 20px;
+}
+.Container_Messageid {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+}
+.Section_Icons_btn {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+
+  padding-left: 10px;
+  padding-right: 10px;
+  gap: 10px;
+  border: 1px solid var(--border);
+}
+
+.Section_Icons {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+ box-shadow: var(--shadow-sm);
+}
+.container_messages_chat_container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-bottom: 1px solid var(--border);
+ overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+}
+.message_container_details {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+ 
+  gap: 15px;
+  padding: 15px;
+}
+.message_container_details:hover {
+  cursor: pointer;
+  background: var(--input);
+  
+}
+.message_div {
+  width: 90%;
+  word-wrap: break-word;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  color: var(--accent-foreground);
+
+  gap: 5px;
+}
+
+.message_div p {
+  font-weight: 750;
+  font-size: 16px;
+}
+.message_div p small {
+  color: var(--muted-foreground);
+  font-size: 13px;
+  font-weight: 500;
+}
+.messageText {
+  width: 90%;
+  height: auto;
+  text-align: start;
+  font-size: 1rem;
+  font-weight: 700;
+
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.container_messages_chat_container::-webkit-scrollbar {
+  /**/
+  display: none; /* Chrome, Safari, Edge */
+}
+.textarea_container {
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  align-items: center;
+}
+.textarea {
+  width: 100%;
+  height: 50px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  resize: none;
+  color: var(--foreground);
+  padding: 20px;
+  background: var(--popover);
+}
+.textarea:focus {
+  outline: none;
+}
+.Section_Icons_btn_2 {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-left: 15px;
+  padding-right: 15px;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 0px 0px 10px 10px;
+}
+.btn_send {
+  margin-right: 20px;
+}
+.btn_send button i {
+  margin-right: 10px;
+}
+.Section_Icons_btn_2 div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.Send_Message_container button {
+  width: 40px;
+  height: 40px;
+  background: none;
+  border-radius: 5px;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: var(--foreground);
+  font-size: 15px;
+}
+
+.Section_Icons_btn_2 div button:focus {
+  outline: none;
+}
+
+/****************************************************************************/
+/*Ediar eliminar mensahge y reacciones styles*/
+/*//////////////////////////////////////////////////////////////////////////*/
+ 
+.Container_Opt {
+  position: absolute;
+  top: 100%; /* justo debajo del mensaje */
+  right: 0; /* o left: 0 si lo quieres a la izquierda */
+  z-index: 1000;
+}
+
+.messageText_opt {
+  background-color: var(--secondary);
+  padding: 20px;
+  width: 200px;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border);
+}
+
+.btn_ellipsis {
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--accent-foreground);
+  background: none;
+  border: none;
+}
+.messageText_opt ul {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  list-style: none;
+}
+.messageText_opt ul li {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--primary-foreground);
+}
+.UpdateMessage_Container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  position: absolute;
+ z-index: 999;
+ 
+}
+.UpdateMessage_Container div {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  position: absolute;
+  z-index: 11111111111111111;
+  background-color: red;
+}

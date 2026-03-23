@@ -1,0 +1,218 @@
+/* Settings.module.css */
+.app {
+  width: 100%;
+  height:auto;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  z-index: 1111;
+  font-family: sans-serif;
+  background-color: rgba(0, 0, 0, 0.305);
+   
+}
+.app_Container {
+  width: auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+
+  grid-template-columns: 250px 1fr;
+
+  align-self: center;
+
+  font-family: sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+ 
+.sidebar {
+  padding: 20px;
+  background: var(--sidebar-background);
+  color: var(--sidebar-foreground);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid var(--sidebar-border);
+}
+
+.nav {
+  margin-top: 20px;
+}
+
+.navItem {
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--sidebar-foreground);
+}
+
+.navItem:hover {
+  background: var(--sidebar-accent);
+}
+
+.active {
+  background: var(--sidebar-primary);
+  color: var(--sidebar-primary-foreground);
+}
+
+.storage {
+  font-size: 12px;
+}
+/*
+.progress {
+  height: 6px;
+  background: var(--muted);
+  border-radius: 10px;
+}
+
+.progress div {
+  width: 70%;
+  height: 100%;
+  background: var(--primary);
+}
+*/
+.main {
+  padding: 30px;
+}
+
+.subtitle {
+  margin-bottom: 20px;
+  color: var(--muted-foreground);
+}
+
+.section {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  margin-bottom: 30px;
+}
+
+.left {
+  padding-right: 20px;
+}
+
+.card {
+  background: var(--card);
+  color: var(--card-foreground);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.grid input,
+.grid textarea {
+  background: var(--input);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.full {
+  grid-column: span 2;
+}
+
+.btn {
+  margin-top: 20px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.themes {
+  display: flex;
+  gap: 10px;
+}
+
+.theme {
+  padding: 20px;
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  border-radius: 10px;
+  flex: 1;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.theme.active {
+  border: 2px solid var(--primary);
+}
+
+.lang {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* 🔥 RESPONSIVE DESIGN */
+
+@media (max-width: 1024px) {
+  .app {
+    grid-template-columns: 200px 1fr;
+  }
+
+  .section {
+    grid-template-columns: 150px 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 10px;
+  }
+
+  .section {
+    grid-template-columns: 1fr;
+  }
+
+  .left {
+    margin-bottom: 10px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full {
+    grid-column: span 1;
+  }
+
+  .themes {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 15px;
+  }
+
+  .sidebar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,655 @@
+[data-theme="light"] {
+  /* Backgrounds */
+  --background: hsl(0, 0%, 100%);
+  --card: hsl(0, 0%, 100%);
+  --popover: hsl(0, 0%, 100%);
+
+  /* Text */
+  --foreground: hsl(222.2, 84%, 4.9%);
+  --card-foreground: hsl(222.2, 84%, 4.9%);
+  --popover-foreground: hsl(222.2, 84%, 4.9%);
+
+  /* Primary */
+  --primary: hsl(217.2, 91.2%, 59.8%);
+  --primary-foreground: hsl(0, 0%, 100%);
+
+  /* Secondary */
+  --secondary: hsl(210, 40%, 96.1%);
+  --secondary-foreground: hsl(222.2, 47.4%, 11.2%);
+
+  /* Muted */
+  --muted: hsl(210, 40%, 96.1%);
+  --muted-foreground: hsl(215.4, 16.3%, 46.9%);
+
+  /* Accent */
+  --accent: hsl(210, 40%, 96.1%);
+  --accent-foreground: hsl(222.2, 47.4%, 11.2%);
+
+  /* Danger */
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+
+  /* Borders & inputs */
+  --border: hsl(214.3, 31.8%, 91.4%);
+  --input: hsl(214.3, 31.8%, 91.4%);
+  --ring: hsl(217.2, 91.2%, 59.8%);
+
+  /* Sidebar */
+  --sidebar-background: hsl(210, 40%, 98%);
+  --sidebar-foreground: hsl(222.2, 47.4%, 11.2%);
+  --sidebar-primary: hsl(217.2, 91.2%, 59.8%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(210, 40%, 94%);
+  --sidebar-accent-foreground: hsl(222.2, 47.4%, 11.2%);
+  --sidebar-border: hsl(214.3, 31.8%, 91.4%);
+  --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
+}
+
+[data-theme="dark"] {
+  /* Backgrounds */
+  --background: hsl(0, 0%, 0%);
+  --card: hsl(0, 0%, 3%);
+  --popover: hsl(0, 0%, 4%);
+
+  /* Text */
+  --foreground: hsl(0, 0%, 98%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --popover-foreground: hsl(0, 0%, 98%);
+
+  /* Primary */
+  --primary: hsl(217.2, 91.2%, 59.8%);
+  --primary-foreground: hsl(0, 0%, 100%);
+
+  /* Secondary */
+  --secondary: hsl(0, 0%, 8%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+
+  /* Muted */
+  --muted: hsl(0, 0%, 10%);
+  --muted-foreground: hsl(0, 0%, 65%);
+
+  /* Accent */
+  --accent: hsl(0, 0%, 12%);
+  --accent-foreground: hsl(0, 0%, 98%);
+
+  /* Danger */
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+
+  /* Borders & inputs */
+  --border: hsl(0, 0%, 12%);
+  --input: hsl(0, 0%, 12%);
+  --ring: hsl(217.2, 91.2%, 59.8%);
+
+  /* Sidebar */
+  --sidebar-background: hsl(0, 0%, 2%);
+  --sidebar-foreground: hsl(0, 0%, 95%);
+  --sidebar-primary: hsl(217.2, 91.2%, 59.8%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(0, 0%, 6%);
+  --sidebar-accent-foreground: hsl(0, 0%, 100%);
+  --sidebar-border: hsl(0, 0%, 10%);
+  --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
+}
+.container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+}
+.container_Channel {
+  width: 100%;
+  height: auto;
+  background-color: var(--sidebar-accent);
+  border-right: 1px solid var(--sidebar-border);
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.Section_Item {
+  padding: 0; /* anula el padding: 10px del li general */
+  font-weight: normal;
+}
+.Aside_Header_container {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--sidebar-accent);
+  border: 1px solid var(--sidebar-border);
+  gap: 10px;
+     overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+}
+.userListContainer {
+width: 100%;
+  padding: 20px;
+}
+ 
+.Aside_Header_container::-webkit-scrollbar {
+  display: none;
+}
+ 
+.userListContainer .userList li img {
+  width: 50px;
+  height: 50px;
+}
+.userListContainer .userList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  list-style: none;
+}
+.Header_NewWorkpace {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+.Header_NewWorkpace .header {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.Header_NewWorkpace button {
+  color: var(--foreground);
+  font-size: 20px;
+  font-weight: 500;
+}
+.container_Details {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+}
+
+.container_Details {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+}
+.container_Details::-webkit-scrollbar {
+  display: none;
+}
+
+.Header_container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+.Header {
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--foreground);
+  padding: 10px;
+}
+.Header_container button {
+  color: var(--foreground);
+  font-size: 20px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.Header_container nav ul {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+.Search_Input {
+  width: auto;
+  height: 40px;
+  border-radius: 10px;
+
+  padding-left: 10px;
+  background-color: var(--primary-foreground);
+  color: var(--muted-foreground);
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+}
+.Search_Input input {
+  width: auto;
+  border: none;
+}
+.Search_Input input::placeholder {
+  color: var(--muted-foreground);
+  font-size: 14px;
+  font-weight: 500;
+}
+.Search_Input input:focus {
+  outline: none;
+}
+.Channel_Header_Search {
+  width: auto;
+  height: auto;
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  flex-direction: column;
+}
+.Channel_Header_Search h3 {
+  font-size: 20px;
+  font-weight: 750;
+  color: var(--accent-foreground);
+}
+.Channel_Header_Search input {
+  width: auto;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  padding-left: 10px;
+  background-color: var(--primary-foreground);
+  color: var(--muted-foreground);
+  font-size: 16px;
+  font-weight: 500;
+}
+.Header_container nav ul li {
+  flex-direction: row;
+  text-decoration: none;
+  list-style: none;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 10px;
+  color: var(--muted-foreground);
+}
+.Header_container nav ul li i {
+  margin-right: 10px;
+}
+
+.Header_container img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.container_Channel .userList {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+
+  list-style: none;
+}
+
+.userList li button {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  gap: 10px;
+}
+.userList li button p {
+  font-size: 14px;
+  font-weight: 750;
+  color: var(--muted-foreground);
+  width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: start;
+}
+.DeleteMessage_btn {
+  display: none;
+}
+.userList li:hover .DeleteMessage_btn {
+  display: flex;
+  font-size: 14px;
+  border-radius: 8px;
+  color: var(--accent);
+}
+.userList li:hover {
+  background-color: var(--accent);
+}
+
+.avatarContainer {
+  position: relative;
+}
+.userList .avatarContainer img {
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.status {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+/* estados */
+
+.userList .online {
+  background-color: #22c55e; /* verde */
+}
+
+.userList .offline {
+  background-color: #ef4444; /* rojo */
+}
+
+.userList .busy {
+  background-color: gold; /* gris */
+}
+/*//////////////////////////////////////////////////////////////////////////////////////////
+ADD NEW PERSON FOR A DIRECT MESSAGE
+////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.container_NewChannel_DirectMessage {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.389);
+  display: flex;
+
+  position: absolute;
+  z-index: 1000000;
+  align-items: center;
+  justify-content: center;
+}
+.container_NewChannel_DirectMessage aside {
+  width: 250px;
+  height: auto;
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 8px;
+  gap: 25px;
+}
+.GeAllUsers_container {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
+}
+.GeAllUsers_container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+.GeAllUsers_container ul {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.GeAllUsers_container ul li {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.container_NewChannel_DirectMessage aside header {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+.container_NewChannel_DirectMessage aside header h3 {
+  font-size: 20px;
+  font-weight: 750;
+  color: var(--muted-foreground);
+}
+.container_NewChannel_DirectMessage aside header button {
+  font-size: 25px;
+  color: var(--muted-foreground);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.Div_Input {
+  width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  padding: 15px;
+  border-radius: 7px;
+}
+.Div_Input input,
+.Input_NewChannel {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: none;
+  padding-left: 10px;
+  background-color: var(--input);
+  color: var(--muted-foreground);
+  font-size: 16px;
+  font-weight: 500;
+}
+.Div_Input input {
+  background: transparent;
+}
+.Div_Input input:focus {
+  outline: none;
+}
+
+.Input_NewChannel {
+  width: 100%;
+
+  height: 50px;
+  border: 1px solid var(--border);
+}
+.active {
+  background: var(--input);
+}
+.Div_Input input:focus,
+.Input_NewChannel:focus {
+  outline-color: var(--primary);
+}
+.Div_Input i {
+  color: var(--muted-foreground);
+}
+.Header_btn1 {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.Header_btn1 p {
+  font-size: 25px;
+  font-weight: 750;
+  color: var(--foreground);
+}
+.Header_btn1 div span {
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+.User_div {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  text-align: start;
+  cursor: pointer;
+}
+.User_div img {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+.User_div:hover {
+  background-color: var(--accent);
+  border-radius: 8px;
+}
+.User_div p {
+  color: var(--foreground);
+}
+.createChannelBox {
+  width: 100%;
+  height: auto;
+  padding: 20px;
+}
+
+.privateOption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--foreground);
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+  background: var(--input);
+  padding: 16px;
+}
+
+.privateOption p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.privateOption span {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* SWITCH */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 20px;
+  transition: 0.3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+  background-color: #3b82f6;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(24px);
+}
+.Channel_List {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.2s ease;
+  color: #a0a0a0;
+  padding: 8px;
+}
+.Channel_List:hover {
+  background-color: var(--accent);
+}
+.Section_List {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 8px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #a0a0a0;
+  text-transform: uppercase;
+}
+/* BUTTONS */
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.cancel {
+  background: none;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--accent-foreground);
+}
+
+.save {
+  background: #8aa7d6;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+/*User Status login*/

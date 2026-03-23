@@ -5,9 +5,11 @@ import TokenVerifyAuth from "../middleware/TokenVerify.auth.js";
 
 const router = express.Router();
 
-router.get("/workspace_members", TokenVerifyAuth, async (req, res) => {
+router.post("/Start_Message_ByID/:receiverid", TokenVerifyAuth, async (req, res) => {
   try {
     const userid = req.user?.userid ?? req.user?.id ?? req.login?.loginid;
+const { receiverid } = req.params;
+console.log(receiverid,"red");
 
     if (!userid) {
       return res
@@ -15,14 +17,18 @@ router.get("/workspace_members", TokenVerifyAuth, async (req, res) => {
         .json({ ok: false, message: "No user id available" });
     }
 
-    const workspace_members_Data = await db.workspace_members.findMany({
-      where: { userid: Number(userid) },
-      include: {
-        workspaces: true,
+    const Start_Conversation  = await db.direct_messages.create({
+      data: {
+        sender_id: userid,
+        receiver_id:Number(receiverid),
+        message:null,
+
       },
     });
 
-    return res.status(200).json({ ok: true, data: workspace_members_Data });
+    console.log(Start_Conversation,"Start_Conversation");
+    
+    return res.status(200).json({ ok: true, data: Start_Conversation });
   } catch (error) {
     console.error("workspace_members error:", error);
     res.status(500).json({ ok: false, message: "Internal server error" });

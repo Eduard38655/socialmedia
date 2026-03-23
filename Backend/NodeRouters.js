@@ -7,7 +7,11 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import { Server } from "socket.io";
 import { fileURLToPath } from "url";
-import db from "../Backend/prisma/db.js";
+import db from "./prisma/db.js";
+import Update_Group_Messages from "./src/GroupMessages/GroupMessages.js";
+import DeleteMessage from "./src/Messages/DeleteMessage.js";
+import SendDirectMessage from "./src/Messages/Messages.js";
+import PutMessage from "./src/Messages/PutMessage.js";
 import ChannelsModel from "./src/models/Channels.model.js";
 import ChatsMessagesListModel from "./src/models/ChatsMessagesList.model.js";
 import loginModel from "./src/models/login.model.js";
@@ -61,67 +65,81 @@ io.on("connection", async (socket) => {
   }
 
   console.log("Usuario conectado:", socket.id);
+  function getChatRoom(a, b) {
+    const [x, y] = [String(a), String(b)].sort();
+    return `chat_${x}_${y}`;
+  }
+  const userId = decoded.userid;
 
-
-
-
-
- const userId = decoded.userid;
-
-  console.log("Usuario conectado:", userId);
-
-  // ROOM PERSONAL
+  // room personal del usuario
   socket.join(String(userId));
 
-  // ENVIAR MENSAJE
-  socket.on("send_message", (data) => {
+  socket.on("join_room", ({ receiverId }) => {
+    const room = getChatRoom(userId, receiverId);
 
-    const receiverId = data.receiverId;
+    socket.join(room);
 
-    console.log("Mensaje de", userId, "para", receiverId);
+    console.log("User joined room:", room);
+  });
 
-    io.to(String(receiverId)).emit("receive_message", {
-      message: data.message,
-      senderId: userId
+  socket.on("send_message", async (data) => {
+    const receiverId = Number(data.receiverId);
+
+    const room = getChatRoom(userId, receiverId);
+
+    const SaveMessages = await db.direct_messages.create({
+      data: {
+        message: data.message,
+        sender_id: Number(userId),
+        receiver_id: receiverId,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
     });
 
+    io.to(room).emit("receive_message", SaveMessages);
   });
 
-  
- 
- 
+  //////////////////////////////////////////////////////////////////////
+socket.on("join_channel", ({ channelid }) => {
+  if (!channelid) return;
+  const room = `channel_${channelid}`;
+  socket.join(room);
+  console.log(`Socket ${socket.id} joined channel room: ${room}`);
+});
 
+ socket.on("send_message_room", async (data) => {
+  // data.channelid es el id del channel
+  const channelId = Number(data.channelid);
 
+  if (!channelId) {
+    console.warn("send_message_room without channelid", data);
+    return;
+  }
 
-
-
-
-
-  ////////////////////////////////////////////
-  socket.on("GetMessageByID", async (id) => {
-    try {
-      console.log("personal", id);
-      
-      const message = await db.direct_messages.findUnique({
-        where: {
-          id: Number(id),
-        },
-        include: {
-          users_direct_messages_sender_idTousers: true,
-        },
-      });
-
-      socket.emit("MessagesResult", {
-        ok: true,
-        data: message,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  // Guardar mensaje en la tabla de messages (ya lo tenías)
+  const SaveMessages = await db.messages.create({
+    data: {
+      channelid: channelId,
+      status: "unread",
+      userid: userId,
+      message: data.message,
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
   });
- 
-  
 
+  // Room del channel: channel_<id>
+  const room = `channel_${channelId}`;
+
+  // Emitir al evento que el cliente espera para channels
+  io.to(room).emit("receive_message_room", {
+    ...SaveMessages,
+    channelid: channelId
+  });
+});
+
+  //////////////////////////////////////////////////////
   socket.on("disconnect", () => {
     console.log("Usuario desconectado");
   });
@@ -132,6 +150,10 @@ app.use("/private", userdataModel);
 app.use("/private", ChannelsModel);
 app.use("/private", WorkSpaceModel);
 app.use("/private", ChatsMessagesListModel);
+app.use("/private", SendDirectMessage);
+app.use("/private", DeleteMessage);
+app.use("/private", PutMessage);
+app.use("/private", Update_Group_Messages);
 // Levantar servidor
 server.listen(3000, () => {
   console.log(`Servidor corriendo en http://localhost:3000`);

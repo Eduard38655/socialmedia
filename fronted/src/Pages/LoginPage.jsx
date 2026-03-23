@@ -28,7 +28,7 @@ const navigate = useNavigate();
                   
  
                     if (data.ok) {
-                        navigate("/dashboard")
+                        navigate("/dashboard/@me")
                     }
                     
                 });
