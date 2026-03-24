@@ -3,7 +3,7 @@ import db from "../../prisma/db.js";
 import TokenVerifyAuth from "../middleware/TokenVerify.auth.js";
 const router = express.Router();
 
-router.post("/ ", TokenVerifyAuth, async (req, res) => {
+router.post("/", TokenVerifyAuth, async (req, res) => {
   try {
     const { userid } = req.cookies;
 

@@ -85,7 +85,7 @@ function Sidebar() {
               {(messages || [])
                 .filter(Boolean)  
                 .map((user, index) => (
-                  <li key={`user-${user?.userid}-${index}`}>
+                  <li key={`user-${user?.userid}-${index}`} className={styles.userInfo}>
                     
                     <button
                       type="button"
@@ -140,7 +140,7 @@ function Sidebar() {
       {showDirectMessage && (
         <StartNewChat
           Actions={Actions}
-          setActions={setActions}
+        
           showDirectMessage={showDirectMessage}
           setShowDirectMessage={setShowDirectMessage}
           onViewMessages={handleViewMessages}

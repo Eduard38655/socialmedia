@@ -121,21 +121,23 @@
   background-color: var(--sidebar-accent);
   border: 1px solid var(--sidebar-border);
   gap: 10px;
-     overflow-y: scroll;
+  overflow-y: scroll;
   scrollbar-width: none; /* Firefox */
 }
 .userListContainer {
-width: 100%;
-  padding: 20px;
+  width: 100%;
 }
- 
+
 .Aside_Header_container::-webkit-scrollbar {
   display: none;
 }
- 
+
 .userListContainer .userList li img {
   width: 50px;
   height: 50px;
+}
+.userListContainer .userList li button{
+  cursor: pointer;
 }
 .userListContainer .userList {
   display: flex;
@@ -149,7 +151,6 @@ width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   gap: 10px;
 }
 
@@ -303,10 +304,17 @@ width: 100%;
   height: auto;
   display: flex;
   flex-direction: row;
-
+  border: none;
+  background: none;
   align-items: center;
   gap: 10px;
+  font-size: 14px;
+ 
 }
+ .user{
+  margin-left: 10px;
+  margin-top: 10px;
+ }
 .userList li button p {
   font-size: 14px;
   font-weight: 750;
@@ -317,14 +325,16 @@ width: 100%;
   text-overflow: ellipsis;
   text-align: start;
 }
-.DeleteMessage_btn {
-  display: none;
+.userInfo button{
+display: none;
 }
+ 
 .userList li:hover .DeleteMessage_btn {
   display: flex;
+  flex-direction: row;
   font-size: 14px;
   border-radius: 8px;
-  color: var(--accent);
+   
 }
 .userList li:hover {
   background-color: var(--accent);
@@ -380,7 +390,7 @@ ADD NEW PERSON FOR A DIRECT MESSAGE
   justify-content: center;
 }
 .container_NewChannel_DirectMessage aside {
-  width: 250px;
+  width: auto;
   height: auto;
   background: var(--card);
   display: flex;
@@ -450,6 +460,16 @@ ADD NEW PERSON FOR A DIRECT MESSAGE
   padding: 15px;
   border-radius: 7px;
 }
+.userInfo {
+  width:auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+ 
 .Div_Input input,
 .Input_NewChannel {
   width: 100%;
@@ -476,7 +496,11 @@ ADD NEW PERSON FOR A DIRECT MESSAGE
   border: 1px solid var(--border);
 }
 .active {
-  background: var(--input);
+  color: red;
+  background: var(--muted-foreground);
+}
+.active span {
+  color: var(--accent);
 }
 .Div_Input input:focus,
 .Input_NewChannel:focus {
@@ -607,11 +631,12 @@ ADD NEW PERSON FOR A DIRECT MESSAGE
   cursor: pointer;
   border-radius: 8px;
   transition: 0.2s ease;
-  color: #a0a0a0;
+  color: var(--accent-foreground);
   padding: 8px;
 }
 .Channel_List:hover {
-  background-color: var(--accent);
+  background-color: var(--accent-foreground);
+  color: var(--accent);
 }
 .Section_List {
   width: 100%;
@@ -623,7 +648,7 @@ ADD NEW PERSON FOR A DIRECT MESSAGE
   padding: 8px 0;
   font-size: 12px;
   font-weight: 600;
-  color: #a0a0a0;
+  color: var(--accent-foreground);
   text-transform: uppercase;
 }
 /* BUTTONS */
@@ -652,4 +677,4 @@ ADD NEW PERSON FOR A DIRECT MESSAGE
   font-weight: 600;
   cursor: pointer;
 }
-/*User Status login*/
+ 

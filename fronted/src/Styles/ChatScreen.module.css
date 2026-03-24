@@ -358,15 +358,17 @@
   top: 100%; /* justo debajo del mensaje */
   right: 0; /* o left: 0 si lo quieres a la izquierda */
   z-index: 1000;
+ 
 }
 
 .messageText_opt {
-  background-color: var(--secondary);
+  background-color: var( --muted-foreground); 
   padding: 20px;
   width: 200px;
   border-radius: 5px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--border);
+
 }
 
 .btn_ellipsis {
@@ -389,7 +391,8 @@
 .messageText_opt ul li {
   cursor: pointer;
   font-size: 14px;
-  color: var(--primary-foreground);
+  color: var(--secondary);
+
 }
 .UpdateMessage_Container {
   width: 100%;
@@ -404,6 +407,6 @@
   height: 100vh;
   display: flex;
   position: absolute;
-  z-index: 11111111111111111;
-  background-color: red;
+  z-index: 9999;
+
 }

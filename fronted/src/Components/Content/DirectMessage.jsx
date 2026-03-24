@@ -256,7 +256,7 @@ function DirectMessage() {
               </div>
 
               <div className={styles.btn_send}>
-                <i className="fa-solid fa-microphone"></i>
+           
                 <button onClick={SendMessage}>
                   <i className="fa-solid fa-paper-plane"></i> Send
                 </button>

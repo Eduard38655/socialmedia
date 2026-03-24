@@ -4,7 +4,7 @@ import db from "../../prisma/db.js";
 import TokenVerifyAuth from "../middleware/TokenVerify.auth.js";
 const router = express.Router();
 
- router.get("/Direct_Messages", TokenVerifyAuth, async (req, res) => {
+router.get("/Direct_Messages", TokenVerifyAuth, async (req, res) => {
   try {
     const userid = req.user?.userid ?? req.user?.id ?? req.login?.loginid;
 
@@ -17,10 +17,7 @@ const router = express.Router();
 
     const messages = await db.direct_messages.findMany({
       where: {
-        OR: [
-          { sender_id: userid },
-          { receiver_id: userid },
-        ],
+        OR: [{ sender_id: userid }, { receiver_id: userid }],
       },
       orderBy: {
         created_at: "asc",
@@ -61,7 +58,7 @@ const router = express.Router();
               : msg.users_direct_messages_sender_idTousers;
 
           return [otherUser?.userid, otherUser];
-        })
+        }),
       ).values(),
     ];
 
@@ -109,20 +106,25 @@ router.get("/Direct_Messages/:senderid", TokenVerifyAuth, async (req, res) => {
             name: true,
             img: true,
             last_name: true,
-          }
-          
+          },
         },
       },
     });
 
-    console.log(message_by_id);
+ 
 
     return res.status(200).json({
       ok: true,
       data: message_by_id,
     });
   } catch (error) {
+
     console.log(error);
+    return res.status(500).json({
+      ok: false,
+      message: "Internal server error",
+      error: String(error),
+    })
   }
 });
 export default router;

@@ -4,7 +4,7 @@ import { UserSidebarContext } from "../../Context/UserSidebarContext.jsx";
 import styles from "../../Styles/ChatScreen.module.css";
 import dayjs from "../../utils/day.js";
 import { socket } from "../../utils/socket.js";
-import SideBarMembers from "../Channel/SideBarMembers.jsx";
+import SideBarMembers from "../Channel/SidebarMembers.jsx";
 import OptionsMessages from "../Chat/OptionsMessages.jsx";
 
 function GroupMessages() {
@@ -14,9 +14,13 @@ function GroupMessages() {
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+
   const [openMenuId, setOpenMenuId] = useState(null);
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
+
+
+  // RECIBIR MENSAJES
 
   useEffect(() => {
     const handleReceive = (data) => {
@@ -30,6 +34,9 @@ function GroupMessages() {
     };
   }, []);
 
+
+  // ENTRAR AL CHANNEL
+
   useEffect(() => {
     if (!channelid) return;
 
@@ -39,6 +46,9 @@ function GroupMessages() {
       socket.emit("leave_channel", { channelid });
     };
   }, [channelid]);
+
+
+  // ENVIAR MENSAJE
 
   function SendMessage() {
     if (!message.trim()) return;
@@ -50,6 +60,9 @@ function GroupMessages() {
 
     setMessage("");
   }
+
+
+  // CARGAR MENSAJES
 
   useEffect(() => {
     async function GetChannelMessages() {
@@ -73,8 +86,13 @@ function GroupMessages() {
       }
     }
 
-    if (channelid) GetChannelMessages();
+    if (channelid) {
+      GetChannelMessages();
+    }
   }, [channelid]);
+
+
+  // IR A DM
 
   function Info(receiverid) {
     fetch(`http://localhost:3000/private/Start_Message_ByID/${receiverid}`, {
@@ -89,12 +107,15 @@ function GroupMessages() {
       .catch(console.error);
   }
 
+
+  // EDITAR MENSAJE
+
   async function handleUpdateMessage(id) {
     if (!editText.trim()) return;
 
     try {
       const response = await fetch(
-        `http://localhost:3000/private/Update_Group_Messages/${id}`,
+        `http://localhost:3000/private/Update_Direct_Messages/${id}`,
         {
           method: "PUT",
           credentials: "include",
@@ -102,29 +123,23 @@ function GroupMessages() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            message: editText, // ✅ nombre correcto
+            message: editText,
           }),
         }
       );
 
-      if (!response.ok) {
-        const text = await response.text();
-        console.error("Backend error:", text);
-        return;
-      }
-
       const data = await response.json();
-      console.log(data, "data");
+
 
       if (data.ok) {
         setMessages((prev) =>
           prev.map((msg) =>
             (msg.messageid ?? msg.id) === id
               ? {
-                  ...msg,
-                  message: editText,
-                  updated_at: new Date().toISOString(),
-                }
+                ...msg,
+                message: editText,
+                updated_at: new Date().toISOString(),
+              }
               : msg
           )
         );
@@ -137,21 +152,18 @@ function GroupMessages() {
     }
   }
 
+
+  // ELIMINAR MENSAJE
+
   async function handleDeleteMessage(id) {
     try {
       const response = await fetch(
-        `http://localhost:3000/private/Delete_Group_Messages/${id}`,
+        `http://localhost:3000/private/Delete_channel_messages/${id}`,
         {
           method: "DELETE",
           credentials: "include",
         }
       );
-
-      if (!response.ok) {
-        const text = await response.text();
-        console.error("Backend error:", text);
-        return;
-      }
 
       const data = await response.json();
 
@@ -168,6 +180,7 @@ function GroupMessages() {
   return (
     <article className={styles.container_NewMessage_chat}>
       <div className={styles.Infocontainer_messages}>
+        {/* ===================== MESSAGES ===================== */}
         <div className={styles.container_messages_chat_container}>
           {(messages || []).filter(Boolean).map((msg, index) => {
             const id = msg.messageid ?? msg.id ?? `${index}`;
@@ -191,7 +204,8 @@ function GroupMessages() {
 
                   <div className={styles.message_div}>
                     <p>
-                      {user?.name} {user?.last_name} <small>{time}</small>
+                      {user?.name} {user?.last_name}{" "}
+                      <small>{time}</small>
                     </p>
 
                     <div className={styles.messageText}>
@@ -202,7 +216,8 @@ function GroupMessages() {
                           value={editText}
                           onChange={(e) => setEditText(e.target.value)}
                           onKeyDown={(e) => {
-                            if (e.key === "Enter") handleUpdateMessage(id);
+                            if (e.key === "Enter")
+                              handleUpdateMessage(id);
                             if (e.key === "Escape") {
                               setEditId(null);
                               setEditText("");
@@ -216,11 +231,10 @@ function GroupMessages() {
 
                     {editId === id && (
                       <div className={styles.editActions}>
-                        <button type="button" onClick={() => handleUpdateMessage(id)}>
+                        <button onClick={() => handleUpdateMessage(id)}>
                           Guardar
                         </button>
                         <button
-                          type="button"
                           onClick={() => {
                             setEditId(null);
                             setEditText("");
@@ -232,17 +246,20 @@ function GroupMessages() {
                     )}
                   </div>
 
+                  {/* BOTÓN OPCIONES */}
                   <button
                     className={styles.btn_ellipsis}
-                    type="button"
                     onClick={() =>
-                      setOpenMenuId((prev) => (prev === id ? null : id))
+                      setOpenMenuId((prev) =>
+                        prev === id ? null : id
+                      )
                     }
                   >
                     <i className="fa-solid fa-ellipsis-vertical"></i>
                   </button>
                 </div>
 
+                {/* MENU */}
                 {openMenuId === id && (
                   <OptionsMessages
                     dataUserId={user?.userid}
@@ -264,6 +281,7 @@ function GroupMessages() {
           })}
         </div>
 
+        {/* ===================== INPUT ===================== */}
         <aside className={styles.Send_Message_container}>
           <div className={styles.Section_Icons}>
             <div className={styles.textarea_container}>
@@ -289,7 +307,7 @@ function GroupMessages() {
 
               <div className={styles.btn_send}>
                 <i className="fa-solid fa-microphone"></i>
-                <button type="button" onClick={SendMessage}>
+                <button onClick={SendMessage}>
                   <i className="fa-solid fa-paper-plane"></i> Send
                 </button>
               </div>
