@@ -5,9 +5,9 @@
   "main": "NodeRouters.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node Backend/NodeRouters.js",
+    "start": "node NodeRouters.js",
     
-    "dev": "node Backend/NodeRouters.js",
+    "dev": "node NodeRouters.js",
     "type": "module"
   },
   "keywords": [],
