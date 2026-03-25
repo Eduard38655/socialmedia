@@ -52,7 +52,7 @@ function Sidebar() {
     })
       .then((res) => res.json())
       .then(() => {
-        // 🔥 eliminar del estado sin recargar
+       
         setMessages((prev) =>
           prev.filter((u) => u?.userid !== userId)
         );
