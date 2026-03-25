@@ -17,8 +17,8 @@ function WorkspaceMembers(params) {
 
     useEffect(() => {
         const GetDataUser = async () => {
-            try {
-                const response = await fetch("http://localhost:3000/private/workspace_members", {
+            try { 
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/private/workspace_members`, {
                     method: "GET",
                     credentials: "include",
                     headers: {

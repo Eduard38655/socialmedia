@@ -64,7 +64,7 @@ function DirectMessage() {
     async function GetDataMessageByID() {
       try {
         const response = await fetch(
-          `http://localhost:3000/private/Direct_Messages/${senderid}`,
+          `${import.meta.env.VITE_API_URL}/private/Direct_Messages/${senderid}`,
           {
             method: "GET",
             credentials: "include",
@@ -96,7 +96,7 @@ function DirectMessage() {
     try {
 
       const response = await fetch(
-        `http://localhost:3000/private/Update_Direct_Messages/${id}`,
+        `${import.meta.env.VITE_API_URL}/private/Update_Direct_Messages/${id}`,
         {
           method: "PUT",
           credentials: "include",
@@ -131,7 +131,7 @@ function DirectMessage() {
   async function handleDeleteMessage(id) {
     try {
       const response = await fetch(
-        `http://localhost:3000/private/Delete_Direct_Messages/${id}`,
+        `${import.meta.env.VITE_API_URL}/private/Delete_Direct_Messages/${id}`,
         {
           method: "DELETE",
           credentials: "include",

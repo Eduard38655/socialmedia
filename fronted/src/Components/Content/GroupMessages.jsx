@@ -68,7 +68,7 @@ function GroupMessages() {
     async function GetChannelMessages() {
       try {
         const response = await fetch(
-          `http://localhost:3000/private/Get_channel_messages/${channelid}`,
+          `${import.meta.env.VITE_API_URL}/private/Get_channel_messages/${channelid}`,
           {
             method: "GET",
             credentials: "include",
@@ -95,7 +95,7 @@ function GroupMessages() {
   // IR A DM
 
   function Info(receiverid) {
-    fetch(`http://localhost:3000/private/Start_Message_ByID/${receiverid}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/private/Start_Message_ByID/${receiverid}`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -115,7 +115,7 @@ function GroupMessages() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/private/Update_Direct_Messages/${id}`,
+        `${import.meta.env.VITE_API_URL}/private/Update_Direct_Messages/${id}`,
         {
           method: "PUT",
           credentials: "include",
@@ -158,7 +158,7 @@ function GroupMessages() {
   async function handleDeleteMessage(id) {
     try {
       const response = await fetch(
-        `http://localhost:3000/private/Delete_channel_messages/${id}`,
+        `${import.meta.env.VITE_API_URL}/private/Delete_channel_messages/${id}`,
         {
           method: "DELETE",
           credentials: "include",

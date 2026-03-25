@@ -6,7 +6,7 @@ export function useStartChats(setShowDirectMessage) {
   const viewMessages = async (receiverid) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/private/Start_Message_ByID/${receiverid}`,
+        `${import.meta.env.VITE_API_URL}/private/Start_Message_ByID/${receiverid}`,
         {
           method: "POST",
           credentials: "include",

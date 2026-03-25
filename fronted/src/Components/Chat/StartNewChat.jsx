@@ -11,9 +11,10 @@ function StartNewChat({ setShowDirectMessage }) {
 
   useEffect(() => {
     async function getUsers() {
-      const res = await fetch("http://localhost:3000/private/Global_users", {
+      const res = await fetch(`  ${import.meta.env.VITE_API_URL}/private/Global_users`, {
         credentials: "include",
       });
+     
 
       const data = await res.json();
       setUsers(data.data);

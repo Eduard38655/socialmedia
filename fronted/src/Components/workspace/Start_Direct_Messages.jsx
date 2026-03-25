@@ -15,7 +15,7 @@ function Sidebar() {
 
   useEffect(() => {
     // Channels
-    fetch(`http://localhost:3000/private/channel_members/${groupid}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/private/channel_members/${groupid}`, {
       method: "GET",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -26,8 +26,8 @@ function Sidebar() {
       })
       .catch(console.error);
 
-    // Direct messages
-    fetch("http://localhost:3000/private/Direct_Messages", {
+    // Direct messages${import.meta.env.VITE_API_URL}
+    fetch(`${import.meta.env.VITE_API_URL}/private/Direct_Messages`, {
       method: "GET",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -45,7 +45,7 @@ function Sidebar() {
   }
 
   function DeleteMessage(userId) {
-    fetch(`http://localhost:3000/private/Delete_Direct_Messages/${userId}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/private/Delete_Direct_Messages/${userId}`, {
       method: "DELETE",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

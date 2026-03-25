@@ -10,9 +10,9 @@ const navigate = useNavigate();
 
     const onSubmit = (user) => {
 
-        try {
+        try { 
 
-            fetch("http://localhost:3000/public/login", {
+            fetch(  `${import.meta.env.VITE_API_URL}/public/login`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
