@@ -26,7 +26,7 @@ const __dirname = path.dirname(__filename);
 // Middlewares
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173","https://socialmedia-khe0.onrender.com" ], 
+    origin: ["https://slack-d.netlify.app/","http://localhost:3000", "http://localhost:5173","https://socialmedia-khe0.onrender.com" ], 
     credentials: true,
   }),
 );
