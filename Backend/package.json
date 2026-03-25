@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node NodeRouters.js",
     "dev": "node NodeRouters.js",
-    "type": "module"
+    "type": "module",
+     "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
