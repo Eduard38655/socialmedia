@@ -12,8 +12,7 @@ export function UserDataProvider({ children }) {
 
             try {
 
-                const response = await fetch(
-                    `${import.meta.env.VITE_API_URL}/public/me`,
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/public/me`,
                     {
                         method: "GET",
                         credentials: "include",

@@ -29,7 +29,8 @@ app.use(
     origin: [
       "https://gorgeous-lebkuchen-0e9856.netlify.app",
       "http://localhost:3000",
-      "http://localhost:5173"
+      "http://localhost:5173",
+       
     ],
     credentials: true,
   })

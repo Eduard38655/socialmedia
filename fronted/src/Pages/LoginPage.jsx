@@ -8,37 +8,42 @@ const navigate = useNavigate();
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (user) => {
+ const onSubmit = async (user) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/public/login`, {
+      method: "POST",
+      credentials: "include", // ✅ importante
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: user.email,
+        password: user.password,
+      }),
+    });
 
-        try { 
+    const data = await res.json();
 
-            fetch(  `${import.meta.env.VITE_API_URL}/public/login`, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: user.email,
-                    password: user.password,
-                }),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                  
- 
-                    if (data.ok) {
-                        navigate("/dashboard/@me")
-                    }
-                    
-                });
+    console.log("LOGIN RESPONSE:", data);
 
-        } catch (error) {
-            console.log(error);
+    if (data.ok) {
+      // 🔥 prueba inmediatamente si la sesión funciona
+      const meRes = await fetch(`${import.meta.env.VITE_API_URL}/public/me`, {
+        credentials: "include",
+      });
 
-        }
+      const meData = await meRes.json();
+      console.log("ME RESPONSE:", meData);
+
+      navigate("/dashboard/@me");
+    } else {
+      alert(data.message);
     }
 
+  } catch (error) {
+    console.error("LOGIN ERROR:", error);
+  }
+};
     return (
         <main>
             {/* Header */}
