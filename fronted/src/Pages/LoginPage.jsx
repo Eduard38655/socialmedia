@@ -9,7 +9,10 @@ const navigate = useNavigate();
     } = useForm()
 
  const onSubmit = async (user) => {
+
   try {
+    console.log("sss");
+    
     const res = await fetch(`${import.meta.env.VITE_API_URL}/public/login`, {
       method: "POST",
       credentials: "include", // ✅ importante
