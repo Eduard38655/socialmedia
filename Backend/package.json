@@ -8,8 +8,6 @@
     "start": "node NodeRouters.js",
     "dev": "node NodeRouters.js",
     "type": "module"
-     
-  
   },
   "keywords": [],
   "author": "",
@@ -22,6 +20,7 @@
     "cookie-parser": "^1.4.7",
     "dayjs": "^1.11.20",
     "dotenv": "^17.3.1",
+    "express": "^5.2.1",
     "i18next": "^25.8.18",
     "i18next-browser-languagedetector": "^8.2.1",
     "jsonwebtoken": "^9.0.3",
