@@ -15,10 +15,8 @@ router.post("/login", async (req, res) => {
         username: email,
       },
     });
- console.log(LoginUser);
+    console.log(LoginUser);
     if (!LoginUser) {
-      
-      
       return res.status(404).json({ ok: false, message: "User not found" });
     }
     const info = await bcrypt.hash(password, 10);
@@ -43,8 +41,9 @@ router.post("/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
+      path: "/",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
