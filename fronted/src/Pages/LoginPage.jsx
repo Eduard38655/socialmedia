@@ -11,7 +11,7 @@ function LoginPage() {
     const onSubmit = async (user) => {
 
         try {
-            console.log("sss", import.meta.env.VITE_API_URL);
+            
 
             const res = await fetch(`${import.meta.env.VITE_API_URL}/public/login`, {
                 method: "POST",
