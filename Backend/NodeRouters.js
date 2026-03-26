@@ -24,14 +24,16 @@ const server = http.createServer(app);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
- app.use(
+app.use(
   cors({
-    origin: [
-      "https://gorgeous-lebkuchen-0e9856.netlify.app",
-      "https://eduard38655.github.io",
-      "http://localhost:3000",
-      "http://localhost:5173"
-    ],
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // Postman / mobile / server requests
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );

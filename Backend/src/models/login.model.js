@@ -17,14 +17,16 @@ router.post("/login", async (req, res) => {
       },
     });
 
-    console.log("LOGIN USER:", LoginUser);
+    console.log("USER FOUND:", LoginUser);
 
     if (!LoginUser) {
       return res.status(404).json({ ok: false, message: "User not found" });
     }
 
-    // ✅ comparar password correctamente
+    // comparar password correctamente
     const validPassword = await bcrypt.compare(password, LoginUser.password);
+
+    console.log("PASSWORD VALID:", validPassword);
 
     if (!validPassword) {
       return res.status(401).json({
@@ -43,11 +45,10 @@ router.post("/login", async (req, res) => {
       expiresIn: "1h",
     });
 
-    // ✅ cookie para frontend externo (Netlify / GitHub Pages)
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: true, // importante en producción
+      sameSite: "none", // importante para frontend en otro dominio
       maxAge: 24 * 60 * 60 * 1000,
     });
 
@@ -64,20 +65,21 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/me", TokenVerifyAuth, async (req, res) => {
-  console.log(req.user?.userid, "duyaa");
+  try {
+    if (!req.user?.userid) {
+      return res.status(401).json({ ok: false, message: "Not authenticated" });
+    }
 
-  if (!req.user?.userid) {
-    return res.status(401).json({ ok: false, message: "Not authenticated" });
+    return res.json({
+      ok: true,
+      userid: req.user.userid,
+      username: req.user.username,
+      loginid: req.user.loginid,
+    });
+  } catch (error) {
+    console.error("ME ERROR:", error);
+    res.status(500).json({ ok: false, message: "Internal server error" });
   }
-
-  return res.json({
-    ok: true,
-    status: req.user.status,
-    userid: req.user.userid,
-    name: req.user.name,
-    last_name: req.user.last_name,
-    img: req.user.img,
-  });
 });
 
 router.get("/logout", (req, res) => {

@@ -10,47 +10,50 @@ function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (user) => {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/public/login`, {
-        method: "POST",
+ const onSubmit = async (user) => {
+  try {
+    console.log("API URL:", import.meta.env.VITE_API_URL);
+
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/public/login`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: user.email,
+        password: user.password,
+      }),
+    });
+
+    console.log("LOGIN STATUS:", res.status);
+
+    const data = await res.json();
+    console.log("LOGIN RESPONSE:", data);
+
+    if (data.ok) {
+      const meRes = await fetch(`${import.meta.env.VITE_API_URL}/public/me`, {
+        method: "GET",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user.email,
-          password: user.password,
-        }),
       });
 
-      const data = await res.json();
-      console.log("LOGIN RESPONSE:", data);
+      console.log("ME STATUS:", meRes.status);
 
-      if (!res.ok) {
-        alert(data.message || "Login failed");
-        return;
+      const meData = await meRes.json();
+      console.log("ME RESPONSE:", meData);
+
+      if (meData.ok) {
+        navigate("/dashboard/@me");
+      } else {
+        alert("No se pudo validar la sesión");
       }
-
-      if (data.ok) {
-        const meRes = await fetch(`${import.meta.env.VITE_API_URL}/public/me`, {
-          credentials: "include",
-        });
-
-        const meData = await meRes.json();
-        console.log("ME RESPONSE:", meData);
-
-        if (meData.ok) {
-          navigate("/dashboard/@me");
-        } else {
-          alert("No se pudo validar la sesión");
-        }
-      }
-    } catch (error) {
-      console.error("LOGIN ERROR:", error);
-      alert("Error conectando con el servidor");
+    } else {
+      alert(data.message);
     }
-  };
+  } catch (error) {
+    console.error("LOGIN ERROR:", error);
+  }
+};
 
   return (
     <main>
