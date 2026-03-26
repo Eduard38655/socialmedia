@@ -15,20 +15,20 @@ router.post("/login", async (req, res) => {
         username: email,
       },
     });
- console.log(LoginUser);
+    console.log(LoginUser);
     if (!LoginUser) {
-      
-      
       return res.status(404).json({ ok: false, message: "User not found" });
     }
     const info = await bcrypt.hash(password, 10);
     console.log(info, "detais");
 
     // comparar password
-    const validPassword = await bcrypt.compare(password, LoginUser.password);
+    const validPassword = await bcrypt.compare(password, LoginUser );
 
     if (!validPassword) {
-      return res.status(401).json({ ok: false, message: "Invalid password" });
+      return res
+        .status(401)
+        .json({ ok: false, message: "Invalid password", info, LoginUser });
     }
 
     const payload = {
