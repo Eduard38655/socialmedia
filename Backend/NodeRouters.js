@@ -30,7 +30,7 @@ app.use(
       "https://gorgeous-lebkuchen-0e9856.netlify.app",
       "http://localhost:3000",
       "http://localhost:5173",
-       
+      "*"
     ],
     credentials: true,
   })
@@ -42,7 +42,11 @@ app.use(cookieParser());
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:5173"],
+    origin: [
+      "https://gorgeous-lebkuchen-0e9856.netlify.app",
+      "http://localhost:3000",
+      "http://localhost:5173",
+    ],
     credentials: true,
   },
 });
@@ -160,6 +164,8 @@ app.use("/private", DeleteMessage);
 app.use("/private", PutMessage);
 app.use("/private", Update_Group_Messages);
 // Levantar servidor
-server.listen(3000, () => {
-  console.log(`Servidor corriendo en http://localhost:3000`);
+
+const PORT= process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

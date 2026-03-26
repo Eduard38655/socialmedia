@@ -1,52 +1,52 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 function LoginPage() {
-const navigate = useNavigate();
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm()
 
- const onSubmit = async (user) => {
+    const onSubmit = async (user) => {
 
-  try {
-    console.log("sss");
-    
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/public/login`, {
-      method: "POST",
-      credentials: "include", // ✅ importante
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: user.email,
-        password: user.password,
-      }),
-    });
+        try {
+            console.log("sss", import.meta.env.VITE_API_URL);
 
-    const data = await res.json();
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/public/login`, {
+                method: "POST",
+                credentials: "include", // ✅ importante
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: user.email,
+                    password: user.password,
+                }),
+            });
 
-    console.log("LOGIN RESPONSE:", data);
+            const data = await res.json();
 
-    if (data.ok) {
-      // 🔥 prueba inmediatamente si la sesión funciona
-      const meRes = await fetch(`${import.meta.env.VITE_API_URL}/public/me`, {
-        credentials: "include",
-      });
+            console.log("LOGIN RESPONSE:", data);
 
-      const meData = await meRes.json();
-      console.log("ME RESPONSE:", meData);
+            if (data.ok) {
+                // 🔥 prueba inmediatamente si la sesión funciona
+                const meRes = await fetch(`${import.meta.env.VITE_API_URL}/public/me`, {
+                    credentials: "include",
+                });
 
-      navigate("/dashboard/@me");
-    } else {
-      alert(data.message);
-    }
+                const meData = await meRes.json();
+                console.log("ME RESPONSE:", meData);
 
-  } catch (error) {
-    console.error("LOGIN ERROR:", error);
-  }
-};
+                navigate("/dashboard/@me");
+            } else {
+                alert(data.message);
+            }
+
+        } catch (error) {
+            console.error("LOGIN ERROR:", error);
+        }
+    };
     return (
         <main>
             {/* Header */}
