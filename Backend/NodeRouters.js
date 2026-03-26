@@ -24,6 +24,14 @@ const server = http.createServer(app);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const allowedOrigins = [
+  "https://gorgeous-lebkuchen-0e9856.netlify.app",
+  "https://eduard38655.github.io",
+  "http://localhost:3000",
+  "http://localhost:5173",
+  // Agrega aquí la URL de tu frontend desplegado si es diferente
+];
+
 app.use(
   cors({
     origin: function (origin, callback) {
