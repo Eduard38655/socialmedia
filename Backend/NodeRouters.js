@@ -24,13 +24,13 @@ const server = http.createServer(app);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(
+ app.use(
   cors({
     origin: [
       "https://gorgeous-lebkuchen-0e9856.netlify.app",
+      "https://eduard38655.github.io",
       "http://localhost:3000",
-      "http://localhost:5173",
-      "*"
+      "http://localhost:5173"
     ],
     credentials: true,
   })
@@ -44,6 +44,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       "https://gorgeous-lebkuchen-0e9856.netlify.app",
+      "https://eduard38655.github.io",
       "http://localhost:3000",
       "http://localhost:5173",
     ],

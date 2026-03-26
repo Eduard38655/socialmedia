@@ -4,6 +4,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import db from "../../prisma/db.js";
 import TokenVerifyAuth from "../middleware/TokenVerify.auth.js";
+
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
@@ -15,20 +16,21 @@ router.post("/login", async (req, res) => {
         username: email,
       },
     });
-    console.log(LoginUser);
+
+    console.log("LOGIN USER:", LoginUser);
+
     if (!LoginUser) {
       return res.status(404).json({ ok: false, message: "User not found" });
     }
-    const info = await bcrypt.hash(password, 10);
-    console.log(info, "detais");
 
-    // comparar password
-    const validPassword = await bcrypt.compare(password, LoginUser );
+    // ✅ comparar password correctamente
+    const validPassword = await bcrypt.compare(password, LoginUser.password);
 
     if (!validPassword) {
-      return res
-        .status(401)
-        .json({ ok: false, message: "Invalid password", info, LoginUser });
+      return res.status(401).json({
+        ok: false,
+        message: "Invalid password",
+      });
     }
 
     const payload = {
@@ -41,10 +43,11 @@ router.post("/login", async (req, res) => {
       expiresIn: "1h",
     });
 
+    // ✅ cookie para frontend externo (Netlify / GitHub Pages)
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
@@ -55,20 +58,20 @@ router.post("/login", async (req, res) => {
       user: userWithoutPassword,
     });
   } catch (error) {
+    console.error("LOGIN ERROR BACKEND:", error);
     res.status(500).json({ message: error.message, ok: false });
   }
 });
 
 router.get("/me", TokenVerifyAuth, async (req, res) => {
-  console.log(req.user.userid, "duyaa");
+  console.log(req.user?.userid, "duyaa");
 
-  if (!req.user.userid || !req.user.userid) {
+  if (!req.user?.userid) {
     return res.status(401).json({ ok: false, message: "Not authenticated" });
   }
 
   return res.json({
     ok: true,
-
     status: req.user.status,
     userid: req.user.userid,
     name: req.user.name,
@@ -78,7 +81,12 @@ router.get("/me", TokenVerifyAuth, async (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+
   res.status(200).json({ message: "Logout successful", ok: true });
 });
 
