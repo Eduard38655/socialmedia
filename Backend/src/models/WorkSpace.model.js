@@ -29,6 +29,8 @@ router.get("/workspace_members", TokenVerifyAuth, async (req, res) => {
   }
 });
 
+
+
 router.get("/details", async (req, res) => {
   console.log("HIT /private/details");
   return res.json({ ok: true, message: "details route working" });
