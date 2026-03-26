@@ -30,7 +30,7 @@ router.get("/workspace_members", TokenVerifyAuth, async (req, res) => {
 });
 
 
-router.get("/details", TokenVerifyAuth, async (req, res) => {
+router.get("/details",   async (req, res) => {
   try {
     const userid = req.user?.userid ?? req.user?.id ?? req.login?.loginid;
 
