@@ -16,6 +16,7 @@ function LoginPage() {
 
     const res = await fetch(`${import.meta.env.VITE_API_URL}/public/login`, {
       method: "POST",
+      mode: "cors",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
