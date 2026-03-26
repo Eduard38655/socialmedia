@@ -32,8 +32,17 @@ router.get("/workspace_members", TokenVerifyAuth, async (req, res) => {
 
 
 router.get("/details", async (req, res) => {
-  console.log("HIT /private/details");
-  return res.json({ ok: true, message: "details route working" });
+ try {
+   
+
+    const workspace_members_Data = await db.workspace_members.findMany( );
+
+    return res.status(200).json({ ok: true, data: workspace_members_Data });
+  } catch (error) {
+    console.error("workspace_members error:", error);
+    res.status(500).json({ ok: false, message: "Internal server error" });
+  }
 });
+
 
 export default router;
