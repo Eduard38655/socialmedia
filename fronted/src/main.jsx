@@ -10,7 +10,7 @@ import "./i18n";
 
 
 createRoot(document.getElementById('root')).render(
-  < BrowserRouter  basename="/socialmedia"  >
+  < BrowserRouter   >
     <ThemeProvider >
       <UserDataProvider>
         < GroupDataProvider >
