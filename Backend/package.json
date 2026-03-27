@@ -13,7 +13,6 @@
     "deploy": "gh-pages -d dist",
     "predeploy": "npm run build"
   },
-  
   "keywords": [],
   "author": "",
   "license": "ISC",

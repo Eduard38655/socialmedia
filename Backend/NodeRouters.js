@@ -124,43 +124,43 @@ io.on("connection", async (socket) => {
   });
 
   //////////////////////////////////////////////////////////////////////
-socket.on("join_channel", ({ channelid }) => {
-  if (!channelid) return;
-  const room = `channel_${channelid}`;
-  socket.join(room);
-  console.log(`Socket ${socket.id} joined channel room: ${room}`);
-});
+  socket.on("join_channel", ({ channelid }) => {
+    if (!channelid) return;
+    const room = `channel_${channelid}`;
+    socket.join(room);
+    console.log(`Socket ${socket.id} joined channel room: ${room}`);
+  });
 
- socket.on("send_message_room", async (data) => {
-  // data.channelid es el id del channel
-  const channelId = Number(data.channelid);
+  socket.on("send_message_room", async (data) => {
+    // data.channelid es el id del channel
+    const channelId = Number(data.channelid);
 
-  if (!channelId) {
-    console.warn("send_message_room without channelid", data);
-    return;
-  }
+    if (!channelId) {
+      console.warn("send_message_room without channelid", data);
+      return;
+    }
 
-  // Guardar mensaje en la tabla de messages (ya lo tenías)
-  const SaveMessages = await db.messages.create({
-    data: {
+    // Guardar mensaje en la tabla de messages (ya lo tenías)
+    const SaveMessages = await db.messages.create({
+      data: {
+        channelid: channelId,
+        status: "unread",
+        userid: userId,
+        message: data.message,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    });
+
+    // Room del channel: channel_<id>
+    const room = `channel_${channelId}`;
+
+    // Emitir al evento que el cliente espera para channels
+    io.to(room).emit("receive_message_room", {
+      ...SaveMessages,
       channelid: channelId,
-      status: "unread",
-      userid: userId,
-      message: data.message,
-      created_at: new Date(),
-      updated_at: new Date(),
-    },
+    });
   });
-
-  // Room del channel: channel_<id>
-  const room = `channel_${channelId}`;
-
-  // Emitir al evento que el cliente espera para channels
-  io.to(room).emit("receive_message_room", {
-    ...SaveMessages,
-    channelid: channelId
-  });
-});
 
   //////////////////////////////////////////////////////
   socket.on("disconnect", () => {
@@ -179,7 +179,7 @@ app.use("/private", PutMessage);
 app.use("/private", Update_Group_Messages);
 // Levantar servidor
 
-const PORT= process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
