@@ -3,7 +3,6 @@ import "dotenv/config";
 import express from "express";
 import jwt from "jsonwebtoken";
 import db from "../../prisma/db.js";
-import TokenVerifyAuth from "../middleware/TokenVerify.auth.js";
 
 const router = express.Router();
 // ──────────────────────────────────────────
@@ -101,6 +100,7 @@ router.post("/login", async (req, res) => {
 // ──────────────────────────────────────────
 // GET /private/me
 // ──────────────────────────────────────────
+/*
 router.get("/me", TokenVerifyAuth, async (req, res) => {
   if (!req.user?.userid) {
     return res.status(401).json({ ok: false, message: "Not authenticated" });
@@ -111,7 +111,7 @@ router.get("/me", TokenVerifyAuth, async (req, res) => {
     username: req.user.username,
   });
 });
-
+*/
 // ──────────────────────────────────────────
 // GET /public/logout
 // ──────────────────────────────────────────
