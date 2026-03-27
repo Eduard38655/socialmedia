@@ -19,12 +19,14 @@ function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-console.log(data);
+      console.log(data);
 
       if (data.ok) {
         navigate("/dashboard/@me");
       } else {
-        setError("root", { message: data.message,login:data.login });
+        console.log({ message: data.message, login: data.login },"{ message: data.message, login: data.login }");
+        
+        setError("root", { message: data.message, login: data.login });
       }
     } catch {
       setError("root", { message: "Connection error — check your server" });
