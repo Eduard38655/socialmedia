@@ -10,7 +10,6 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "type": "module",
-    "postinstall": "prisma generate",
     "deploy": "gh-pages -d dist",
     "predeploy": "npm run build"
   },
