@@ -81,15 +81,12 @@ router.post("/login", async (req, res) => {
     const { password: _, ...userWithoutPassword } = loginUser;
     return res.status(200).json({ ok: true, user: userWithoutPassword });
   } catch (error) {
+    console.error("LOGIN ERROR:", error);      // never runs
+    return res.status(500).json({ ok: false, message: error.message });
+     // never runs
   
-    return res.status(500).json({
-      ok: false,
-      message: error.message, // temporal para debug
-    });
-    console.error("LOGIN ERROR:", error);
-    return res
-      .status(500)
-      .json({ ok: false, message: "Internal server error" });
+    
+  
   }
 });
 
