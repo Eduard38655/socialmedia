@@ -24,7 +24,7 @@ console.log(data);
       if (data.ok) {
         navigate("/dashboard/@me");
       } else {
-        setError("root", { message: data.message || "Invalid credentials" });
+        setError("root", { message: data.message,login:data.login });
       }
     } catch {
       setError("root", { message: "Connection error — check your server" });

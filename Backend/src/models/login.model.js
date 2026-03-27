@@ -37,7 +37,7 @@ router.post("/login", async (req, res) => {
 
     
     if (!loginUser) {
-      return res.status(404).json({ ok: false, message: "User not found",loginUser:loginUser });
+      return res.status(404).json({ ok: false, message: "User not found",login:loginUser });
     }
 
     
