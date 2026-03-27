@@ -19,6 +19,7 @@ function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
+console.log(data);
 
       if (data.ok) {
         navigate("/dashboard/@me");
