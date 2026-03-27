@@ -11,9 +11,7 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  /* ① Validar que lleguen como strings —
-       si el cliente manda null/undefined bcrypt lanza
-       "data and hash must be strings"               */
+             
   if (typeof email !== "string" || typeof password !== "string") {
     return res.status(400).json({
       ok: false,
@@ -37,12 +35,12 @@ router.post("/login", async (req, res) => {
       where: { username: emailClean },
     });
 
+    
     if (!loginUser) {
-      return res.status(404).json({ ok: false, message: "User not found" });
+      return res.status(404).json({ ok: false, message: "User not found",loginUser:loginUser });
     }
 
-    /* ③ Verificar que el hash guardado sea un string válido
-         (por si el registro se creó sin hashear la contraseña) */
+    
     if (typeof loginUser.password !== "string" || !loginUser.password) {
       return res
         .status(500)
@@ -83,9 +81,7 @@ router.post("/login", async (req, res) => {
     const { password: _, ...userWithoutPassword } = loginUser;
     return res.status(200).json({ ok: true, user: userWithoutPassword });
   } catch (error) {
-    console.error("LOGIN ERROR NAME:", error.name);
-    console.error("LOGIN ERROR MSG:", error.message);
-    console.error("LOGIN ERROR STACK:", error.stack);
+  
     return res.status(500).json({
       ok: false,
       message: error.message, // temporal para debug
