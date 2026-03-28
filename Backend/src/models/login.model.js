@@ -20,6 +20,8 @@ router.post("/login", async (req, res) => {
     });
   }
 
+  
+
   const emailClean = email.trim();
   const passwordClean = password.trim();
 
