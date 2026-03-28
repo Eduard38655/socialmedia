@@ -40,11 +40,7 @@ router.post("/login", async (req, res) => {
       where: { username: emailClean,password: passwordClean },
     });
 
-    if (!loginUser) {
-      return res
-        .status(404)
-        .json({ ok: false, message: "User not found", login: loginUser });
-    }
+     
 
     if (typeof loginUser.password !== "string" || !loginUser.password) {
       return res
