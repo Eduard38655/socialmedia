@@ -25,14 +25,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const allowedOrigins = [
-  "https://gorgeous-lebkuchen-0e9856.netlify.app",
+  "https://gorgeous-lebkuchen-0e9856.netlify.app", // la que ya tienes
+  "https://TU-URL-REAL.netlify.app",               // ← agrega la tuya aquí
   "https://eduard38655.github.io",
   "http://localhost:3000",
   "http://localhost:5173",
-  // Agrega aquí la URL de tu frontend desplegado si es diferente
+  "https://gorgeous-lebkuchen-0e9856.netlify.app/"
 ];
 
 const corsOptions = {
+
   origin: function (origin, callback) {
     if (!origin) return callback(null, true); // Postman / mobile / server requests
     if (allowedOrigins.includes(origin)) {
@@ -57,6 +59,8 @@ const io = new Server(server, {
   cors: {
     origin: [
       "https://gorgeous-lebkuchen-0e9856.netlify.app",
+      "https://TU-URL-REAL.netlify.app",
+      "https://gorgeous-lebkuchen-0e9856.netlify.app/", // ← aquí también
       "https://eduard38655.github.io",
       "http://localhost:3000",
       "http://localhost:5173",

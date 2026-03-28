@@ -11,7 +11,6 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-             
   if (typeof email !== "string" || typeof password !== "string") {
     return res.status(400).json({
       ok: false,
@@ -35,12 +34,12 @@ router.post("/login", async (req, res) => {
       where: { username: emailClean },
     });
 
-    
     if (!loginUser) {
-      return res.status(404).json({ ok: false, message: "User not found",login:loginUser });
+      return res
+        .status(404)
+        .json({ ok: false, message: "User not found", login: loginUser });
     }
 
-    
     if (typeof loginUser.password !== "string" || !loginUser.password) {
       return res
         .status(500)
@@ -81,12 +80,9 @@ router.post("/login", async (req, res) => {
     const { password: _, ...userWithoutPassword } = loginUser;
     return res.status(200).json({ ok: true, user: userWithoutPassword });
   } catch (error) {
-    console.error("LOGIN ERROR:", error);      // never runs
+    console.error("LOGIN ERROR:", error); // never runs
     return res.status(500).json({ ok: false, message: error.message });
-     // never runs
-  
-    
-  
+    // never runs
   }
 });
 
