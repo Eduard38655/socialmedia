@@ -23,6 +23,8 @@ const server = http.createServer(app);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, "dist"))); // o el nombre real de tu carpeta
+ 
 
 const allowedOrigins = [
   "https://eduard38655.github.io",
@@ -186,7 +188,7 @@ app.get("/ping", (req, res) => {
   });
 });
 
-app.use(express.static(path.join(__dirname, "public")));
+ 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

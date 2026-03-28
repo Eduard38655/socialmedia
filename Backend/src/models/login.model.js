@@ -20,7 +20,9 @@ router.post("/login", async (req, res) => {
     });
   }
 
-  
+
+
+
 
   const emailClean = email.trim();
   const passwordClean = password.trim();
@@ -35,7 +37,7 @@ router.post("/login", async (req, res) => {
   try {
     /* ② Buscar usuario */
     const loginUser = await db.logins.findUnique({
-      where: { username: emailClean },
+      where: { username: emailClean,password: passwordClean },
     });
 
     if (!loginUser) {
