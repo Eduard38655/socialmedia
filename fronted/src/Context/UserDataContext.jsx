@@ -6,7 +6,7 @@ export const UserDataContext = createContext();
 export function UserDataProvider({ children }) {
 
     const [Profile, setProfileData] = useState({});
-   /* useEffect(() => {
+  useEffect(() => {
 
         async function GetUserDetails() {
 
@@ -36,7 +36,7 @@ export function UserDataProvider({ children }) {
         GetUserDetails();
 
     }, []);
-*/
+
     return (<>
         <UserDataContext.Provider value={{ Profile, setProfileData }}>
             {children}

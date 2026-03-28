@@ -38,7 +38,7 @@ router.post("/login", async (req, res) => {
   try {
 
 
-    
+
     /* ② Buscar usuario */
     const loginUser = await db.logins.findUnique({
       where: { username: emailClean,password: passwordClean },
@@ -95,7 +95,7 @@ router.post("/login", async (req, res) => {
 // ──────────────────────────────────────────
 // GET /private/me
 // ──────────────────────────────────────────
-/*
+
 router.get("/me", TokenVerifyAuth, async (req, res) => {
   if (!req.user?.userid) {
     return res.status(401).json({ ok: false, message: "Not authenticated" });
@@ -106,7 +106,7 @@ router.get("/me", TokenVerifyAuth, async (req, res) => {
     username: req.user.username,
   });
 });
-*/
+
 // ──────────────────────────────────────────
 // GET /public/logout
 // ──────────────────────────────────────────
