@@ -72,6 +72,7 @@ CREATE TABLE "logins" (
     CONSTRAINT "logins_pkey" PRIMARY KEY ("loginid")
 );
 
+
 -- CreateTable
 CREATE TABLE "messages" (
     "messageid" SERIAL NOT NULL,
@@ -144,7 +145,7 @@ CREATE TABLE "workspaces" (
 
     CONSTRAINT "workspaces_pkey" PRIMARY KEY ("workspaceid")
 );
-
+ 
 -- CreateTable
 CREATE TABLE "channel_sections" (
     "sectionid" SERIAL NOT NULL,
@@ -215,3 +216,4 @@ ALTER TABLE "workspaces" ADD CONSTRAINT "workspaces_created_by_fkey" FOREIGN KEY
 -- AddForeignKey
 ALTER TABLE "channel_sections" ADD CONSTRAINT "channel_sections_workspaceid_fkey" FOREIGN KEY ("workspaceid") REFERENCES "workspaces"("workspaceid") ON DELETE CASCADE ON UPDATE NO ACTION;
 
+ 

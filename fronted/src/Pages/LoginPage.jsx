@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function LoginPage() {
   const navigate = useNavigate();
   const {
-    
+
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -14,7 +14,7 @@ function LoginPage() {
   const onSubmit = async ({ email, password }) => {
     try {
       console.log("API URL:", import.meta.env.VITE_API_URL); // ← agrega esto
-      const res = await fetch(`https://socialmedia-khe0.onrender.com/public/login`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/public/login`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

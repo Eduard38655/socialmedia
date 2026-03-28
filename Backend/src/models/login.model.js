@@ -104,6 +104,18 @@ router.get("/me", TokenVerifyAuth, async (req, res) => {
 // ──────────────────────────────────────────
 // GET /public/logout
 // ──────────────────────────────────────────
+router.get("/me", TokenVerifyAuth, (req, res) => {
+  if (!req.user && !req.login) {
+    return res.status(401).json({ ok: false, message: "Not authenticated" });
+  }
+
+  return res.status(200).json({
+    ok: true,
+    user: req.user || null,
+    login: req.login || null,
+  });
+});
+
 router.get("/logout", (req, res) => {
   res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "none" });
   return res.status(200).json({ ok: true, message: "Logout successful" });
