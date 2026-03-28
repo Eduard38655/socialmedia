@@ -12,7 +12,7 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
 
-  
+
   if (typeof email !== "string" || typeof password !== "string") {
     return res.status(400).json({
       ok: false,
@@ -106,18 +106,7 @@ router.get("/me", TokenVerifyAuth, async (req, res) => {
 // ──────────────────────────────────────────
 // GET /public/logout
 // ──────────────────────────────────────────
-router.get("/me", TokenVerifyAuth, (req, res) => {
-  if (!req.user && !req.login) {
-    return res.status(401).json({ ok: false, message: "Not authenticated" });
-  }
-
-  return res.status(200).json({
-    ok: true,
-    user: req.user || null,
-    login: req.login || null,
-  });
-});
-
+ 
 router.get("/logout", (req, res) => {
   res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "none" });
   return res.status(200).json({ ok: true, message: "Logout successful" });

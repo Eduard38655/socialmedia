@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 
 export const UserDataContext = createContext();
@@ -6,13 +6,13 @@ export const UserDataContext = createContext();
 export function UserDataProvider({ children }) {
 
     const [Profile, setProfileData] = useState({});
-    useEffect(() => {
+   /* useEffect(() => {
 
         async function GetUserDetails() {
 
             try {
 
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/public/me`,
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/ private/Profile`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -36,7 +36,7 @@ export function UserDataProvider({ children }) {
         GetUserDetails();
 
     }, []);
-
+*/
     return (<>
         <UserDataContext.Provider value={{ Profile, setProfileData }}>
             {children}
