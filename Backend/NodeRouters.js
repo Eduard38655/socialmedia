@@ -26,15 +26,13 @@ const __dirname = path.dirname(__filename);
 
 const allowedOrigins = [
   "https://gorgeous-lebkuchen-0e9856.netlify.app", // la que ya tienes
-  "https://TU-URL-REAL.netlify.app",               // ← agrega la tuya aquí
+  // ← agrega la tuya aquí
   "https://eduard38655.github.io",
   "http://localhost:3000",
   "http://localhost:5173",
-  "https://gorgeous-lebkuchen-0e9856.netlify.app/"
 ];
 
 const corsOptions = {
-
   origin: function (origin, callback) {
     if (!origin) return callback(null, true); // Postman / mobile / server requests
     if (allowedOrigins.includes(origin)) {
@@ -52,15 +50,15 @@ app.use(cors(corsOptions));
 // app.options("/*", cors(corsOptions)); // no se usa: app.use(cors()) cubre preflight en Express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
+
 app.use(cookieParser());
 
 const io = new Server(server, {
   cors: {
     origin: [
       "https://gorgeous-lebkuchen-0e9856.netlify.app",
-      "https://TU-URL-REAL.netlify.app",
-      "https://gorgeous-lebkuchen-0e9856.netlify.app/", // ← aquí también
+
+      // ← aquí también
       "https://eduard38655.github.io",
       "http://localhost:3000",
       "http://localhost:5173",
@@ -183,6 +181,7 @@ app.use("/private", PutMessage);
 app.use("/private", Update_Group_Messages);
 // Levantar servidor
 
+app.use(express.static(path.join(__dirname, "public")));
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
