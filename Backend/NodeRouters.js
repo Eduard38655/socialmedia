@@ -29,6 +29,8 @@ const allowedOrigins = [
   "https://Eduard38655.github.io",
   "http://localhost:3000",
   "http://localhost:5173",
+  "https://eduard38655.github.io/socialmedia/",
+  "https://socialmedia-khe0.onrender.com"
 ];
 const corsOptions = {
   origin: function (origin, callback) {
@@ -56,6 +58,8 @@ const io = new Server(server, {
       "https://Eduard38655.github.io",
       "http://localhost:3000",
       "http://localhost:5173",
+      "https://eduard38655.github.io/socialmedia/",
+      "https://socialmedia-khe0.onrender.com"
     ],
     credentials: true,
   },
