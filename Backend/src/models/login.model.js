@@ -34,7 +34,11 @@ router.post("/login", async (req, res) => {
     });
   }
 
+
   try {
+
+
+    
     /* ② Buscar usuario */
     const loginUser = await db.logins.findUnique({
       where: { username: emailClean,password: passwordClean },
