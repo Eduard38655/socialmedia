@@ -23,13 +23,13 @@ function LoginPage() {
       const data = await res.json();
       console.log(data);
 
-      if (data.ok) {
+    
         navigate("/dashboard/@me");
-      } else {
-        console.log({ message: data.message, login: data.login }, "{ message: data.message, login: data.login }");
+       
+        console.log(data);
 
         setError("root", { message: data.message, login: data.login });
-      }
+       
     } catch {
       setError("root", { message: "Connection error — check your server" });
     }
