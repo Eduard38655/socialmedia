@@ -12,6 +12,7 @@ function LoginPage() {
 
   const onSubmit = async ({ email, password }) => {
     try {
+      console.log("API URL:", import.meta.env.VITE_API_URL); // ← agrega esto
       const res = await fetch(`${import.meta.env.VITE_API_URL}/public/login`, {
         method: "POST",
         credentials: "include",
@@ -24,8 +25,8 @@ function LoginPage() {
       if (data.ok) {
         navigate("/dashboard/@me");
       } else {
-        console.log({ message: data.message, login: data.login },"{ message: data.message, login: data.login }");
-        
+        console.log({ message: data.message, login: data.login }, "{ message: data.message, login: data.login }");
+
         setError("root", { message: data.message, login: data.login });
       }
     } catch {
