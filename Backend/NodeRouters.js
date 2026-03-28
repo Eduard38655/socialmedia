@@ -174,6 +174,14 @@ app.use("/private", PutMessage);
 app.use("/private", Update_Group_Messages);
 // Levantar servidor
 
+app.get("/ping", (req, res) => {
+  res.json({ 
+    ok: true, 
+    message: "servidor funcionando",
+    rutas_registradas: ["/public/login", "/public/logout"]
+  });
+});
+
 app.use(express.static(path.join(__dirname, "public")));
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
