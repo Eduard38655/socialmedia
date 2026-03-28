@@ -5,7 +5,7 @@ export const UserDataContext = createContext();
 
 export function UserDataProvider({ children }) {
 
-    const [Profile, setProfileData] = useState({});
+    const [Profile, setProfileData] = useState([]);
   useEffect(() => {
 
         async function GetUserDetails() {
@@ -24,8 +24,11 @@ export function UserDataProvider({ children }) {
 
                 const data = await response.json();
  
-
-                setProfileData([data ]);
+                if (data?.ok) {
+                    setProfileData([data]);
+                } else {
+                    setProfileData([]);
+                }
 
             } catch (error) {
                 console.error(error);

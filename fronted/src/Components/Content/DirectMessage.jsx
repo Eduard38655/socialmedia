@@ -33,7 +33,7 @@ function DirectMessage() {
 
   // ENTRAR AL ROOM
   useEffect(() => {
-    const id = Profile[0].userid
+    const id = Profile?.[0]?.userid;
     if (!senderid || !id) return;
 
     const room = `chat_${[id, senderid].sort().join("_")}`;
