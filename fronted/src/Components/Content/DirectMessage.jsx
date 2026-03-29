@@ -186,6 +186,7 @@ function DirectMessage() {
                 key={msg.id ?? `${msg.sender_id}-${index}`}
               >
                 <div className={styles.message_container_details}>
+                
                   <img
                     src={user?.img}
                     alt="avatar"

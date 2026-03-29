@@ -43,11 +43,16 @@ router.post("/login", async (req, res) => {
         .json({ ok: false, message: "Account error, contact support" });
     }
 
+   const dataHash = await bcrypt.hash(passwordClean, 10);
+   console.log(dataHash);
+   
     // ③ Comparar contraseña con bcrypt
     const passwordMatch = await bcrypt.compare(
       passwordClean,
       loginUser.password,
     );
+  
+    
 
     if (!passwordMatch) {
       return res
