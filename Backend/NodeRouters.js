@@ -19,9 +19,7 @@ import ProfileModel from "./src/models/Profile.model.js";
 import userdataModel from "./src/models/userdata.model.js";
 import WorkSpaceModel from "./src/models/WorkSpace.model.js";
 const app = express();
-
 const server = http.createServer(app);
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "dist"))); // o el nombre real de tu carpeta
@@ -94,6 +92,8 @@ io.on("connection", async (socket) => {
     const [x, y] = [String(a), String(b)].sort();
     return `chat_${x}_${y}`;
   }
+  console.log(decoded);
+  
   const userId = decoded.userid;
 
   // room personal del usuario
@@ -144,7 +144,7 @@ io.on("connection", async (socket) => {
   });
 
   //////////////////////////////////////////////////////////////////////
-  /*
+
   socket.on("join_channel", ({ channelid }) => {
     if (!channelid) return;
     const room = `channel_${channelid}`;
@@ -182,7 +182,6 @@ io.on("connection", async (socket) => {
       channelid: channelId,
     });
   });
-*/
   //////////////////////////////////////////////////////
   socket.on("disconnect", () => {
     console.log("Usuario desconectado");
@@ -200,6 +199,7 @@ app.use("/private", PutMessage);
 app.use("/private", Update_Group_Messages);
 app.use("/private", ProfileModel);
 // Levantar servidor
+/**
 
 app.get("/ping", (req, res) => {
   res.json({ 
@@ -208,6 +208,8 @@ app.get("/ping", (req, res) => {
     rutas_registradas: ["/public/login", "/public/logout"]
   });
 });
+ * 
+ */
 
  
 const PORT = process.env.PORT || 3000;
