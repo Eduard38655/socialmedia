@@ -1,0 +1,1 @@
+import{u as o}from"./index-SbmXIu0k.js";function i(e){const t=o();return async a=>{try{await(await fetch(`https://socialmedia-khe0.onrender.com/private/Start_Message_ByID/${a}`,{method:"POST",credentials:"include",headers:{"Content-Type":"application/json"}})).json(),typeof e=="function"&&e(!1),t(`/dashboard/@me/message/${a}`)}catch(s){console.error(s)}}}export{i as u};
