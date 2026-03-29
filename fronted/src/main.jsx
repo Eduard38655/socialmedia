@@ -1,5 +1,4 @@
 import { createRoot } from 'react-dom/client';
-import { HashRouter } from 'react-router-dom';
 import { GroupDataProvider } from "../src/Context/GroupDetailsContext.jsx";
 import { ThemeProvider } from "../src/Context/ThemeContext.jsx";
 import { UserDataProvider } from "../src/Context/UserDataContext.jsx";
@@ -10,7 +9,7 @@ import "./i18n";
 
 
 createRoot(document.getElementById('root')).render(
-  <  HashRouter  basename="/socialmedia/"  >
+  < BrowserRouter basename="/socialmedia/"  >
     <ThemeProvider >
       <UserDataProvider>
         < GroupDataProvider >
@@ -22,6 +21,6 @@ createRoot(document.getElementById('root')).render(
       </UserDataProvider>
 
     </ThemeProvider >
-  </ HashRouter >
+  </BrowserRouter>
 
 )
