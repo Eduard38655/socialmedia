@@ -29,21 +29,19 @@ export function UserDataProvider({ children }) {
 
 
                 const data = await response.json();
-               
+                console.log(data,"daha");
                 
-                console.log(data,"data");
-                
-                                if (data?.ok && data?.user) {
-                                    setProfileData(data.user);
-                                    setError(null);
-                                } else {
-                                    setProfileData(null);
-                                    setError(data?.message || "Failed to load user data");
-                                }
+                if (data?.ok && data?.user) {
+                    setProfileData(data.user);
+                    setError(null);
+                } else {
+                    setProfileData(null);
+                    setError(data?.message || "Failed to load user data");
+                }
             } catch (err) {
                 console.error("Error fetching user data:", err);
                 setProfileData(null);
-                setError(err.message); 
+                setError(err.message);
             }
         }
 
@@ -52,7 +50,7 @@ export function UserDataProvider({ children }) {
     }, []);
 
     return (<>
-        <UserDataContext.Provider value={{ Profile, setProfileData, isLoading, error,setIsLoading }}>
+        <UserDataContext.Provider value={{ Profile, setProfileData, isLoading, error, setIsLoading }}>
             {children}
         </UserDataContext.Provider>
     </>)

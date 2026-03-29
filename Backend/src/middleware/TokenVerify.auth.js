@@ -28,9 +28,9 @@ export default async function authMiddleware(req, res, next) {
 
     // Buscar login en DB (ajusta include según tu schema)
     const login = await prisma.logins.findUnique({
-      where: { loginid: decoded.loginid },
-      include: { users: true }, // ajusta a 'user' si tu schema usa singular
-    });
+  where: { loginid: decoded.loginid },
+  include: { users: true },
+});
 
     if (!login) {
       return res.status(401).json({ ok: false, message: "Login not found" });

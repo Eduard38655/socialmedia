@@ -7,20 +7,23 @@ const router = express.Router();
 // ──────────────────────────────────────────
 // POST /public/login
 // ──────────────────────────────────────────
- 
- 
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (typeof email !== "string" || typeof password !== "string") {
-    return res.status(400).json({ ok: false, message: "Email and password are required" });
+    return res
+      .status(400)
+      .json({ ok: false, message: "Email and password are required" });
   }
 
   const emailClean = email.trim();
   const passwordClean = password.trim();
 
   if (!emailClean || !passwordClean) {
-    return res.status(400).json({ ok: false, message: "Email and password cannot be empty" });
+    return res
+      .status(400)
+      .json({ ok: false, message: "Email and password cannot be empty" });
   }
 
   try {
@@ -35,14 +38,21 @@ router.post("/login", async (req, res) => {
     }
 
     if (typeof loginUser.password !== "string" || !loginUser.password) {
-      return res.status(500).json({ ok: false, message: "Account error, contact support" });
+      return res
+        .status(500)
+        .json({ ok: false, message: "Account error, contact support" });
     }
 
     // ③ Comparar contraseña con bcrypt
-    const passwordMatch = await bcrypt.compare(passwordClean, loginUser.password);
+    const passwordMatch = await bcrypt.compare(
+      passwordClean,
+      loginUser.password,
+    );
 
     if (!passwordMatch) {
-      return res.status(401).json({ ok: false, message: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ ok: false, message: "Invalid credentials" });
     }
 
     // ④ Generar token
@@ -52,7 +62,9 @@ router.post("/login", async (req, res) => {
       userid: loginUser.userid,
     };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "24h",
+    });
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -64,15 +76,12 @@ router.post("/login", async (req, res) => {
     // ⑤ Responder sin exponer la contraseña
     const { password: _, ...userWithoutPassword } = loginUser;
     return res.status(200).json({ ok: true, user: userWithoutPassword });
-
   } catch (error) {
     console.error("LOGIN ERROR:", error);
     return res.status(500).json({ ok: false, message: error.message });
   }
 });
 
- 
- 
 // ──────────────────────────────────────────
 // GET /public/logout
 // ──────────────────────────────────────────

@@ -81,13 +81,15 @@ function WorkspaceMembers(params) {
 
                 {Profile && Profile.length > 0 ? (
                     <>
+                 
                         {Profile.map((User, index) => (
                             <div key={index} onClick={() => SetShowSettingPage(true)}>
+                                
                                 <img style={{ width: "50px", height: "50px", borderRadius: "10px" }} src={User.img} alt="" />
                             </div>
                         ))}
                     </>
-                ) : (<></>)}
+                ) : (<>    dsssss</>)}
             </div>
         </aside>
         {NewWorkSpace == true ? <AddWorkSpaces SetNewWorkSpace={SetNewWorkSpace} NewWorkSpace={NewWorkSpace} /> : <></>}
