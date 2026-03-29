@@ -31,8 +31,8 @@ export function UserDataProvider({ children }) {
                 const data = await response.json();
                 console.log(data,"daha");
                 
-                if (data?.ok && data?.user) {
-                    setProfileData(data.user);
+                if (data?.ok) {
+                    setProfileData([data.user]);
                     setError(null);
                 } else {
                     setProfileData(null);

@@ -107,7 +107,6 @@
 .navbarGroup {
   width: auto;
   height: auto;
- 
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -116,16 +115,16 @@
   scrollbar-width: none; /* Firefox */
 }
 .navbarGroup ul {
-  height: auto;
+  height: 100vh;
   text-decoration: none;
   list-style: none;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+   
   gap: 10px;
 
   padding-top: 20px;
+  
 }
 
 button:focus{

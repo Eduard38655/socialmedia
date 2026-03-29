@@ -79,17 +79,17 @@ function WorkspaceMembers(params) {
 
                 <button onClick={(e) => { SetNewWorkSpace(true) }}><i className="fa-solid fa-circle-plus"></i></button>
 
-                {Profile && Profile.length > 0 ? (
+                {Profile && Profile.length > 0 ?(
                     <>
 
                         {Profile.map((profile, index) => (
                             <div key={index} onClick={() => SetShowSettingPage(true)}>
 
-                                <img style={{ width: "50px", height: "50px", borderRadius: "10px" }} src={profile.user.img} alt="" />
+                                <img style={{ width: "50px", height: "50px", borderRadius: "10px" }} src={profile.img} alt="" title={profile.name + " " + profile.last_name} />
                             </div>
                         ))}
                     </>
-                ) : (<>   </>)}
+                ) : (<></>)}
             </div>
         </aside>
         {NewWorkSpace == true ? <AddWorkSpaces SetNewWorkSpace={SetNewWorkSpace} NewWorkSpace={NewWorkSpace} /> : <></>}
