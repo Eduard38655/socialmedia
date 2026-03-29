@@ -10,17 +10,15 @@ import "./i18n";
 
 
 createRoot(document.getElementById('root')).render(
-  < HashRouter    >
+  < HashRouter>
     <ThemeProvider >
       <UserDataProvider>
         < GroupDataProvider >
           <UserSidebarProvider>
-
             <App />
           </UserSidebarProvider>
         </ GroupDataProvider >
       </UserDataProvider>
-
     </ThemeProvider >
   </HashRouter>
 

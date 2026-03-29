@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
- 
+
 
 const LoginPage = lazy(() => import("../src/Pages/LoginPage"));
 const DashboardLayout = lazy(() => import("../src/Pages/DashboardLayout.jsx"));
@@ -29,13 +29,13 @@ export default function App() {
 
 
         <Route path="/dashboard/@me" element={<DirectMessagesPage />}>
-          <Route index element={ <WelcomePage/>} />
+          <Route index element={<WelcomePage />} />
 
           <Route path="message/:senderid" element={<DirectMessage />} />
 
 
         </Route>
-          <Route path="/dashboard/settings" element={<SettingsPage />} />
+        <Route path="/dashboard/settings" element={<SettingsPage />} />
 
 
 
