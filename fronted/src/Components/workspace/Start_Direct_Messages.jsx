@@ -14,11 +14,8 @@ function Sidebar() {
   const [actions, setActions] = useState("");
 
   useEffect(() => {
-     if (groupid=="") {
-            console.log("groupid undefined, skip fetch"); // confirma el problema
-            return;
-        }
-    fetch(`${import.meta.env.VITE_API_URL}/private/channel_members/${groupid}`, {
+ 
+    fetch(`${import.meta.env.VITE_API_URL}/private/channel_members/${8}`, {
       method: "GET",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
