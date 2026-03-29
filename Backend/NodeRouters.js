@@ -18,12 +18,14 @@ import loginModel from "./src/models/login.model.js";
 import ProfileModel from "./src/models/Profile.model.js";
 import userdataModel from "./src/models/userdata.model.js";
 import WorkSpaceModel from "./src/models/WorkSpace.model.js";
-
 const app = express();
+
 const server = http.createServer(app);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, "dist"))); // o el nombre real de tu carpeta
+ 
 
 const allowedOrigins = [
   "https://eduard38655.github.io",
@@ -31,131 +33,161 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
   "https://eduard38655.github.io/socialmedia/",
-  "https://socialmedia-khe0.onrender.com",
+  "https://socialmedia-khe0.onrender.com"
 ];
-
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log("ORIGIN:", origin); // ← agrega esto
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    return callback(new Error("Not allowed by CORS"));
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("Not allowed by CORS"));
+    }
   },
   credentials: true,
 };
 
 app.use(cors(corsOptions));
+// app.options("/*", cors(corsOptions)); // no se usa: app.use(cors()) cubre preflight en Express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(cookieParser());
-
-// ── Socket.io ────────────────────────────────────────────────
 const io = new Server(server, {
-  cors: { origin: allowedOrigins, credentials: true },
+  cors: {
+    origin: [
+      "https://eduard38655.github.io",
+      "https://Eduard38655.github.io",
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://eduard38655.github.io/socialmedia/",
+      "https://socialmedia-khe0.onrender.com"
+    ],
+    credentials: true,
+  },
 });
-
-// Helper fuera del handler — se define una sola vez
-function getChatRoom(a, b) {
-  const [x, y] = [String(a), String(b)].sort();
-  return `chat_${x}_${y}`;
-}
-
 io.on("connection", async (socket) => {
-  // Verificar token
-  const token = socket.handshake.headers.cookie
+  const cookies = socket.handshake.headers.cookie;
+
+  const token = cookies
     ?.split(";")
     .find((c) => c.trim().startsWith("token="))
     ?.split("=")[1];
 
-  if (!token) return socket.disconnect();
-
-  let decoded;
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch {
-    return socket.disconnect();
+  if (!token) {
+    socket.disconnect();
+    return;
   }
 
-  const userId = decoded.userid;
-  console.log("Usuario conectado:", socket.id, "| userId:", userId);
+  let decoded;
 
-  // Room personal del usuario
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    socket.disconnect();
+    return;
+  }
+
+  console.log("Usuario conectado:", socket.id);
+  function getChatRoom(a, b) {
+    const [x, y] = [String(a), String(b)].sort();
+    return `chat_${x}_${y}`;
+  }
+  const userId = decoded.userid;
+
+  // room personal del usuario
   socket.join(String(userId));
 
-  // ── Direct messages ──────────────────────────────────────
   socket.on("join_room", ({ receiverId }) => {
     const room = getChatRoom(userId, receiverId);
+
     socket.join(room);
-    console.log(`join_room: ${socket.id} → room: ${room}`);
+
+    console.log("User joined room:", room);
+  });
+
+    console.log("Usuario conectado:", socket.id);
+  function getChatRoom(a, b) {
+    const [x, y] = [String(a), String(b)].sort();
+    return `chat_${x}_${y}`;
+  }
+  
+
+  // room personal del usuario
+  socket.join(String(userId));
+
+  socket.on("join_room", ({ receiverId }) => {
+    const room = getChatRoom(userId, receiverId);
+
+    socket.join(room);
+
+    console.log("User joined room:", room);
   });
 
   socket.on("send_message", async (data) => {
-    try {
-      const receiverId = Number(data.receiverId);
-      const room = getChatRoom(userId, receiverId);
+    const receiverId = Number(data.receiverId);
 
-      // Incluir datos del sender para que el frontend los tenga en tiempo real
-      const savedMessage = await db.direct_messages.create({
-        data: {
-          message: data.message,
-          sender_id: Number(userId),
-          receiver_id: receiverId,
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
-        include: {
-          users_direct_messages_sender_idTousers: true,
-        },
-      });
+    const room = getChatRoom(userId, receiverId);
 
-      io.to(room).emit("receive_message", savedMessage);
-    } catch (error) {
-      console.error("send_message error:", error);
-    }
+    const SaveMessages = await db.direct_messages.create({
+      data: {
+        message: data.message,
+        sender_id: Number(userId),
+        receiver_id: receiverId,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    });
+
+    io.to(room).emit("receive_message", SaveMessages);
   });
 
-  // ── Channel messages ─────────────────────────────────────
+  //////////////////////////////////////////////////////////////////////
   socket.on("join_channel", ({ channelid }) => {
     if (!channelid) return;
     const room = `channel_${channelid}`;
     socket.join(room);
-    console.log(`join_channel: ${socket.id} → room: ${room}`);
+    console.log(`Socket ${socket.id} joined channel room: ${room}`);
   });
 
   socket.on("send_message_room", async (data) => {
-    try {
-      const channelId = Number(data.channelid);
-      if (!channelId) return console.warn("send_message_room sin channelid", data);
+    // data.channelid es el id del channel
+    const channelId = Number(data.channelid);
 
-      // Incluir datos del usuario para que el frontend los tenga en tiempo real
-      const savedMessage = await db.messages.create({
-        data: {
-          channelid: channelId,
-          status: "unread",
-          userid: userId,
-          message: data.message,
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
-        include: {
-          users: true,
-        },
-      });
-
-      io.to(`channel_${channelId}`).emit("receive_message_room", {
-        ...savedMessage,
-        channelid: channelId,
-      });
-    } catch (error) {
-      console.error("send_message_room error:", error);
+    if (!channelId) {
+      console.warn("send_message_room without channelid", data);
+      return;
     }
+
+    // Guardar mensaje en la tabla de messages (ya lo tenías)
+    const SaveMessages = await db.messages.create({
+      data: {
+        channelid: channelId,
+        status: "unread",
+        userid: userId,
+        message: data.message,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    });
+
+    // Room del channel: channel_<id>
+    const room = `channel_${channelId}`;
+
+    // Emitir al evento que el cliente espera para channels
+    io.to(room).emit("receive_message_room", {
+      ...SaveMessages,
+      channelid: channelId,
+    });
   });
 
+  //////////////////////////////////////////////////////
   socket.on("disconnect", () => {
-    console.log("Usuario desconectado:", socket.id);
+    console.log("Usuario desconectado");
   });
 });
 
-// ── Rutas HTTP ───────────────────────────────────────────────
 app.use("/public", loginModel);
 app.use("/private", userdataModel);
 app.use("/private", ChannelsModel);
@@ -166,14 +198,17 @@ app.use("/private", DeleteMessage);
 app.use("/private", PutMessage);
 app.use("/private", Update_Group_Messages);
 app.use("/private", ProfileModel);
+// Levantar servidor
 
 app.get("/ping", (req, res) => {
-  res.json({ ok: true, message: "servidor funcionando" });
+  res.json({ 
+    ok: true, 
+    message: "servidor funcionando",
+    rutas_registradas: ["/public/login", "/public/logout"]
+  });
 });
 
-// Static al final para no interceptar rutas API
-app.use(express.static(path.join(__dirname, "dist")));
-
+ 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

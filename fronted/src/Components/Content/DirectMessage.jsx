@@ -16,9 +16,14 @@ function DirectMessage() {
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
 
+  useEffect(() => {
+    console.log(Profile,"dd");
+    
+  },[Profile]  )
   // RECIBIR MENSAJES
   useEffect(() => {
     function handleReceive(data) {
+      console.log(data)
       if (data.sender_id == senderid || data.receiver_id == senderid) {
         setMessages((prev) => [...prev, data]);
       }
@@ -49,6 +54,7 @@ function DirectMessage() {
 
   // ENVIAR MENSAJE
   function SendMessage() {
+    
     if (!message.trim()) return;
 
     
