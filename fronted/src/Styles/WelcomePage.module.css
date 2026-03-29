@@ -80,7 +80,7 @@
   height: 100vh;
   background-color: var(--background);
   color: var(--foreground);
-  font-family: "Roboto", sans-serif;
+
   font-weight: 550;
   overflow: hidden;
 }

@@ -166,10 +166,13 @@ export default function LoginPage() {
 
 
             <label className={styles.remember}>
-              
+
               <input type="checkbox" />
               <span>Keep me signed in for 30 days</span>
             </label>
+
+
+            
 
             {errors.root && <p className={styles.rootErr}>{errors.root.message}</p>}
 
