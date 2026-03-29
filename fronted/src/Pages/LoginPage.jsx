@@ -163,7 +163,10 @@ export default function LoginPage() {
               {errors.password && <span className={styles.errmsg}>{errors.password.message}</span>}
             </div>
 
+
+
             <label className={styles.remember}>
+              
               <input type="checkbox" />
               <span>Keep me signed in for 30 days</span>
             </label>
