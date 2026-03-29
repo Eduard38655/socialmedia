@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import styles from "../../Styles/ChannelNav.module.css";
+import styles from "../../Styles/DirecMessage.module.css";
 import StartNewChat from "../Chat/StartNewChat";
 
 function Sidebar() {
@@ -11,10 +11,13 @@ function Sidebar() {
   const [messages, setMessages] = useState([]);
   const [profile, setProfile] = useState(null);
   const [showDirectMessage, setShowDirectMessage] = useState(false);
-  const [Actions, setActions] = useState("");
+  const [actions, setActions] = useState("");
 
   useEffect(() => {
-    // Channels
+     if (!groupid) {
+            console.log("groupid undefined, skip fetch"); // confirma el problema
+            return;
+        }
     fetch(`${import.meta.env.VITE_API_URL}/private/channel_members/${groupid}`, {
       method: "GET",
       credentials: "include",
@@ -26,7 +29,6 @@ function Sidebar() {
       })
       .catch(console.error);
 
-    // Direct messages${import.meta.env.VITE_API_URL}
     fetch(`${import.meta.env.VITE_API_URL}/private/Direct_Messages`, {
       method: "GET",
       credentials: "include",
@@ -44,7 +46,7 @@ function Sidebar() {
     navigate(`/dashboard/@me/message/${userId}`);
   }
 
-  function DeleteMessage(userId) {
+  function deleteMessage(userId) {
     fetch(`${import.meta.env.VITE_API_URL}/private/Delete_Direct_Messages/${userId}`, {
       method: "DELETE",
       credentials: "include",
@@ -52,11 +54,7 @@ function Sidebar() {
     })
       .then((res) => res.json())
       .then(() => {
-       
-        setMessages((prev) =>
-          prev.filter((u) => u?.userid !== userId)
-        );
-
+        setMessages((prev) => prev.filter((u) => u?.userid !== userId));
         navigate("/dashboard/@me");
       })
       .catch(console.error);
@@ -64,9 +62,9 @@ function Sidebar() {
 
   return (
     <>
-      <aside className={styles.container_Channel}>
-        <div className={styles.Header_container}>
-          <div className={styles.Header}>
+      <aside className={styles.sidebar}>
+        <div className={styles.sidebarBody}>
+          <div className={styles.sidebarHeader}>
             <label>Direct Messages</label>
 
             <button
@@ -75,63 +73,60 @@ function Sidebar() {
                 setShowDirectMessage(true);
                 setActions("AddChat");
               }}
-            >
+            > 
               +
             </button>
           </div>
 
           <nav>
-            <ul className={styles.userList}>
-              {(messages || [])
-                .filter(Boolean)  
-                .map((user, index) => (
-                  <li key={`user-${user?.userid}-${index}`} className={styles.userInfo}>
-                    
-                    <button
-                      type="button"
-                      className={styles.userItem}
-                      onClick={() => handleViewMessages(user?.userid)}
+            <ul className={styles.conversationList}>
+              {(messages || []).filter(Boolean).map((user, index) => (
+                <li
+                  key={`user-${user?.userid}-${index}`}
+                  className={styles.conversationItem}
+                >
+                  <button
+                    type="button"
+                    className={styles.conversationButton}
+                    onClick={() => handleViewMessages(user?.userid)}
+                  >
+                    <div className={styles.avatarWrapper}>
+                      <img
+                        className={styles.avatarImage}
+                        src={user?.img || "/default-avatar.png"}
+                        alt={`${user?.name || ""} ${user?.last_name || ""}`}
+                      />
+
+                      <span
+                        className={`${styles.statusDot} ${
+                          user?.status === "ONLINE"
+                            ? styles.online
+                            : user?.status === "OFFLINE"
+                            ? styles.offline
+                            : user?.status === "BUSY"
+                            ? styles.busy
+                            : ""
+                        }`}
+                      />
+                    </div>
+
+                    <p
+                      className={styles.userName}
+                      title={`${user?.name || ""} ${user?.last_name || ""}`}
                     >
-                      <div className={styles.avatarContainer}>
-                        
-                
-                        <img
-                          className={styles.avatar}
-                          src={user?.img || "/default-avatar.png"}
-                          alt={`${user?.name || ""} ${user?.last_name || ""}`}
-                        />
+                      {user?.name} {user?.last_name}
+                    </p>
+                  </button>
 
-                        <span
-                          className={`${styles.status} ${
-                            user?.status === "ONLINE"
-                              ? styles.online
-                              : user?.status === "OFFLINE"
-                              ? styles.offline
-                              : user?.status === "BUSY"
-                              ? styles.busy
-                              : ""
-                          }`}
-                        />
-                      </div>
-
-                      <p
-                        className={styles.userLine}
-                        title={`${user?.name || ""} ${user?.last_name || ""}`}
-                      >
-                        {user?.name} {user?.last_name}
-                      </p>
-                    </button>
-
-                
-                    <button
-                      className={styles.DeleteMessage_btn}
-                      onClick={() => DeleteMessage(user?.userid)}
-                    >
-                      <i className="fa-solid fa-xmark"></i>
-                    </button>
-
-                  </li>
-                ))}
+                  <button
+                    type="button"
+                    className={styles.deleteButton}
+                    onClick={() => deleteMessage(user?.userid)}
+                  >
+                    <i className="fa-solid fa-xmark"></i>
+                  </button>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
@@ -139,8 +134,7 @@ function Sidebar() {
 
       {showDirectMessage && (
         <StartNewChat
-          Actions={Actions}
-        
+          Actions={actions}
           showDirectMessage={showDirectMessage}
           setShowDirectMessage={setShowDirectMessage}
           onViewMessages={handleViewMessages}

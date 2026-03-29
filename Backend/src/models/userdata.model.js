@@ -2,7 +2,7 @@ import express from "express";
 import db from "../../prisma/db.js";
 import TokenVerifyAuth from "../middleware/TokenVerify.auth.js";
 const router = express.Router();
-
+/*
 router.post("/", TokenVerifyAuth, async (req, res) => {
   try {
     const { userid } = req.cookies;
@@ -22,7 +22,7 @@ router.post("/", TokenVerifyAuth, async (req, res) => {
       .json({ Error: "There was an error connectin to the server" });
   }
 });
-
+*/
 router.get("/Global_users", TokenVerifyAuth, async (req, res) => {
   try {
     const GlobalUsers = await db.users.findMany({

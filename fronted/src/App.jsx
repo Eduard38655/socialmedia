@@ -1,12 +1,14 @@
 import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
+ 
 
 const LoginPage = lazy(() => import("../src/Pages/LoginPage"));
-const DashboardLayout = lazy(() => import("../../fronted/src/Pages/DashboardLayout.jsx"));
+const DashboardLayout = lazy(() => import("../src/Pages/DashboardLayout.jsx"));
 const DirectMessage = lazy(() => import("../src/Components/Content/DirectMessage"));
 const GroupMessages = lazy(() => import("../src/Components/Content/GroupMessages"));
 const DirectMessagesPage = lazy(() => import("../src/Pages/DirectMessagesPage"));
 const SettingsPage = lazy(() => import("../src/Pages/SettingPage.jsx"));
+const WelcomePage = lazy(() => import("../src/Components/OhersComp/WelcomePage.jsx"));
 export default function App() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -14,7 +16,7 @@ export default function App() {
         <Route path="/" element={<LoginPage />} />
 
         <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<div>Selecciona una conversación</div>} />
+          <Route index element={<WelcomePage />} />
 
 
 
@@ -27,7 +29,7 @@ export default function App() {
 
 
         <Route path="/dashboard/@me" element={<DirectMessagesPage />}>
-          <Route index element={<div>Selecciona una conversación</div>} />
+          <Route index element={ <WelcomePage/>} />
 
           <Route path="message/:senderid" element={<DirectMessage />} />
 

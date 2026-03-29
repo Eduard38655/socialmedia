@@ -33,19 +33,19 @@ function DirectMessage() {
 
   // ENTRAR AL ROOM
   useEffect(() => {
-    const id = Profile?.[0]?.userid;
-    if (!senderid || !id) return;
+    if (!senderid || !Profile?.userid) return;
 
-    const room = `chat_${[id, senderid].sort().join("_")}`;
+    const room = `chat_${[Profile.userid, senderid].sort().join("_")}`;
 
     socket.emit("join_room", {
       receiverId: senderid,
+      userId: Profile.userid,
     });
 
     return () => {
       socket.emit("leave_room", room);
     };
-  }, [senderid, Profile]);
+  }, [senderid, Profile?.userid]);
 
   // ENVIAR MENSAJE
   function SendMessage() {

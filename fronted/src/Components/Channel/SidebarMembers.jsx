@@ -40,11 +40,13 @@ function SideBarMembers() {
   return (
     <aside className={styles.Aside_Header_container}>
       <ul className={styles.userList}>
+ 
         {members.map(({ users: user }) => (
           <li key={user.userid} className={styles.user}>
             <button onClick={() => startMessages(user.userid)}>
               <div className={styles.avatarContainer}>
                 <img src={user.img} alt={user.name} />
+                
                 <span
                   className={`${styles.status} ${
                     STATUS_STYLES[user.status] || ""

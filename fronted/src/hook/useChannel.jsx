@@ -5,10 +5,14 @@ export function useChannels(groupid, setGroup_Name) {
     const [openSections, setOpenSections] = useState({});
 
     useEffect(() => {
-        if (!groupid) return;
+        if (!groupid) {
+            console.log("groupid undefined, skip fetch"); // confirma el problema
+            return;
+        }
 
         const fetchChannels = async () => {
             try {
+
                 const res = await fetch(
                     `${import.meta.env.VITE_API_URL}/private/channel_members/${groupid}`,
                     {
@@ -19,7 +23,7 @@ export function useChannels(groupid, setGroup_Name) {
                 );
 
                 const data = await res.json();
- 
+
 
                 const workspace = data?.data?.[0];
                 const channelSections = workspace?.channel_sections || [];
@@ -44,7 +48,7 @@ export function useChannels(groupid, setGroup_Name) {
             }
         };
 
-        
+
 
         fetchChannels();
     }, [groupid, setGroup_Name]);

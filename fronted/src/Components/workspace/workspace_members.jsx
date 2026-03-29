@@ -14,10 +14,12 @@ function WorkspaceMembers(params) {
     const [workspace_members, setworkspace_members] = useState([])
     const { Profile } = useContext(UserDataContext)
 
-
+    useEffect(() => {
+        console.log(Profile, "Profile ");
+    }, [Profile])
     useEffect(() => {
         const GetDataUser = async () => {
-            try { 
+            try {
                 const response = await fetch(`${import.meta.env.VITE_API_URL}/private/workspace_members`, {
                     method: "GET",
                     credentials: "include",
@@ -73,6 +75,8 @@ function WorkspaceMembers(params) {
 
             </nav>
             <div className={styles.Profiles_Section_container}>
+
+
                 <button onClick={(e) => { SetNewWorkSpace(true) }}><i className="fa-solid fa-circle-plus"></i></button>
 
                 {Profile && Profile.length > 0 ? (

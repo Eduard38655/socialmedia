@@ -13,7 +13,7 @@ function LoginPage() {
 
   const onSubmit = async ({ email, password }) => {
     try {
-      console.log("API URL:", import.meta.env.VITE_API_URL); // ← agrega esto
+      
       const res = await fetch(`${import.meta.env.VITE_API_URL}/public/login`, {
         method: "POST",
         credentials: "include",

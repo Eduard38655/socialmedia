@@ -15,6 +15,7 @@ import PutMessage from "./src/Messages/PutMessage.js";
 import ChannelsModel from "./src/models/Channels.model.js";
 import ChatsMessagesListModel from "./src/models/ChatsMessagesList.model.js";
 import loginModel from "./src/models/login.model.js";
+import ProfileModel from "./src/models/Profile.model.js";
 import userdataModel from "./src/models/userdata.model.js";
 import WorkSpaceModel from "./src/models/WorkSpace.model.js";
 const app = express();
@@ -178,6 +179,7 @@ app.use("/private", SendDirectMessage);
 app.use("/private", DeleteMessage);
 app.use("/private", PutMessage);
 app.use("/private", Update_Group_Messages);
+app.use("/private",ProfileModel )
 // Levantar servidor
 
 app.get("/ping", (req, res) => {
