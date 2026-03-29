@@ -68,12 +68,16 @@ const io = new Server(server, {
 io.on("connection", async (socket) => {
   const cookies = socket.handshake.headers.cookie;
 
-  const token = cookies
+  const cookieToken = cookies
     ?.split(";")
     .find((c) => c.trim().startsWith("token="))
     ?.split("=")[1];
 
+  const authToken = socket.handshake.auth?.token;
+  const token = authToken || cookieToken;
+
   if (!token) {
+    console.error("Socket auth failed: no token");
     socket.disconnect();
     return;
   }
@@ -83,17 +87,20 @@ io.on("connection", async (socket) => {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (error) {
+    console.error("Socket auth failed: token invalid", error.message);
     socket.disconnect();
     return;
   }
 
   console.log("Usuario conectado:", socket.id);
+
   function getChatRoom(a, b) {
     const [x, y] = [String(a), String(b)].sort();
     return `chat_${x}_${y}`;
   }
+
   console.log(decoded);
-  
+
   const userId = decoded.userid;
 
   // room personal del usuario
@@ -106,12 +113,6 @@ io.on("connection", async (socket) => {
 
     console.log("User joined room:", room);
   });
-
-    console.log("Usuario conectado:", socket.id);
-  function getChatRoom(a, b) {
-    const [x, y] = [String(a), String(b)].sort();
-    return `chat_${x}_${y}`;
-  }
   
 
   // room personal del usuario
