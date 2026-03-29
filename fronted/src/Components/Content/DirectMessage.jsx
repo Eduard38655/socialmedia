@@ -5,27 +5,36 @@ import styles from "../../Styles/ChatScreen.module.css";
 import dayjs from "../../utils/day.js";
 import { socket } from "../../utils/socket.js";
 import OptionsMessages from "../Chat/OptionsMessages.jsx";
+
 function DirectMessage() {
   const { senderid } = useParams();
-
   const { Profile } = useContext(UserDataContext);
+
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-
   const [openMenuId, setOpenMenuId] = useState(null);
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
 
+  const myUserId = Profile?.[0]?.userid;
+
   useEffect(() => {
-    console.log(Profile,"dd");
-    
-  },[Profile]  )
+    if (myUserId) {
+      console.log(myUserId, "dd");
+    }
+  }, [myUserId]);
+
   // RECIBIR MENSAJES
   useEffect(() => {
     function handleReceive(data) {
-      console.log(data)
+      console.log("Mensaje recibido:", data);
+
       if (data.sender_id == senderid || data.receiver_id == senderid) {
-        setMessages((prev) => [...prev, data]);
+        setMessages((prev) => {
+          const exists = prev.some((msg) => msg.id === data.id);
+          if (exists) return prev;
+          return [...prev, data];
+        });
       }
     }
 
@@ -38,28 +47,27 @@ function DirectMessage() {
 
   // ENTRAR AL ROOM
   useEffect(() => {
-    if (!senderid || !Profile?.userid) return;
-
-    const room = `chat_${[Profile.userid, senderid].sort().join("_")}`;
+    if (!senderid || !myUserId) return;
 
     socket.emit("join_room", {
       receiverId: senderid,
-      userId: Profile.userid,
+      userId: myUserId,
     });
 
     return () => {
-      socket.emit("leave_room", room);
+      socket.emit("leave_room", {
+        receiverId: senderid,
+        userId: myUserId,
+      });
     };
-  }, [senderid, Profile?.userid]);
+  }, [senderid, myUserId]);
 
   // ENVIAR MENSAJE
   function SendMessage() {
-    
     if (!message.trim()) return;
 
-    
     socket.emit("send_message", {
-      message: message,
+      message: message.trim(),
       receiverId: senderid,
     });
 
@@ -83,7 +91,6 @@ function DirectMessage() {
 
         const data = await response.json();
 
-
         if (data.ok) {
           setMessages(data.data);
         }
@@ -97,11 +104,11 @@ function DirectMessage() {
     }
   }, [senderid]);
 
-
   // EDITAR MENSAJE
   async function handleUpdateMessage(id) {
-    try {
+    if (!editText.trim()) return;
 
+    try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/private/Update_Direct_Messages/${id}`,
         {
@@ -111,7 +118,7 @@ function DirectMessage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            message: editText,
+            message: editText.trim(),
           }),
         }
       );
@@ -122,7 +129,11 @@ function DirectMessage() {
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === id
-              ? { ...msg, message: editText, updated_at: new Date().toISOString() }
+              ? {
+                  ...msg,
+                  message: editText.trim(),
+                  updated_at: new Date().toISOString(),
+                }
               : msg
           )
         );
@@ -135,6 +146,7 @@ function DirectMessage() {
     }
   }
 
+  // ELIMINAR MENSAJE
   async function handleDeleteMessage(id) {
     try {
       const response = await fetch(
@@ -148,13 +160,13 @@ function DirectMessage() {
       const data = await response.json();
 
       if (data.ok) {
-        // 🔥 quitar del estado
         setMessages((prev) => prev.filter((msg) => msg.id !== id));
       }
     } catch (error) {
       console.error(error);
     }
   }
+
   return (
     <article className={styles.container_NewMessage_chat}>
       <div className={styles.Infocontainer_messages}>
@@ -166,7 +178,7 @@ function DirectMessage() {
               ? `Updated ${dayjs(msg.updated_at).fromNow()}`
               : dayjs(msg.created_at).fromNow();
 
-            if (msg.message === "") return null;
+            if (!msg.message?.trim()) return null;
 
             return (
               <div
@@ -226,7 +238,7 @@ function DirectMessage() {
 
                 {openMenuId === msg.id && (
                   <OptionsMessages
-                    dataUserId={user.userid}
+                    dataUserId={user?.userid}
                     onEdit={() => {
                       setEditId(msg.id);
                       setEditText(msg.message);
@@ -235,6 +247,7 @@ function DirectMessage() {
                     onDelete={() => {
                       if (confirm("¿Eliminar mensaje?")) {
                         handleDeleteMessage(msg.id);
+                        setOpenMenuId(null);
                       }
                     }}
                     onClose={() => setOpenMenuId(null)}
@@ -263,7 +276,6 @@ function DirectMessage() {
               </div>
 
               <div className={styles.btn_send}>
-           
                 <button onClick={SendMessage}>
                   <i className="fa-solid fa-paper-plane"></i> Send
                 </button>

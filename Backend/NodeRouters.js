@@ -144,6 +144,7 @@ io.on("connection", async (socket) => {
   });
 
   //////////////////////////////////////////////////////////////////////
+  /*
   socket.on("join_channel", ({ channelid }) => {
     if (!channelid) return;
     const room = `channel_${channelid}`;
@@ -181,7 +182,7 @@ io.on("connection", async (socket) => {
       channelid: channelId,
     });
   });
-
+*/
   //////////////////////////////////////////////////////
   socket.on("disconnect", () => {
     console.log("Usuario desconectado");
