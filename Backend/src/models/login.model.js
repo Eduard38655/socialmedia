@@ -27,6 +27,8 @@ router.post("/login", async (req, res) => {
   }
 
   try {
+       const dataHash = await bcrypt.hash(passwordClean, 10);
+   console.log(dataHash);
     // ① Buscar solo por username — NO incluir password en el where
     const loginUser = await db.logins.findUnique({
       where: { username: emailClean },
@@ -43,8 +45,7 @@ router.post("/login", async (req, res) => {
         .json({ ok: false, message: "Account error, contact support" });
     }
 
-   const dataHash = await bcrypt.hash(passwordClean, 10);
-   console.log(dataHash);
+ 
    
     // ③ Comparar contraseña con bcrypt
     const passwordMatch = await bcrypt.compare(
