@@ -51,6 +51,7 @@ function DirectMessage() {
   function SendMessage() {
     if (!message.trim()) return;
 
+    
     socket.emit("send_message", {
       message: message,
       receiverId: senderid,

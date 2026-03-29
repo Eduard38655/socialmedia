@@ -14,7 +14,7 @@ function Sidebar() {
   const [actions, setActions] = useState("");
 
   useEffect(() => {
-     if (!groupid) {
+     if (groupid=="") {
             console.log("groupid undefined, skip fetch"); // confirma el problema
             return;
         }

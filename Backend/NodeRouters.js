@@ -107,6 +107,24 @@ io.on("connection", async (socket) => {
     console.log("User joined room:", room);
   });
 
+    console.log("Usuario conectado:", socket.id);
+  function getChatRoom(a, b) {
+    const [x, y] = [String(a), String(b)].sort();
+    return `chat_${x}_${y}`;
+  }
+  
+
+  // room personal del usuario
+  socket.join(String(userId));
+
+  socket.on("join_room", ({ receiverId }) => {
+    const room = getChatRoom(userId, receiverId);
+
+    socket.join(room);
+
+    console.log("User joined room:", room);
+  });
+
   socket.on("send_message", async (data) => {
     const receiverId = Number(data.receiverId);
 
@@ -179,7 +197,7 @@ app.use("/private", SendDirectMessage);
 app.use("/private", DeleteMessage);
 app.use("/private", PutMessage);
 app.use("/private", Update_Group_Messages);
-app.use("/private",ProfileModel )
+app.use("/private", ProfileModel);
 // Levantar servidor
 
 app.get("/ping", (req, res) => {
