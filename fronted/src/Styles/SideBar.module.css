@@ -1,0 +1,125 @@
+.container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+}
+.container_Channel {
+  width: 100%;
+  height: auto;
+  background-color: var(--sidebar-accent);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.Header {
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--foreground);
+  padding: 10px;
+}
+.Header_container button {
+  color: var(--foreground);
+  font-size: 20px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.Search_Input {
+  width: auto;
+  height: 40px;
+  border-radius: 10px;
+
+  padding-left: 10px;
+  background-color: var(--primary-foreground);
+  color: var(--muted-foreground);
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+}
+.Search_Input input {
+  width: auto;
+  border: none;
+}
+.Search_Input input::placeholder {
+  color: var(--muted-foreground);
+  font-size: 14px;
+  font-weight: 500;
+}
+.Search_Input input:focus {
+  outline: none;
+}
+.Channel_Header_Search {
+  width: auto;
+  height: auto;
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  flex-direction: column;
+}
+.Channel_Header_Search h3 {
+  font-size: 20px;
+  font-weight: 750;
+  color: var(--accent-foreground);
+}
+.Channel_Header_Search input {
+  width: auto;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  padding-left: 10px;
+  background-color: var(--primary-foreground);
+  color: var(--muted-foreground);
+  font-size: 16px;
+  font-weight: 500;
+}
+.Header_container nav ul li {
+  flex-direction: row;
+  text-decoration: none;
+  list-style: none;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 10px;
+  color: var(--muted-foreground);
+}
+
+.container_Details {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+}
+.container_Details::-webkit-scrollbar {
+  display: none;
+}
+.Header_container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Header_container nav ul {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+.Header_container nav ul li i {
+  margin-right: 10px;
+}
+
+.Header_container img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  object-fit: cover;
+  cursor: pointer;
+}

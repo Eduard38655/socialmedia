@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import SidebarChannels from "../Components/Channel/SidebarChannels.jsx";
 import HeaderContent from "../Components/Content/HeaderContent";
+import SidebarChannels from "../Components/Sidebar/Sidebar.jsx";
 import Workspace_members from "../Components/workspace/workspace_members";
 import styles from "../Styles/DashBoardPage.module.css";
 

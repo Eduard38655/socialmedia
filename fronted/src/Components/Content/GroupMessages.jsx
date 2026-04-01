@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import MessageInput from "../../Components/messages/MessageInput.jsx";
+import MessageItem from "../../Components/messages/MessageItem.jsx";
 import { UserSidebarContext } from "../../Context/UserSidebarContext.jsx";
+import useUpdateMessage from "../../hook/messages/useUpdateMessage.jsx";
 import styles from "../../Styles/ChatScreen.module.css";
 import dayjs from "../../utils/day.js";
 import { socket } from "../../utils/socket.js";
 import SideBarMembers from "../Channel/SidebarMembers.jsx";
-import OptionsMessages from "../Chat/OptionsMessages.jsx";
-
 function GroupMessages() {
   const { ShowSidebar } = useContext(UserSidebarContext);
   const { channelid } = useParams();
@@ -14,164 +15,104 @@ function GroupMessages() {
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-
   const [openMenuId, setOpenMenuId] = useState(null);
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
 
-
   // RECIBIR MENSAJES
-
   useEffect(() => {
-    const handleReceive = (data) => {
+    function handleReceive(data) {
       setMessages((prev) => [...prev, data]);
-    };
+    }
 
     socket.on("receive_message_room", handleReceive);
-
-    return () => {
-      socket.off("receive_message_room", handleReceive);
-    };
+    return () => socket.off("receive_message_room", handleReceive);
   }, []);
 
-
   // ENTRAR AL CHANNEL
+  useEffect(() => {
+    if (!channelid) return;
+    socket.emit("join_channel", { channelid });
+    return () => socket.emit("leave_channel", { channelid });
+  }, [channelid]);
 
+  // CARGAR MENSAJES
   useEffect(() => {
     if (!channelid) return;
 
-    socket.emit("join_channel", { channelid });
-
-    return () => {
-      socket.emit("leave_channel", { channelid });
-    };
-  }, [channelid]);
-
-
-  // ENVIAR MENSAJE
-
-  function SendMessage() {
-    if (!message.trim()) return;
-
-    socket.emit("send_message_room", {
-      message,
-      channelid,
-    });
-
-    setMessage("");
-  }
-
-
-  // CARGAR MENSAJES
-
-  useEffect(() => {
-    async function GetChannelMessages() {
+    async function fetchMessages() {
       try {
-        const response = await fetch(
+        const res = await fetch(
           `${import.meta.env.VITE_API_URL}/private/Get_channel_messages/${channelid}`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-          }
+          { credentials: "include" }
         );
-
-        const data = await response.json();
-
-        if (data.ok) {
-          setMessages(data.data || []);
-        }
+        if (!res.ok) throw new Error("Error al cargar mensajes");
+        const data = await res.json();
+        if (data.ok) setMessages(data.data || []);
       } catch (error) {
         console.error(error);
       }
     }
 
-    if (channelid) {
-      GetChannelMessages();
-    }
+    fetchMessages();
   }, [channelid]);
 
+  function handleSend() {
+    if (!message.trim()) return;
+    socket.emit("send_message_room", { message, channelid });
+    setMessage("");
+  }
 
-  // IR A DM
-
-  function Info(receiverid) {
+  function goToDM(receiverid) {
     fetch(`${import.meta.env.VITE_API_URL}/private/Start_Message_ByID/${receiverid}`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     })
-      .then((res) => res.json())
-      .then(() => {
-        navigate(`/dashboard/@me/message/${receiverid}`);
-      })
+      .then(() => navigate(`/dashboard/@me/message/${receiverid}`))
       .catch(console.error);
   }
-
-
-  // EDITAR MENSAJE
-
-  async function handleUpdateMessage(id) {
-    if (!editText.trim()) return;
-
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/private/Update_Direct_Messages/${id}`,
-        {
-          method: "PUT",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: editText,
-          }),
-        }
-      );
-
-      const data = await response.json();
-
-
-      if (data.ok) {
-        setMessages((prev) =>
-          prev.map((msg) =>
-            (msg.messageid ?? msg.id) === id
-              ? {
-                ...msg,
-                message: editText,
-                updated_at: new Date().toISOString(),
-              }
-              : msg
-          )
+  /*
+    async function handleUpdate(id) {
+      if (!editText.trim()) return;
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/private/Update_Direct_Messages/${id}`,
+          {
+            method: "PUT",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: editText }),
+          }
         );
-
-        setEditId(null);
-        setEditText("");
+        const data = await res.json();
+        if (data.ok) {
+          setMessages((prev) =>
+            prev.map((msg) =>
+              (msg.messageid ?? msg.id) === id
+                ? { ...msg, message: editText, updated_at: new Date().toISOString() }
+                : msg
+            )
+          );
+          setEditId(null);
+          setEditText("");
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-
-  // ELIMINAR MENSAJE
-
-  async function handleDeleteMessage(id) {
+    }*/
+  const handleUpdate = useUpdateMessage(
+    setMessages, editText, setEditId, setEditText,
+    "/private/Update_channel_messages" // ✅
+  );
+  async function handleDelete(id) {
     try {
-      const response = await fetch(
+      const res = await fetch(
         `${import.meta.env.VITE_API_URL}/private/Delete_channel_messages/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
+        { method: "DELETE", credentials: "include" }
       );
-
-      const data = await response.json();
-
-      if (data.ok) {
-        setMessages((prev) =>
-          prev.filter((msg) => (msg.messageid ?? msg.id) !== id)
-        );
-      }
+      const data = await res.json();
+      if (data.ok) setMessages((prev) => prev.filter((msg) => (msg.messageid ?? msg.id) !== id));
     } catch (error) {
       console.error(error);
     }
@@ -180,140 +121,41 @@ function GroupMessages() {
   return (
     <article className={styles.container_NewMessage_chat}>
       <div className={styles.Infocontainer_messages}>
-        {/* ===================== MESSAGES ===================== */}
         <div className={styles.container_messages_chat_container}>
-          {(messages || []).filter(Boolean).map((msg, index) => {
+          {messages.filter((msg) => msg.message?.trim()).map((msg, index) => {
             const id = msg.messageid ?? msg.id ?? `${index}`;
             const user = msg.users;
-
             const time = msg.updated_at
               ? `Updated ${dayjs(msg.updated_at).fromNow()}`
               : dayjs(msg.created_at).fromNow();
 
-            if (!msg.message?.trim()) return null;
-
             return (
-              <div key={id} className={styles.Container_Messageid}>
-                <div className={styles.message_container_details}>
-                  <img
-                    className={styles.message_avatar}
-                    src={user?.img || "/default-avatar.png"}
-                    alt="avatar"
-                    onClick={() => Info(user?.userid)}
-                  />
-
-                  <div className={styles.message_div}>
-                    <p>
-                      {user?.name} {user?.last_name}{" "}
-                      <small>{time}</small>
-                    </p>
-
-                    <div className={styles.messageText}>
-                      {editId === id ? (
-                        <input
-                          autoFocus
-                          type="text"
-                          value={editText}
-                          onChange={(e) => setEditText(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter")
-                              handleUpdateMessage(id);
-                            if (e.key === "Escape") {
-                              setEditId(null);
-                              setEditText("");
-                            }
-                          }}
-                        />
-                      ) : (
-                        msg.message
-                      )}
-                    </div>
-
-                    {editId === id && (
-                      <div className={styles.editActions}>
-                        <button onClick={() => handleUpdateMessage(id)}>
-                          Guardar
-                        </button>
-                        <button
-                          onClick={() => {
-                            setEditId(null);
-                            setEditText("");
-                          }}
-                        >
-                          Cancelar
-                        </button>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* BOTÓN OPCIONES */}
-                  <button
-                    className={styles.btn_ellipsis}
-                    onClick={() =>
-                      setOpenMenuId((prev) =>
-                        prev === id ? null : id
-                      )
-                    }
-                  >
-                    <i className="fa-solid fa-ellipsis-vertical"></i>
-                  </button>
-                </div>
-
-                {/* MENU */}
-                {openMenuId === id && (
-                  <OptionsMessages
-                    dataUserId={user?.userid}
-                    onEdit={() => {
-                      setEditId(id);
-                      setEditText(msg.message);
-                      setOpenMenuId(null);
-                    }}
-                    onDelete={() => {
-                      if (confirm("¿Eliminar mensaje?")) {
-                        handleDeleteMessage(id);
-                      }
-                    }}
-                    onClose={() => setOpenMenuId(null)}
-                  />
-                )}
-              </div>
+              <MessageItem
+                key={id}
+                msg={msg}
+                msgId={id}
+                user={user}
+                time={time}
+                editId={editId}
+                editText={editText}
+                onEditChange={(e) => setEditText(e.target.value)}
+                onSave={() => handleUpdate(id)}
+                onCancelEdit={() => { setEditId(null); setEditText(""); }}
+                openMenuId={openMenuId}
+                onToggleMenu={() => setOpenMenuId((prev) => prev === id ? null : id)}
+                onEdit={() => { setEditId(id); setEditText(msg.message); setOpenMenuId(null); }}
+                onDelete={() => { if (confirm("¿Eliminar mensaje?")) handleDelete(id); }}
+                onClose={() => setOpenMenuId(null)}
+              />
             );
           })}
         </div>
 
-        {/* ===================== INPUT ===================== */}
-        <aside className={styles.Send_Message_container}>
-          <div className={styles.Section_Icons}>
-            <div className={styles.textarea_container}>
-              <textarea
-                className={styles.textarea}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-            </div>
-
-            <div className={styles.Section_Icons_btn_2}>
-              <div>
-                <button type="button">
-                  <i className="fa-solid fa-video"></i>
-                </button>
-                <button type="button">
-                  <i className="fa-regular fa-face-smile"></i>
-                </button>
-                <button type="button">
-                  <i className="fa-solid fa-paperclip"></i>
-                </button>
-              </div>
-
-              <div className={styles.btn_send}>
-                <i className="fa-solid fa-microphone"></i>
-                <button onClick={SendMessage}>
-                  <i className="fa-solid fa-paper-plane"></i> Send
-                </button>
-              </div>
-            </div>
-          </div>
-        </aside>
+        <MessageInput
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onSend={handleSend}
+        />
       </div>
 
       {ShowSidebar && <SideBarMembers />}
@@ -321,4 +163,4 @@ function GroupMessages() {
   );
 }
 
-export default GroupMessages;
+export default GroupMessages; 
