@@ -31,7 +31,7 @@ router.delete(
           .json({ ok: false, message: "Message cannot be empty" });
       }
 
-      const deleteMessage = await db.messages.findUnique({
+      const deleteMessage = await db.messages.deleteMany({
         where: {
           messageid: Number(messageid),
           userid: Number(userid),
