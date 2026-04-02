@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import { Server } from "socket.io";
 import { fileURLToPath } from "url";
+import GroupMessagesDelete from "../Backend/src/Messages/GroupMessages/DeleteMessage.js";
 import GroupMessages from "../Backend/src/Messages/GroupMessages/PutMessage.js";
 import db from "./prisma/db.js";
 import Update_Group_Messages from "./src/GroupMessages/GroupMessages.js";
@@ -201,6 +202,7 @@ app.use("/private", PutMessage);
 app.use("/private", Update_Group_Messages);
 app.use("/private", ProfileModel);
 app.use("/private", GroupMessages);
+app.use("/private", GroupMessagesDelete);
 // Levantar servidor
 /**
 
