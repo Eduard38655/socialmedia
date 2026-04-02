@@ -31,16 +31,14 @@ router.put(
           .json({ ok: false, message: "Message cannot be empty" });
       }
 
-      const updatedMessage = await db.messages.update({
-        where: {
-          messageid: Number(messageid)  && { userid: Number(userid) }
-        },
-        data: {
-          message: message.trim(),
-        },
-      });
+     const deleteMessage = await db.messages.findUnique({
+  where: {
+    messageid: Number(messageid),
+    userid: Number(userid),
+  },
+});
 
-      return res.status(200).json({ ok: true, data: updatedMessage });
+      return res.status(200).json({ ok: true, data: deleteMessage });
     } catch (error) {
       console.error("Update direct message error:", error);
       return res

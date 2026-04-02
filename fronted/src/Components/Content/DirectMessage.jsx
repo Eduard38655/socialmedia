@@ -19,7 +19,7 @@ function DirectMessage() {
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
 
-  const handleDelete = useDeleteMessage(setMessages);
+   
   // RECIBIR MENSAJES
   useEffect(() => {
     function handleReceive(data) {
@@ -75,7 +75,12 @@ function DirectMessage() {
     "/private/Update_Direct_Messages" // ✅
   );
 
+ const handleDelete = useDeleteMessage(
+   setMessages,
+    "/private/Delete_Direct_Messages" // ✅
+  );
 
+   
   return (
     <article className={styles.container_NewMessage_chat}>
       <div className={styles.Infocontainer_messages}>

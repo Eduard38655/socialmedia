@@ -1,10 +1,10 @@
 // hooks/messages/useDeleteMessage.js
 
-function useDeleteMessage(setMessages) {
+function useDeleteMessage(setMessages,url) {
   async function handleDelete(id) {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/private/Delete_Direct_Messages/${id}`,
+        `${import.meta.env.VITE_API_URL}${url}/${id}`,
         { method: "DELETE", credentials: "include" }
       );
       const data = await res.json();

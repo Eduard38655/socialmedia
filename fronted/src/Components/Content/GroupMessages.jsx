@@ -3,11 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import MessageInput from "../../Components/messages/MessageInput.jsx";
 import MessageItem from "../../Components/messages/MessageItem.jsx";
 import { UserSidebarContext } from "../../Context/UserSidebarContext.jsx";
+import useDeleteMessage from "../../hook/messages/useDeleteMessage.jsx";
 import useUpdateMessage from "../../hook/messages/useUpdateMessage.jsx";
 import styles from "../../Styles/ChatScreen.module.css";
 import dayjs from "../../utils/day.js";
 import { socket } from "../../utils/socket.js";
 import SideBarMembers from "../Channel/SidebarMembers.jsx";
+
 function GroupMessages() {
   const { ShowSidebar } = useContext(UserSidebarContext);
   const { channelid } = useParams();
@@ -18,7 +20,7 @@ function GroupMessages() {
   const [openMenuId, setOpenMenuId] = useState(null);
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
-
+ 
   // RECIBIR MENSAJES
   useEffect(() => {
     function handleReceive(data) {
@@ -105,18 +107,13 @@ function GroupMessages() {
     setMessages, editText, setEditId, setEditText,
     "/private/Update_channel_messages" // ✅
   );
-  async function handleDelete(id) {
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/private/Delete_channel_messages/${id}`,
-        { method: "DELETE", credentials: "include" }
-      );
-      const data = await res.json();
-      if (data.ok) setMessages((prev) => prev.filter((msg) => (msg.messageid ?? msg.id) !== id));
-    } catch (error) {
-      console.error(error);
-    }
-  }
+
+
+ const handleDelete = useDeleteMessage(
+   setMessages,
+    "/private/Delete_channel_messages" // ✅
+  );
+ 
 
   return (
     <article className={styles.container_NewMessage_chat}>
