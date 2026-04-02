@@ -5,7 +5,7 @@ import TokenVerifyAuth from "../../middleware/TokenVerify.auth.js";
 const router = express.Router();
 
 router.delete(
-  "/Update_channel_messages/:messageid",
+  "/Delete_channel_messages/:messageid",
   TokenVerifyAuth,
   async (req, res) => {
     try {
