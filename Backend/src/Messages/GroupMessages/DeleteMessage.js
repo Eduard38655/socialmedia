@@ -4,7 +4,7 @@ import TokenVerifyAuth from "../../middleware/TokenVerify.auth.js";
 
 const router = express.Router();
 
-router.put(
+router.delete(
   "/Update_channel_messages/:messageid",
   TokenVerifyAuth,
   async (req, res) => {
@@ -31,12 +31,12 @@ router.put(
           .json({ ok: false, message: "Message cannot be empty" });
       }
 
-     const deleteMessage = await db.messages.findUnique({
-  where: {
-    messageid: Number(messageid),
-    userid: Number(userid),
-  },
-});
+      const deleteMessage = await db.messages.findUnique({
+        where: {
+          messageid: Number(messageid),
+          userid: Number(userid),
+        },
+      });
 
       return res.status(200).json({ ok: true, data: deleteMessage });
     } catch (error) {
