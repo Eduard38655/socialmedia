@@ -30,15 +30,28 @@ router.put(
           .status(400)
           .json({ ok: false, message: "Message cannot be empty" });
       }
+const existingMessage = await db.messages.findFirst({
+  where: {
+    messageid: Number(messageid),
+    userid: Number(userid),
+  },
+});
 
-      const updatedMessage = await db.messages.update({
-        where: {
-          messageid: Number(messageid)  && { userid: Number(userid) }
-        },
-        data: {
-          message: message.trim(),
-        },
-      });
+if (!existingMessage) {
+  return res.status(403).json({
+    ok: false,
+    message: "No tienes permiso para editar este mensaje",
+  });
+}
+
+const updatedMessage = await db.messages.update({
+  where: {
+    messageid: Number(messageid),
+  },
+  data: {
+    message: message.trim(),
+  },
+});
 
       return res.status(200).json({ ok: true, data: updatedMessage });
     } catch (error) {
