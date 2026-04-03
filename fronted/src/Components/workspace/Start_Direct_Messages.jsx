@@ -15,7 +15,7 @@ function Sidebar() {
 
   useEffect(() => {
  
-    fetch(`${import.meta.env.VITE_API_URL}/private/channel_members/${8}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/private/channel_members/${groupid}`, {
       method: "GET",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -81,7 +81,7 @@ function Sidebar() {
                 <li
                   key={`user-${user?.userid}-${index}`}
                   className={styles.conversationItem}
-                >
+                > 
                   <button
                     type="button"
                     className={styles.conversationButton}

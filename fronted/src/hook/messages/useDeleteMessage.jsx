@@ -1,6 +1,6 @@
 // hooks/messages/useDeleteMessage.js
 
-function useDeleteMessage(setMessages,url) {
+function useDeleteMessage(setMessages, url) {
   async function handleDelete(id) {
     try {
       const res = await fetch(
@@ -9,7 +9,11 @@ function useDeleteMessage(setMessages,url) {
       );
       const data = await res.json();
       if (data.ok) {
-        setMessages((prev) => prev.filter((msg) => msg.id !== id));
+        if (url == "/private/Delete_Direct_Messages") {
+          setMessages((prev) => prev.filter((msg) => msg.id !== id));
+          return;
+        }
+        setMessages((prev) => prev.filter((msg) => msg.messageid !== id));
       }
     } catch (error) {
       console.error(error);

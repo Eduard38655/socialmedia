@@ -18,7 +18,6 @@
   --card: hsl(0, 0%, 100%);
   --popover: hsl(0, 0%, 100%);
 
-
   /*Shadow*/
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
   /* Text */
@@ -169,9 +168,9 @@
   height: 100vh;
   display: flex;
   flex-direction: row;
- 
+
   align-items: center;
-  
+
   justify-content: space-between;
 }
 .Infocontainer_messages {
@@ -181,7 +180,7 @@
   flex-direction: column;
   background-color: var(--background);
 }
-.message_avatar{
+.message_avatar {
   width: 50px;
   height: 50px;
   border-radius: 30%;
@@ -191,6 +190,16 @@
   display: flex;
   gap: 8px;
   margin-top: 8px;
+  font-size: 12px;
+    font-weight: 550px;
+  flex-wrap: wrap;
+}
+.editActions p{
+  color: var(--muted-foreground);
+ 
+}
+.editActions p span{
+  color: var(--primary);
 }
 .Send_Message_container {
   width: auto;
@@ -223,7 +232,7 @@
 .Section_Icons {
   border-radius: 10px;
   border: 1px solid var(--border);
- box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
 }
 .container_messages_chat_container {
   width: 100%;
@@ -232,7 +241,7 @@
   flex-direction: column;
   gap: 15px;
   border-bottom: 1px solid var(--border);
- overflow-y: auto;
+  overflow-y: auto;
   scrollbar-width: none; /* Firefox */
 }
 .message_container_details {
@@ -240,14 +249,13 @@
   height: auto;
   display: flex;
   flex-direction: row;
- 
+
   gap: 15px;
   padding: 15px;
 }
 .message_container_details:hover {
   cursor: pointer;
   background: var(--input);
-  
 }
 .message_div {
   width: 90%;
@@ -256,29 +264,73 @@
   display: flex;
   flex-direction: column;
   color: var(--accent-foreground);
-
   gap: 5px;
 }
-
-.message_div p {
-  font-weight: 750;
-  font-size: 16px;
+.messageText {
+  width: 90%;
+  height: max-content;
+  text-align: start;
+  font-size: 1rem;
+  font-weight: 700;
+  overflow-wrap: break-word;
+ 
+ 
 }
-.message_div p small {
+.message_container_details:hover textarea {
+ border: 2px solid var(--muted-foreground);
+   
+}
+.messageText textarea{
+   
+  width: 100%;
+  height: 100px;
+  max-height: 250px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+ color: var(--foreground-foreground);
+  background: none;
+  padding: 15px;
+   overflow-wrap: break-word;
+     border: 2px solid var(--border);
+       background-color: var(--input);
+   
+}
+.messageText textarea:focus{
+     border: 2px solid var(--border);
+}
+ 
+
+/* Barra completa */
+textarea::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Fondo de la barra */
+textarea::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+/* Parte que se mueve (thumb) */
+textarea::-webkit-scrollbar-thumb {
+  background: var(--popover-foreground);
+  border-radius: 10px;
+}
+
+/* Hover */
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #45a049;
+}
+.message_div .message_name {
+  font-weight: 650;
+  font-size: 15px;
+}
+.message_div .message_name small {
   color: var(--muted-foreground);
   font-size: 13px;
   font-weight: 500;
 }
-.messageText {
-  width: 90%;
-  height: auto;
-  text-align: start;
-  font-size: 1rem;
-  font-weight: 700;
-
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
+ 
 .container_messages_chat_container::-webkit-scrollbar {
   /**/
   display: none; /* Chrome, Safari, Edge */
@@ -352,23 +404,24 @@
 /****************************************************************************/
 /*Ediar eliminar mensahge y reacciones styles*/
 /*//////////////////////////////////////////////////////////////////////////*/
- 
+
 .Container_Opt {
   position: absolute;
-  top: 100%; /* justo debajo del mensaje */
-  right: 0; /* o left: 0 si lo quieres a la izquierda */
+  top: 30%; /* justo debajo del mensaje */
+  left: 73.1%;
+  
   z-index: 1000;
- 
 }
 
 .messageText_opt {
-  background-color: var( --muted-foreground); 
-  padding: 20px;
-  width: 200px;
+  
+  background-color: var(--secondary);
+
+  width: 220px;
   border-radius: 5px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--border);
-
+ 
 }
 
 .btn_ellipsis {
@@ -377,30 +430,47 @@
   color: var(--accent-foreground);
   background: none;
   border: none;
+   
 }
 .messageText_opt ul {
   width: 100%;
   height: auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  gap: 10px;
+ 
+ 
   list-style: none;
 }
 .messageText_opt ul li {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-shrink: 1;
+  justify-content: space-between;
   cursor: pointer;
   font-size: 14px;
-  color: var(--secondary);
+  color: var(--muted-foreground);
+  font-weight: 650;
+  border-bottom: 1px solid var(--border);
+  padding: 15px;
+}
+.messageText_opt ul li:hover {
+  background-color: var(--input);
+  color: var(--accent-foreground);
+}
 
+.messageText_opt ul li span:hover {
+  background-color: var(--input);
+  color: var(--accent-foreground);
 }
 .UpdateMessage_Container {
   width: 100%;
   height: 100vh;
   display: flex;
   position: absolute;
- z-index: 999;
- 
+  z-index: 999;
 }
 .UpdateMessage_Container div {
   width: 100%;
@@ -408,5 +478,13 @@
   display: flex;
   position: absolute;
   z-index: 9999;
-
+} /*fuc==fixing the options of op up options*/
+.messageText_opt ul .deleteOption {
+  color: var(--destructive);
+  cursor: pointer;
+  font-size: 14px;
+}
+.messageText_opt ul .deleteOption:hover {
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
 }

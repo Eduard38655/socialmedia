@@ -11,20 +11,24 @@ function MessageItem({ msg, msgId, user, time, editId, editText, onEditChange, o
         />
 
         <div className={styles.message_div}>
-          <p>{user?.name} {user?.last_name} <small>{time}</small></p>
+          <p className={styles.message_name}>{user?.name} {user?.last_name} <small>{time}</small></p>
 
           <div className={styles.messageText}>
             {editId === msgId ? (
-              <input
+              <textarea
                 autoFocus
                 type="text"
                 value={editText}
                 onChange={onEditChange}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") onSave();
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault(); // evita salto de línea
+                    onSave();
+                  }
                   if (e.key === "Escape") onCancelEdit();
                 }}
-              />
+              >
+              </textarea>
             ) : (
               msg.message
             )}
@@ -32,14 +36,13 @@ function MessageItem({ msg, msgId, user, time, editId, editText, onEditChange, o
 
           {editId === msgId && (
             <div className={styles.editActions}>
-              <button onClick={onSave}>Guardar</button>
-              <button onClick={onCancelEdit}>Cancelar</button>
+               <p>Press <span>Enter to save</span> and <span>Escape</span> to cancel </p>
             </div>
           )}
         </div>
 
         <button className={styles.btn_ellipsis} onClick={onToggleMenu}>
-          <i className="fa-solid fa-ellipsis-vertical"></i>
+          <i className="fa-solid fa-ellipsis"></i>
         </button>
       </div>
 

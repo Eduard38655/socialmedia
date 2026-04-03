@@ -24,7 +24,8 @@ export default function LoginPage() {
       });
       const data = await res.json();
       if (data.ok) {
-        navigate("/dashboard/@me"); return;
+        navigate("/dashboard/@me");
+        return;
       }
       setError("root", { message: data.message || "Invalid credentials" });
     } catch {
@@ -172,7 +173,7 @@ export default function LoginPage() {
             </label>
 
 
-            
+
 
             {errors.root && <p className={styles.rootErr}>{errors.root.message}</p>}
 

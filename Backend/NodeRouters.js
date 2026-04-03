@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import { Server } from "socket.io";
 import { fileURLToPath } from "url";
+
 import GroupMessagesDelete from "../Backend/src/Messages/GroupMessages/DeleteMessage.js";
 import GroupMessages from "../Backend/src/Messages/GroupMessages/PutMessage.js";
 import db from "./prisma/db.js";
@@ -25,7 +26,6 @@ const server = http.createServer(app);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "dist"))); // o el nombre real de tu carpeta
- 
 
 const allowedOrigins = [
   "https://eduard38655.github.io",
@@ -33,7 +33,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
   "https://eduard38655.github.io/socialmedia/",
-  "https://socialmedia-khe0.onrender.com"
+  "https://socialmedia-khe0.onrender.com",
 ];
 const corsOptions = {
   origin: function (origin, callback) {
@@ -62,7 +62,7 @@ const io = new Server(server, {
       "http://localhost:3000",
       "http://localhost:5173",
       "https://eduard38655.github.io/socialmedia/",
-      "https://socialmedia-khe0.onrender.com"
+      "https://socialmedia-khe0.onrender.com",
     ],
     credentials: true,
   },
@@ -115,7 +115,6 @@ io.on("connection", async (socket) => {
 
     console.log("User joined room:", room);
   });
-  
 
   // room personal del usuario
   socket.join(String(userId));
@@ -216,7 +215,6 @@ app.get("/ping", (req, res) => {
  * 
  */
 
- 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
