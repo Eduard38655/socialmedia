@@ -8,11 +8,13 @@ function MessageItem({ onReact, user_Reactions, msg, msgId, onGoToDM, user, time
 
 
   function onReact(reactionId, emoji) {
+    console.log(msgId,"ID del mensaje al que se reacciona");
+    
     fetch(`${import.meta.env.VITE_API_URL}/private/react_message`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ reactionId, messageId: msgId, emoji  })
+      body: JSON.stringify({ reactionId, msgId, emoji  })
     })
       .then(res => res.json())
       .then(data => {
