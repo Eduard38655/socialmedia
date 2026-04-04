@@ -186,26 +186,23 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("send_emoji_message_room", async (data) => {
-    const  channelId = Number(data.channelid);
+    const channelId = Number(data.channelid);
     const result = await db.reactions.create({
       data: {
         userid: userId,
         messageid: Number(msgId),
         created_at: new Date(),
         emoji: emoji,
-        
       },
     });
 
-
-  const room = `channel_${channelId}`;
+    const room = `channel_${channelId}`;
 
     // Emitir al evento que el cliente espera para channels
     io.to(room).emit("receive_emoji_message_room", {
-      ...SaveMessages,
+      ...result,
       channelid: channelId,
     });
-
   });
 
   //////////////////////////////////////////////////////
