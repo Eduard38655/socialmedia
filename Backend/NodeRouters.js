@@ -190,9 +190,9 @@ io.on("connection", async (socket) => {
     const result = await db.reactions.create({
       data: {
         userid: userId,
-        messageid: Number(msgId),
+        messageid: Number(data.msgId),
         created_at: new Date(),
-        emoji: emoji,
+        emoji: data.emoji,
       },
     });
 
