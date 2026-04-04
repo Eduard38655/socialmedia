@@ -132,7 +132,6 @@ function GroupMessages() {
   );// ✅ Un único useEffect para reacciones
 
   
-
 useEffect(() => {
   function handleReaction(data) {
     console.log("LLEGO REACTION:", data);
@@ -159,7 +158,6 @@ useEffect(() => {
   socket.on("receive_emoji_message_room", handleReaction);
   return () => socket.off("receive_emoji_message_room", handleReaction);
 }, []);
-  
   return (
     <article className={styles.container_NewMessage_chat}>
       <div className={styles.Infocontainer_messages}>

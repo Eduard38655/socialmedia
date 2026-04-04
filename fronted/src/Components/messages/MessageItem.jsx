@@ -11,11 +11,14 @@ function MessageItem({
   const { channelid } = useParams();
   const isEditing = editId === msgId;
 
-  function handleReact(msgId, emoji) {
-    const getMessage=msg[0].messageid ;
-  console.log("Reaccionando con:", emoji, "al mensaje:", msgId, "en el canal:", msg);
-    socket.emit("send_emoji_message_room", { messageid:getMessage, emoji, channelid });
-  }
+function handleReact(msgId, emoji) {
+  const getMessage = msg[0].messageid;
+  socket.emit("send_emoji_message_room", {
+    messageid: getMessage,
+    emoji,
+    channelid
+  });
+}
 
   // ✅ AQUÍ VA
   const reactions = user_Reactions || [];
