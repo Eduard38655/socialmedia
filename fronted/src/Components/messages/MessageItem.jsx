@@ -3,23 +3,19 @@ import { useParams } from "react-router-dom";
 import styles from "../../Styles/ChatScreen.module.css";
 import { socket } from "../../utils/socket.js";
 import OptionsMessages from "../Chat/OptionsMessages";
-function MessageItem({setUsersCache,setMessages, onReact, user_Reactions, msg, msgId, onGoToDM, user, time, editId, editText, onEditChange, onSave, onCancelEdit, openMenuId, onToggleMenu, onEdit, onDelete, onClose }) {
+function MessageItem({onReact , user_Reactions, msg, msgId, onGoToDM, user, time, editId, editText, onEditChange, onSave, onCancelEdit, openMenuId, onToggleMenu, onEdit, onDelete, onClose }) {
   useEffect(() => {
     console.log(user_Reactions, "reactions del mensaje");
   }, [user_Reactions])
   const { channelid } = useParams();
 
-  function onReact(reactionId, emoji) {
-  
-    socket.emit("send_emoji_message_room", {
-      msgId,
-      emoji,
-      channelid
-
-    });
-
-
-  }
+function onReact(msgId, emoji) {
+  socket.emit("send_emoji_message_room", {
+    msgId,
+    emoji,
+    channelid
+  });
+}
  
 
   return (

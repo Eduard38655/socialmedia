@@ -200,7 +200,10 @@ io.on("connection", async (socket) => {
 
     // Emitir al evento que el cliente espera para channels
     io.to(room).emit("receive_emoji_message_room", {
-      ...result,
+      msgId: Number(data.msgId),
+      emoji: data.emoji,
+      count,
+      userid: userId,
       channelid: channelId,
     });
   });

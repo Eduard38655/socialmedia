@@ -42,7 +42,47 @@ function GroupMessages() {
 
 
 
-  
+  useEffect(() => {
+  function handleReaction(data) {
+    setMessages((prev) =>
+      prev.map((msg) => {
+        if (msg.messageid === data.msgId) {
+
+          const existing = msg.reactions?.find(
+            (r) => r.emoji === data.emoji
+          );
+
+          let updatedReactions;
+
+          if (existing) {
+            updatedReactions = msg.reactions.map((r) =>
+              r.emoji === data.emoji
+                ? { ...r, count: (r.count || 1) + 1 }
+                : r
+            );
+          } else {
+            updatedReactions = [
+              ...(msg.reactions || []),
+              { emoji: data.emoji, count: 1 },
+            ];
+          }
+
+          return {
+            ...msg,
+            reactions: updatedReactions,
+          };
+        }
+
+        return msg;
+      })
+    );
+  }
+
+  socket.on("receive_emoji_message_room", handleReaction);
+
+  return () =>
+    socket.off("receive_emoji_message_room", handleReaction);
+}, []);
 
   // ✅ ENTRAR AL CHANNEL
   useEffect(() => {
