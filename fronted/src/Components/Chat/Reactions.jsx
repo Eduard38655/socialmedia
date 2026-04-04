@@ -5,8 +5,8 @@ function Reactions(params) {
 
     useEffect(() => {
 
-        function GetAllReactions(params) {
-            const res = fetch(`${import.meta.env.VITE_API_URL}/private/Get_reactions`,
+        const GetAllReactions = async(params) => {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/private/reactions`,
                 {
                     method: "GET",
                     credentials: "include",
@@ -15,14 +15,13 @@ function Reactions(params) {
                     }
 
                 }
-            ).then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                }
-                ).catch(err => {
-                    console.error("Error fetching reactions:", err);
-                }
-                )
+            ) 
+            const data = await res.json();
+            if (data.ok) {
+                 console.log(data,"reactions");
+                 return
+            }
+            
         }
         GetAllReactions()
     }, [])
@@ -32,3 +31,5 @@ function Reactions(params) {
         </div>
     )
 }
+
+export default Reactions

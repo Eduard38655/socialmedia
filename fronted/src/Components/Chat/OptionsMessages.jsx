@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { UserDataContext } from "../../Context/UserDataContext.jsx";
 import styles from "../../Styles/ChatScreen.module.css";
-
+import Reactiones from "./Reactions.jsx";
 function OptionsMessages({ onEdit, onDelete, onClose, dataUserId }) {
 
   const { Profile } = useContext(UserDataContext);
@@ -12,6 +12,7 @@ function OptionsMessages({ onEdit, onDelete, onClose, dataUserId }) {
 
   return (
     <div className={styles.Container_Opt}>
+      <Reactiones />
       <div className={styles.messageText_opt}>
         <ul>
 
