@@ -42,22 +42,7 @@ function GroupMessages() {
 
 
 
-   useEffect(() => {
-    function handleReceive(data) {
-      setMessages((prev) => [...prev, data]);
-
-      // guardar usuario en cache
-      if (data.users?.userid) {
-        setUsersCache((prev) => ({
-          ...prev,
-          [data.users.userid]: data.users,
-        }));
-      }
-    }
-
-    socket.on("receive_emoji_message_room", handleReceive);
-    return () => socket.off("receive_message_room", handleReceive);
-  }, []);
+  
 
   // ✅ ENTRAR AL CHANNEL
   useEffect(() => {
@@ -171,7 +156,8 @@ function GroupMessages() {
                   msg={msg}
                   msgId={id}
                   user={user}
-                 
+                 setMessages={setMessages}
+                 setUsersCache={setUsersCache}
                   user_Reactions={user_Reactions}
                   time={time}
                   editId={editId}
