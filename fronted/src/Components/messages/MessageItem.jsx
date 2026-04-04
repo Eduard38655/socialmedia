@@ -3,13 +3,13 @@ import OptionsMessages from "../Chat/OptionsMessages";
 function MessageItem({ msg, msgId, onGoToDM, user, time, editId, editText, onEditChange, onSave, onCancelEdit, openMenuId, onToggleMenu, onEdit, onDelete, onClose }) {
   return (
     <div className={styles.Container_Messageid}>
-      <div className={styles.message_container_details} onClick={ onGoToDM}>
+      <div className={styles.message_container_details} onClick={onGoToDM}>
         <img
-          src={user?.img  }
+          src={user?.img}
           alt="avatar"
           className={styles.message_avatar}
-         
-        
+
+
         />
 
         <div className={styles.message_div}>
@@ -34,6 +34,27 @@ function MessageItem({ msg, msgId, onGoToDM, user, time, editId, editText, onEdi
             ) : (
               msg.message
             )}
+            <div className={styles.Container_Reactions_Message}>
+              <span>
+
+
+
+                👍
+                <span>0</span>
+
+
+
+</span>
+
+              <span>
+
+                👍
+                <span>0</span>
+
+
+              </span>
+
+            </div>
           </div>
 
           {editId === msgId && (

@@ -165,7 +165,7 @@
 }
 .container_NewMessage_chat {
   width: 100%;
-  height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: row;
 
@@ -191,14 +191,13 @@
   gap: 8px;
   margin-top: 8px;
   font-size: 12px;
-    font-weight: 550px;
+  font-weight: 550px;
   flex-wrap: wrap;
 }
-.editActions p{
+.editActions p {
   color: var(--muted-foreground);
- 
 }
-.editActions p span{
+.editActions p span {
   color: var(--primary);
 }
 .Send_Message_container {
@@ -273,33 +272,27 @@
   font-size: 1rem;
   font-weight: 700;
   overflow-wrap: break-word;
- 
- 
 }
 .message_container_details:hover textarea {
- border: 2px solid var(--muted-foreground);
-   
+  border: 2px solid var(--muted-foreground);
 }
-.messageText textarea{
-   
+.messageText textarea {
   width: 100%;
   height: 100px;
   max-height: 250px;
   border: none;
   font-size: 1rem;
   font-weight: 700;
- color: var(--foreground-foreground);
+  color: var(--foreground-foreground);
   background: none;
   padding: 15px;
-   overflow-wrap: break-word;
-     border: 2px solid var(--border);
-       background-color: var(--input);
-   
+  overflow-wrap: break-word;
+  border: 2px solid var(--border);
+  background-color: var(--input);
 }
-.messageText textarea:focus{
-     border: 2px solid var(--border);
+.messageText textarea:focus {
+  border: 2px solid var(--border);
 }
- 
 
 /* Barra completa */
 textarea::-webkit-scrollbar {
@@ -330,7 +323,7 @@ textarea::-webkit-scrollbar-thumb:hover {
   font-size: 13px;
   font-weight: 500;
 }
- 
+
 .container_messages_chat_container::-webkit-scrollbar {
   /**/
   display: none; /* Chrome, Safari, Edge */
@@ -406,22 +399,21 @@ textarea::-webkit-scrollbar-thumb:hover {
 /*//////////////////////////////////////////////////////////////////////////*/
 
 .Container_Opt {
+  display: flex;
+  display: row;
   position: absolute;
   top: 30%; /* justo debajo del mensaje */
   left: 73.1%;
-  
-  z-index: 1000;
+  z-index: 1000000;
 }
 
 .messageText_opt {
-  
   background-color: var(--secondary);
 
   width: 220px;
   border-radius: 5px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--border);
- 
 }
 
 .btn_ellipsis {
@@ -430,7 +422,6 @@ textarea::-webkit-scrollbar-thumb:hover {
   color: var(--accent-foreground);
   background: none;
   border: none;
-   
 }
 .messageText_opt ul {
   width: 100%;
@@ -438,8 +429,7 @@ textarea::-webkit-scrollbar-thumb:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
- 
- 
+
   list-style: none;
 }
 .messageText_opt ul li {
@@ -487,4 +477,70 @@ textarea::-webkit-scrollbar-thumb:hover {
 .messageText_opt ul .deleteOption:hover {
   background-color: var(--destructive);
   color: var(--destructive-foreground);
+}
+
+/**Reacciones*/
+
+.Container_reactions {
+  position: absolute;
+  top: 50%;
+  right: 105%; /* 👈 en vez de left */
+  transform: translateY(-50%) scale(0.95);
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  max-height: 250px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  background-color: var(--popover);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  padding: 5px 0;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.Container_reactions.active {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+  pointer-events: auto;
+}
+
+/*/*/
+.Container_Reactions_Message {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+.Container_Reactions_Message ul {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+
+  list-style: none;
+}
+.Container_Reactions_Message span {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--muted-foreground);
+  border: 1px solid var(--sidebar-background);
+  font-size: 14px;
+  align-items: center;
+  cursor: pointer;
+  background-color: var(--sidebar-border);
+}
+.Container_Reactions_Message span span {
+  border: none;
 }

@@ -93,6 +93,7 @@ router.get(
               last_name: true,
             },
           },
+          reactions: true
         },
       });
       console.log(channel_members_messages_data);

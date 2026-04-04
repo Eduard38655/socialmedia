@@ -65,6 +65,8 @@ function GroupMessages() {
         const data = await res.json();
 
         if (data.ok) {
+          console.log(data,"detailsx");
+          
           setMessages(data.data || []);
 
           const cache = {};
@@ -177,13 +179,13 @@ function GroupMessages() {
                 />
               );
             })}
-        </div>
-
-        <MessageInput
+            <MessageInput
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onSend={handleSend}
         />
+        </div>
+ 
       </div>
 
       {ShowSidebar && <SideBarMembers />}
