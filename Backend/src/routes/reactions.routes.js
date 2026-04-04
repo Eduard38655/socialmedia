@@ -7,5 +7,5 @@ import TokenVerifyAuth from "../middleware/TokenVerify.auth.js";
 const router = express.Router();
 
 router.get("/", TokenVerifyAuth, getReactions);
-router.patch("/", TokenVerifyAuth, postReactions);
+router.post("/", TokenVerifyAuth, postReactions);
 export default router;
