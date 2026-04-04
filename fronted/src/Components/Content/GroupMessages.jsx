@@ -173,7 +173,38 @@ function GroupMessages() {
     setMessages,
     "/private/Delete_channel_messages"
   );
+useEffect(() => {
+  function handleReaction(data) {
+    setMessages((prev) =>
+      prev.map((msg) => {
+        if (msg.messageid !== data.msgId) return msg;
 
+        const reactions = msg.reactions || [];
+        const existing = reactions.find((r) => r.emoji === data.emoji);
+
+        let updatedReactions;
+
+        if (existing) {
+          updatedReactions = reactions.map((r) =>
+            r.emoji === data.emoji
+              ? { ...r, count: data.count }
+              : r
+          );
+        } else {
+          updatedReactions = [...reactions, { emoji: data.emoji, count: data.count }];
+        }
+
+        return {
+          ...msg,
+          reactions: updatedReactions,
+        };
+      })
+    );
+  }
+
+  socket.on("receive_emoji_message_room", handleReaction);
+  return () => socket.off("receive_emoji_message_room", handleReaction);
+}, []);
   
   return (
     <article className={styles.container_NewMessage_chat}>

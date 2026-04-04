@@ -184,10 +184,10 @@ io.on("connection", async (socket) => {
       channelid: channelId,
     });
   });
-
   socket.on("send_emoji_message_room", async (data) => {
     const channelId = Number(data.channelid);
-    const result = await db.reactions.create({
+
+    await db.reactions.create({
       data: {
         userid: userId,
         messageid: Number(data.msgId),
@@ -196,9 +196,15 @@ io.on("connection", async (socket) => {
       },
     });
 
+    const count = await db.reactions.count({
+      where: {
+        messageid: Number(data.msgId),
+        emoji: data.emoji,
+      },
+    });
+
     const room = `channel_${channelId}`;
 
-    // Emitir al evento que el cliente espera para channels
     io.to(room).emit("receive_emoji_message_room", {
       msgId: Number(data.msgId),
       emoji: data.emoji,
