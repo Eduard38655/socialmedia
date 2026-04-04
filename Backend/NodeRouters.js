@@ -195,20 +195,20 @@ io.on("connection", async (socket) => {
         emoji: data.emoji,
       },
     });
-
+/*
     const count = await db.reactions.count({
       where: {
         messageid: Number(data.msgId),
         emoji: data.emoji,
       },
-    });
+    });*/
 
     const room = `channel_${channelId}`;
 
     io.to(room).emit("receive_emoji_message_room", {
       msgId: Number(data.msgId),
       emoji: data.emoji,
-      count,
+
       userid: userId,
       channelid: channelId,
     });
