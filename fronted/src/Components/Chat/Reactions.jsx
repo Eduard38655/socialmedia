@@ -19,7 +19,7 @@ function Reactions({ onReact }) {
     return (
         <ul className={styles.Reactions_List}>
             {reactions.map((reaction) => (
-                <li key={reaction.reactionid} className={styles.Reaction_Item} onClick={() => onReact?.(reaction)}>
+                <li key={reaction.reactionid} className={styles.Reaction_Item} onClick={() => onReact(reaction.reactionid,reaction.emoji)}>
                     {reaction.description || ":hashtag"} <span>{reaction.emoji}</span>
                 </li>
             ))}

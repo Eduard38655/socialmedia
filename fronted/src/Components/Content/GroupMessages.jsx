@@ -65,8 +65,8 @@ function GroupMessages() {
         const data = await res.json();
 
         if (data.ok) {
-          console.log(data,"detailsx");
-          
+          console.log(data, "detailsx");
+
           setMessages(data.data || []);
 
           const cache = {};
@@ -101,8 +101,8 @@ function GroupMessages() {
 
   // ✅ IR A DM
   function goToDM(receiverid) {
-    console.log(receiverid,"dd");
-    
+    console.log(receiverid, "dd");
+
     fetch(
       `${import.meta.env.VITE_API_URL}/private/Start_Message_ByID/${receiverid}`,
       {
@@ -128,6 +128,7 @@ function GroupMessages() {
     "/private/Delete_channel_messages"
   );
 
+  
   return (
     <article className={styles.container_NewMessage_chat}>
       <div className={styles.Infocontainer_messages}>
@@ -138,7 +139,7 @@ function GroupMessages() {
               const id = msg.messageid ?? msg.id ?? `${index}`;
 
               const user = msg.users ?? usersCache[msg.sender_id];
-
+              const user_Reactions = msg.reactions
               const time = msg.updated_at
                 ? `Updated ${dayjs(msg.updated_at).fromNow()}`
                 : dayjs(msg.created_at).fromNow();
@@ -149,6 +150,8 @@ function GroupMessages() {
                   msg={msg}
                   msgId={id}
                   user={user}
+                 
+                  user_Reactions={user_Reactions}
                   time={time}
                   editId={editId}
                   editText={editText}
@@ -175,17 +178,17 @@ function GroupMessages() {
                     }
                   }}
                   onClose={() => setOpenMenuId(null)}
-                 
+
                 />
               );
             })}
-            <MessageInput
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onSend={handleSend}
-        />
+          <MessageInput
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onSend={handleSend}
+          />
         </div>
- 
+
       </div>
 
       {ShowSidebar && <SideBarMembers />}

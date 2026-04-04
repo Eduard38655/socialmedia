@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { UserDataContext } from "../../Context/UserDataContext.jsx";
 import styles from "../../Styles/ChatScreen.module.css";
 import Reactiones from "./Reactions.jsx";
-function OptionsMessages({ onEdit, onDelete, onClose, dataUserId }) {
+function OptionsMessages({ onEdit, onDelete, onClose, dataUserId,onReact }) {
   const [ViewReactions, setViewReactions] = useState(false);
   const { Profile } = useContext(UserDataContext);
 
@@ -33,7 +33,7 @@ function OptionsMessages({ onEdit, onDelete, onClose, dataUserId }) {
                 <li className={styles.addReaction} onClick={() => { setViewReactions(prev => !prev) }}><span>Agregar Reaction</span><i className="fa-solid fa-chevron-right"></i>
 
                   <ul className={`${styles.Container_reactions} ${ViewReactions ? styles.active : ""}`}>
-                    <Reactiones />
+                    <Reactiones onReact={onReact} />
                   </ul>
 
 

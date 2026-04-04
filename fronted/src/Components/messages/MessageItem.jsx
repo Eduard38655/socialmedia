@@ -1,6 +1,37 @@
+import { useEffect } from "react";
 import styles from "../../Styles/ChatScreen.module.css";
 import OptionsMessages from "../Chat/OptionsMessages";
-function MessageItem({ msg, msgId, onGoToDM, user, time, editId, editText, onEditChange, onSave, onCancelEdit, openMenuId, onToggleMenu, onEdit, onDelete, onClose }) {
+function MessageItem({ onReact, user_Reactions, msg, msgId, onGoToDM, user, time, editId, editText, onEditChange, onSave, onCancelEdit, openMenuId, onToggleMenu, onEdit, onDelete, onClose }) {
+  useEffect(() => {
+    console.log(user_Reactions, "reactions del mensaje");
+  }, [user_Reactions])
+
+
+  function onReact(reactionId, emoji) {
+    fetch(`${import.meta.env.VITE_API_URL}/private/react_message`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reactionId, messageId: msgId, emoji  })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          console.log("Reaction added/updated successfully");
+          onReact?.(); // Llama a la función para actualizar las reacciones en el componente padre
+        } else {
+          console.error("Error adding/updating reaction:", data.error);
+        }
+      })
+      .catch(error => {
+        console.error("Error adding/updating reaction:", error);
+      });
+
+
+
+  }
+
+
   return (
     <div className={styles.Container_Messageid}>
       <div className={styles.message_container_details} onClick={onGoToDM}>
@@ -35,24 +66,21 @@ function MessageItem({ msg, msgId, onGoToDM, user, time, editId, editText, onEdi
               msg.message
             )}
             <div className={styles.Container_Reactions_Message}>
-              <span>
+              {user_Reactions?.map((reaction) => (
+
+
+                <span key={reaction.reactionid} >
+                  {reaction.emoji}
+
+                  {reaction.count > 1 && <span>{reaction.count}</span>}
+
+                </span>
+              ))}
 
 
 
-                👍
-                <span>0</span>
 
 
-
-</span>
-
-              <span>
-
-                👍
-                <span>0</span>
-
-
-              </span>
 
             </div>
           </div>
@@ -75,6 +103,8 @@ function MessageItem({ msg, msgId, onGoToDM, user, time, editId, editText, onEdi
           onEdit={onEdit}
           onDelete={onDelete}
           onClose={onClose}
+          onReact={onReact}
+          msgId={msgId}
         />
       )}
     </div>
