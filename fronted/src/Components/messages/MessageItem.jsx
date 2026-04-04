@@ -1,13 +1,15 @@
 import styles from "../../Styles/ChatScreen.module.css";
 import OptionsMessages from "../Chat/OptionsMessages";
-function MessageItem({ msg, msgId, user, time, editId, editText, onEditChange, onSave, onCancelEdit, openMenuId, onToggleMenu, onEdit, onDelete, onClose }) {
+function MessageItem({ msg, msgId, onGoToDM, user, time, editId, editText, onEditChange, onSave, onCancelEdit, openMenuId, onToggleMenu, onEdit, onDelete, onClose }) {
   return (
     <div className={styles.Container_Messageid}>
-      <div className={styles.message_container_details}>
+      <div className={styles.message_container_details} onClick={ onGoToDM}>
         <img
-          src={user?.img || "/default-avatar.png"}
+          src={user?.img  }
           alt="avatar"
           className={styles.message_avatar}
+         
+        
         />
 
         <div className={styles.message_div}>
@@ -36,7 +38,7 @@ function MessageItem({ msg, msgId, user, time, editId, editText, onEditChange, o
 
           {editId === msgId && (
             <div className={styles.editActions}>
-               <p>Press <span>Enter to save</span> and <span>Escape</span> to cancel </p>
+              <p>Press <span>Enter  </span> to save and <span>Escape</span> to cancel </p>
             </div>
           )}
         </div>

@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import { Server } from "socket.io";
 import { fileURLToPath } from "url";
-
 import GroupMessagesDelete from "../Backend/src/Messages/GroupMessages/DeleteMessage.js";
 import GroupMessages from "../Backend/src/Messages/GroupMessages/PutMessage.js";
 import db from "./prisma/db.js";
@@ -21,6 +20,7 @@ import loginModel from "./src/models/login.model.js";
 import ProfileModel from "./src/models/Profile.model.js";
 import userdataModel from "./src/models/userdata.model.js";
 import WorkSpaceModel from "./src/models/WorkSpace.model.js";
+import Reactuions_Routes from "./src/routes/reactions.routes.js";
 const app = express();
 const server = http.createServer(app);
 const __filename = fileURLToPath(import.meta.url);
@@ -202,6 +202,10 @@ app.use("/private", Update_Group_Messages);
 app.use("/private", ProfileModel);
 app.use("/private", GroupMessages);
 app.use("/private", GroupMessagesDelete);
+
+
+/*organisada */
+app.use("/private", Reactuions_Routes);
 // Levantar servidor
 /**
 

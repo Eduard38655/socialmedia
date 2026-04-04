@@ -20,25 +20,36 @@ function GroupMessages() {
   const [openMenuId, setOpenMenuId] = useState(null);
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
- 
-  // RECIBIR MENSAJES
+  const [usersCache, setUsersCache] = useState({});
+
+  // ✅ RECIBIR MENSAJES
   useEffect(() => {
     function handleReceive(data) {
       setMessages((prev) => [...prev, data]);
+
+      // guardar usuario en cache
+      if (data.users?.userid) {
+        setUsersCache((prev) => ({
+          ...prev,
+          [data.users.userid]: data.users,
+        }));
+      }
     }
 
     socket.on("receive_message_room", handleReceive);
     return () => socket.off("receive_message_room", handleReceive);
   }, []);
 
-  // ENTRAR AL CHANNEL
+  // ✅ ENTRAR AL CHANNEL
   useEffect(() => {
     if (!channelid) return;
+
     socket.emit("join_channel", { channelid });
+
     return () => socket.emit("leave_channel", { channelid });
   }, [channelid]);
 
-  // CARGAR MENSAJES
+  // ✅ CARGAR MENSAJES (SOLO CHANNEL)
   useEffect(() => {
     if (!channelid) return;
 
@@ -48,9 +59,24 @@ function GroupMessages() {
           `${import.meta.env.VITE_API_URL}/private/Get_channel_messages/${channelid}`,
           { credentials: "include" }
         );
+
         if (!res.ok) throw new Error("Error al cargar mensajes");
+
         const data = await res.json();
-        if (data.ok) setMessages(data.data || []);
+
+        if (data.ok) {
+          setMessages(data.data || []);
+
+          const cache = {};
+          (data.data || []).forEach((msg) => {
+            const u = msg.users;
+            if (u?.userid) {
+              cache[u.userid] = u;
+            }
+          });
+
+          setUsersCache(cache);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -59,93 +85,98 @@ function GroupMessages() {
     fetchMessages();
   }, [channelid]);
 
+  // ✅ ENVIAR MENSAJE
   function handleSend() {
     if (!message.trim()) return;
-    socket.emit("send_message_room", { message, channelid });
+
+    socket.emit("send_message_room", {
+      message,
+      channelid,
+    });
+
     setMessage("");
   }
 
+  // ✅ IR A DM
   function goToDM(receiverid) {
-    fetch(`${import.meta.env.VITE_API_URL}/private/Start_Message_ByID/${receiverid}`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    })
+    console.log(receiverid,"dd");
+    
+    fetch(
+      `${import.meta.env.VITE_API_URL}/private/Start_Message_ByID/${receiverid}`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
       .then(() => navigate(`/dashboard/@me/message/${receiverid}`))
       .catch(console.error);
   }
-  /*
-    async function handleUpdate(id) {
-      if (!editText.trim()) return;
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/private/Update_Direct_Messages/${id}`,
-          {
-            method: "PUT",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: editText }),
-          }
-        );
-        const data = await res.json();
-        if (data.ok) {
-          setMessages((prev) =>
-            prev.map((msg) =>
-              (msg.messageid ?? msg.id) === id
-                ? { ...msg, message: editText, updated_at: new Date().toISOString() }
-                : msg
-            )
-          );
-          setEditId(null);
-          setEditText("");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }*/
+
   const handleUpdate = useUpdateMessage(
-    setMessages, editText, setEditId, setEditText,
-    "/private/Update_channel_messages" // ✅
+    setMessages,
+    editText,
+    setEditId,
+    setEditText,
+    "/private/Update_channel_messages"
   );
 
-
- const handleDelete = useDeleteMessage(
-   setMessages,
-    "/private/Delete_channel_messages" // ✅
+  const handleDelete = useDeleteMessage(
+    setMessages,
+    "/private/Delete_channel_messages"
   );
- 
 
   return (
     <article className={styles.container_NewMessage_chat}>
       <div className={styles.Infocontainer_messages}>
         <div className={styles.container_messages_chat_container}>
-          {messages.filter((msg) => msg.message?.trim()).map((msg, index) => {
-            const id = msg.messageid ?? msg.id ?? `${index}`;
-            const user = msg.users;
-            const time = msg.updated_at
-              ? `Updated ${dayjs(msg.updated_at).fromNow()}`
-              : dayjs(msg.created_at).fromNow();
+          {messages
+            .filter((msg) => msg.message?.trim())
+            .map((msg, index) => {
+              const id = msg.messageid ?? msg.id ?? `${index}`;
 
-            return (
-              <MessageItem
-                key={id}
-                msg={msg}
-                msgId={id}
-                user={user}
-                time={time}
-                editId={editId}
-                editText={editText}
-                onEditChange={(e) => setEditText(e.target.value)}
-                onSave={() => handleUpdate(id)}
-                onCancelEdit={() => { setEditId(null); setEditText(""); }}
-                openMenuId={openMenuId}
-                onToggleMenu={() => setOpenMenuId((prev) => prev === id ? null : id)}
-                onEdit={() => { setEditId(id); setEditText(msg.message); setOpenMenuId(null); }}
-                onDelete={() => { if (confirm("¿Eliminar mensaje?")) handleDelete(id); }}
-                onClose={() => setOpenMenuId(null)}
-              />
-            );
-          })}
+              const user = msg.users ?? usersCache[msg.sender_id];
+
+              const time = msg.updated_at
+                ? `Updated ${dayjs(msg.updated_at).fromNow()}`
+                : dayjs(msg.created_at).fromNow();
+
+              return (
+                <MessageItem
+                  key={id}
+                  msg={msg}
+                  msgId={id}
+                  user={user}
+                  time={time}
+                  editId={editId}
+                  editText={editText}
+                  onEditChange={(e) => setEditText(e.target.value)}
+                  onSave={() => handleUpdate(id)}
+                  onCancelEdit={() => {
+                    setEditId(null);
+                    setEditText("");
+                  }}
+                  openMenuId={openMenuId}
+                  onToggleMenu={() =>
+                    setOpenMenuId((prev) =>
+                      prev === id ? null : id
+                    )
+                  }
+                  onEdit={() => {
+                    setEditId(id);
+                    setEditText(msg.message);
+                    setOpenMenuId(null);
+                  }}
+                  onDelete={() => {
+                    if (confirm("¿Eliminar mensaje?")) {
+                      handleDelete(id);
+                    }
+                  }}
+                  onClose={() => setOpenMenuId(null)}
+                 
+                />
+              );
+            })}
         </div>
 
         <MessageInput
@@ -160,4 +191,4 @@ function GroupMessages() {
   );
 }
 
-export default GroupMessages; 
+export default GroupMessages;

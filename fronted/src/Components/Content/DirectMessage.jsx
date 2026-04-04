@@ -8,6 +8,7 @@ import useUpdateMessage from "../../hook/messages/useUpdateMessage.jsx";
 import styles from "../../Styles/ChatScreen.module.css";
 import dayjs from "../../utils/day.js";
 import { socket } from "../../utils/socket.js";
+
 function DirectMessage() {
   const { senderid } = useParams();
   const { Profile } = useContext(UserDataContext);
@@ -18,7 +19,7 @@ function DirectMessage() {
   const [openMenuId, setOpenMenuId] = useState(null);
   const [editId, setEditId] = useState(false);
   const [editText, setEditText] = useState("");
-
+  const [usersCache, setUsersCache] = useState({});   // ✅ NUEVO
 
   // RECIBIR MENSAJES
   useEffect(() => {
@@ -38,12 +39,11 @@ function DirectMessage() {
   // ENTRAR AL ROOM
   useEffect(() => {
     if (!senderid || !myUserId) return;
-
     socket.emit("join_room", { receiverId: senderid, userId: myUserId });
     return () => socket.emit("leave_room", { receiverId: senderid, userId: myUserId });
   }, [senderid, myUserId]);
 
-  // CARGAR MENSAJES
+  // CARGAR MENSAJES ✅ fetchMessages solo aquí, no duplicado afuera
   useEffect(() => {
     if (!senderid) return;
 
@@ -55,7 +55,17 @@ function DirectMessage() {
         );
         if (!res.ok) throw new Error("Error al cargar mensajes");
         const data = await res.json();
-        if (data.ok) setMessages(data.data);
+        if (data.ok) {
+          setMessages(data.data);
+
+          // ✅ Guardar usuarios en cache al cargar el historial
+          const cache = {};
+          data.data.forEach((msg) => {
+            const u = msg.users_direct_messages_sender_idTousers;
+            if (u?.userid) cache[u.userid] = u;
+          });
+          setUsersCache(cache);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -72,21 +82,23 @@ function DirectMessage() {
 
   const handleUpdate = useUpdateMessage(
     setMessages, editText, setEditId, setEditText,
-    "/private/Update_Direct_Messages" // ✅
+    "/private/Update_Direct_Messages"
   );
 
   const handleDelete = useDeleteMessage(
     setMessages,
-    "/private/Delete_Direct_Messages" // ✅
+    "/private/Delete_Direct_Messages"
   );
-
 
   return (
     <article className={styles.container_NewMessage_chat}>
       <div className={styles.Infocontainer_messages}>
         <div className={styles.container_messages_chat_container}>
           {messages.filter((msg) => msg.message?.trim()).map((msg, index) => {
-            const user = msg.users_direct_messages_sender_idTousers;
+            // ✅ Si el mensaje del socket no trae usuario, lo buscamos en el cache
+            const user = msg.users_direct_messages_sender_idTousers
+              ?? usersCache[msg.sender_id];
+
             const time = msg.updated_at
               ? `Updated ${dayjs(msg.updated_at).fromNow()}`
               : dayjs(msg.created_at).fromNow();
