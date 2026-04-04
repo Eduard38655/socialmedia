@@ -6,8 +6,8 @@ import http from "http";
 import path from "path";
 import { Server } from "socket.io";
 import { fileURLToPath } from "url";
+import { getUserIdFromSocket } from "../Backend/src/socket/auth.socket.js";
 import registerSockets from "../Backend/src/socket/index.js";
-import { getUserIdFromSocket } from "./src/sockets/auth.socket.js";
 
 // tus imports de rutas...
 import GroupMessagesDelete from "../Backend/src/Messages/GroupMessages/DeleteMessage.js";
