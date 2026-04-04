@@ -206,6 +206,8 @@ app.use("/private", GroupMessagesDelete);
 
 /*organisada */
 app.use("/private/reactions", Reactions_Routes);
+app.use("/private/react_message", Reactions_Routes);
+ 
 // Levantar servidor
 /**
 
