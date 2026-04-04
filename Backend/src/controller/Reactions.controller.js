@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../../../prisma/db.js";
+import db from "../../prisma/db.js";
 import TokenVerifyAuth from "../middleware/TokenVerify.auth.js";
 
 const router = express.Router();

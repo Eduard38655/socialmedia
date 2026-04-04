@@ -20,7 +20,7 @@ import loginModel from "./src/models/login.model.js";
 import ProfileModel from "./src/models/Profile.model.js";
 import userdataModel from "./src/models/userdata.model.js";
 import WorkSpaceModel from "./src/models/WorkSpace.model.js";
-import Reactuions_Routes from "./src/routes/reactions.routes.js";
+import Reactions_Routes from "./src/routes/reactions.routes.js";
 const app = express();
 const server = http.createServer(app);
 const __filename = fileURLToPath(import.meta.url);
@@ -205,7 +205,7 @@ app.use("/private", GroupMessagesDelete);
 
 
 /*organisada */
-app.use("/private", Reactuions_Routes);
+app.use("/private", Reactions_Routes);
 // Levantar servidor
 /**
 
