@@ -12,13 +12,17 @@ function MessageItem({
   const isEditing = editId === msgId;
 
   function handleReact(msgId, emoji) {
-    socket.emit("send_emoji_message_room", { msgId, emoji, channelid });
+    const getMessage=msg[0].messageid ;
+  console.log("Reaccionando con:", emoji, "al mensaje:", msgId, "en el canal:", msg);
+    socket.emit("send_emoji_message_room", { messageid:getMessage, emoji, channelid });
   }
 
   // ✅ AQUÍ VA
   const reactions = user_Reactions || [];
 
   useEffect(() => {
+    console.log(user,"sss");
+    
     console.log("RENDER:", msg);
     console.log("REACCIONES:", reactions);
   }, [reactions]);

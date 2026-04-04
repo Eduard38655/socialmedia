@@ -1,20 +1,10 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../../Styles/ChatScreen.module.css";
-import { socket } from "../../utils/socket.js";
 function MessageInput({ value, onChange, onSend }) {
     const { senderid } = useParams();
     const [message, setMessage] = useState("");
-    function SendMessage() {
-        if (!message.trim()) return;
-
-        socket.emit("send_message", {
-            message: message.trim(),
-            receiverId: senderid,
-        });
-
-        setMessage("");
-    }
+   
 
     return (<>
         <aside className={styles.Send_Message_container}>

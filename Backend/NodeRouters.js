@@ -57,7 +57,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
