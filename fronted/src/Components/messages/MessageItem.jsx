@@ -1,26 +1,30 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styles from "../../Styles/ChatScreen.module.css";
 import OptionsMessages from "../Chat/OptionsMessages";
 function MessageItem({ onReact, user_Reactions, msg, msgId, onGoToDM, user, time, editId, editText, onEditChange, onSave, onCancelEdit, openMenuId, onToggleMenu, onEdit, onDelete, onClose }) {
   useEffect(() => {
     console.log(user_Reactions, "reactions del mensaje");
   }, [user_Reactions])
+  const { channelid } = useParams();
 
+  function onReact(reactionId, emoji) {/*
+    console.log(msgId, "ID del mensaje al que se reacciona");
 
-  function onReact(reactionId, emoji) {
-    console.log(msgId,"ID del mensaje al que se reacciona");
-    
     fetch(`${import.meta.env.VITE_API_URL}/private/react_message`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ reactionId, msgId, emoji  })
+      body: JSON.stringify({ reactionId, msgId, emoji })
     })
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
           console.log("Reaction added/updated successfully");
-          onReact?.(); // Llama a la función para actualizar las reacciones en el componente padre
+          if (!message.trim()) return;
+
+          
+
         } else {
           console.error("Error adding/updating reaction:", data.error);
         }
@@ -29,6 +33,14 @@ function MessageItem({ onReact, user_Reactions, msg, msgId, onGoToDM, user, time
         console.error("Error adding/updating reaction:", error);
       });
 
+*/
+
+    socket.emit("send_emoji_message_room", {
+      msgId,
+      emoji,
+      channelid 
+
+    });
 
 
   }

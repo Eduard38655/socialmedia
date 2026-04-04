@@ -184,6 +184,30 @@ io.on("connection", async (socket) => {
       channelid: channelId,
     });
   });
+
+  socket.on("send_emoji_message_room", async (data) => {
+    const  channelId = Number(data.channelid);
+    const result = await db.reactions.create({
+      data: {
+        userid: userId,
+        messageid: Number(msgId),
+        created_at: new Date(),
+        emoji: emoji,
+        
+      },
+    });
+
+
+  const room = `channel_${channelId}`;
+
+    // Emitir al evento que el cliente espera para channels
+    io.to(room).emit("receive_message_room", {
+      ...SaveMessages,
+      channelid: channelId,
+    });
+
+  });
+
   //////////////////////////////////////////////////////
   socket.on("disconnect", () => {
     console.log("Usuario desconectado");
@@ -203,11 +227,10 @@ app.use("/private", ProfileModel);
 app.use("/private", GroupMessages);
 app.use("/private", GroupMessagesDelete);
 
-
 /*organisada */
 app.use("/private/reactions", Reactions_Routes);
 app.use("/private/react_message", Reactions_Routes);
- 
+
 // Levantar servidor
 /**
 
