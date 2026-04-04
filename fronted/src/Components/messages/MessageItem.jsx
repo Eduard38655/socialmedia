@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../../Styles/ChatScreen.module.css";
+import { socket } from "../../utils/socket.js";
 import OptionsMessages from "../Chat/OptionsMessages";
 function MessageItem({ onReact, user_Reactions, msg, msgId, onGoToDM, user, time, editId, editText, onEditChange, onSave, onCancelEdit, openMenuId, onToggleMenu, onEdit, onDelete, onClose }) {
   useEffect(() => {

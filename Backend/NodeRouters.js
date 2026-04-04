@@ -201,7 +201,7 @@ io.on("connection", async (socket) => {
   const room = `channel_${channelId}`;
 
     // Emitir al evento que el cliente espera para channels
-    io.to(room).emit("receive_message_room", {
+    io.to(room).emit("receive_emoji_message_room", {
       ...SaveMessages,
       channelid: channelId,
     });

@@ -40,6 +40,25 @@ function GroupMessages() {
     return () => socket.off("receive_message_room", handleReceive);
   }, []);
 
+
+
+   useEffect(() => {
+    function handleReceive(data) {
+      setMessages((prev) => [...prev, data]);
+
+      // guardar usuario en cache
+      if (data.users?.userid) {
+        setUsersCache((prev) => ({
+          ...prev,
+          [data.users.userid]: data.users,
+        }));
+      }
+    }
+
+    socket.on("receive_emoji_message_room", handleReceive);
+    return () => socket.off("receive_message_room", handleReceive);
+  }, []);
+
   // ✅ ENTRAR AL CHANNEL
   useEffect(() => {
     if (!channelid) return;
