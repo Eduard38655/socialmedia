@@ -40,50 +40,7 @@ function GroupMessages() {
     return () => socket.off("receive_message_room", handleReceive);
   }, []);
 
-
-
-  useEffect(() => {
-  function handleReaction(data) {
-    setMessages((prev) =>
-      prev.map((msg) => {
-        if (msg.messageid === data.msgId) {
-
-          const existing = msg.reactions?.find(
-            (r) => r.emoji === data.emoji
-          );
-
-          let updatedReactions;
-
-          if (existing) {
-            updatedReactions = msg.reactions.map((r) =>
-              r.emoji === data.emoji
-                ? { ...r, count: (r.count || 1) + 1 }
-                : r
-            );
-          } else {
-            updatedReactions = [
-              ...(msg.reactions || []),
-              { emoji: data.emoji, count: 1 },
-            ];
-          }
-
-          return {
-            ...msg,
-            reactions: updatedReactions,
-          };
-        }
-
-        return msg;
-      })
-    );
-  }
-
-  socket.on("receive_emoji_message_room", handleReaction);
-
-  return () =>
-    socket.off("receive_emoji_message_room", handleReaction);
-}, []);
-
+ 
   // ✅ ENTRAR AL CHANNEL
   useEffect(() => {
     if (!channelid) return;
@@ -172,33 +129,15 @@ function GroupMessages() {
   const handleDelete = useDeleteMessage(
     setMessages,
     "/private/Delete_channel_messages"
-  );
+  );// ✅ Un único useEffect para reacciones
 useEffect(() => {
   function handleReaction(data) {
     setMessages((prev) =>
-      prev.map((msg) => {
-        if (msg.messageid !== data.msgId) return msg;
-
-        const reactions = msg.reactions || [];
-        const existing = reactions.find((r) => r.emoji === data.emoji);
-
-        let updatedReactions;
-
-        if (existing) {
-          updatedReactions = reactions.map((r) =>
-            r.emoji === data.emoji
-              ? { ...r, count: data.count }
-              : r
-          );
-        } else {
-          updatedReactions = [...reactions, { emoji: data.emoji, count: data.count }];
-        }
-
-        return {
-          ...msg,
-          reactions: updatedReactions,
-        };
-      })
+      prev.map((msg) =>
+        msg.messageid === data.msgId
+          ? { ...msg, reactions: data.reactions }
+          : msg
+      )
     );
   }
 

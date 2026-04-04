@@ -184,36 +184,47 @@ io.on("connection", async (socket) => {
       channelid: channelId,
     });
   });
+  
+
+
   socket.on("send_emoji_message_room", async (data) => {
+  try {
+    if (!data.msgId || !data.emoji || !data.channelid) return;
+
     const channelId = Number(data.channelid);
+    const messageId = Number(data.msgId);
 
-    await db.reactions.create({
-      data: {
-        userid: userId,
-        messageid: Number(data.msgId),
-        created_at: new Date(),
-        emoji: data.emoji,
-      },
+    // Toggle: quitar si ya existe, agregar si no
+    const existing = await db.reactions.findFirst({
+      where: { userid: userId, messageid: messageId, emoji: data.emoji },
     });
-/*
-    const count = await db.reactions.count({
-      where: {
-        messageid: Number(data.msgId),
-        emoji: data.emoji,
-      },
-    });*/
 
-    const room = `channel_${channelId}`;
+    if (existing) {
+      await db.reactions.delete({ where: { reactionid: existing.reactionid } });
+    } else {
+      await db.reactions.create({
+        data: { userid: userId, messageid: messageId, emoji: data.emoji, created_at: new Date() },
+      });
+    }
 
-    io.to(room).emit("receive_emoji_message_room", {
-      msgId: Number(data.msgId),
-      emoji: data.emoji,
+    // Agrupar y emitir el estado real desde la DB
+    const grouped = await db.reactions.groupBy({
+      by: ["emoji"],
+      where: { messageid: messageId },
+      _count: { emoji: true },
+    });
 
-      userid: userId,
+    io.to(`channel_${channelId}`).emit("receive_emoji_message_room", {
+      msgId: messageId,
       channelid: channelId,
+      reactions: grouped.map(r => ({ emoji: r.emoji, count: r._count.emoji })),
     });
-  });
 
+  } catch (err) {
+    console.error("Error en send_emoji_message_room:", err);
+    socket.emit("error_emoji", { message: "No se pudo procesar la reacción" });
+  }
+});
   //////////////////////////////////////////////////////
   socket.on("disconnect", () => {
     console.log("Usuario desconectado");
