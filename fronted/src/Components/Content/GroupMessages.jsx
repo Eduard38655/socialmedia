@@ -130,14 +130,29 @@ function GroupMessages() {
     setMessages,
     "/private/Delete_channel_messages"
   );// ✅ Un único useEffect para reacciones
+
+  
+
 useEffect(() => {
   function handleReaction(data) {
+    console.log("LLEGO REACTION:", data);
+
     setMessages((prev) =>
-      prev.map((msg) =>
-        msg.messageid === data.msgId
-          ? { ...msg, reactions: data.reactions }
-          : msg
-      )
+      prev.map((msg) => {
+        if (Number(msg.messageid) !== Number(data.msgId)) return msg;
+
+        return {
+          ...msg,
+          reactions: [
+            ...(msg.reactions || []),
+            {
+              reactionid: data.reactionid,
+              emoji: data.emoji,
+              userid: data.userid,
+            },
+          ],
+        };
+      })
     );
   }
 

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "../../Styles/ChatScreen.module.css";
 import { socket } from "../../utils/socket.js";
@@ -14,6 +15,14 @@ function MessageItem({
     socket.emit("send_emoji_message_room", { msgId, emoji, channelid });
   }
 
+  // ✅ AQUÍ VA
+  const reactions = user_Reactions || [];
+
+  useEffect(() => {
+    console.log("RENDER:", msg);
+    console.log("REACCIONES:", reactions);
+  }, [reactions]);
+
   return (
     <div className={styles.Container_Messageid}>
       <div className={styles.message_container_details}>
@@ -21,7 +30,7 @@ function MessageItem({
           src={user?.img ?? "/default-avatar.png"}
           alt={user?.name ?? "User"}
           className={styles.message_avatar}
-          onClick={onGoToDM}                       // ✅ solo en avatar
+          onClick={onGoToDM}
         />
 
         <div className={styles.message_div}>
@@ -36,7 +45,10 @@ function MessageItem({
                 value={editText}
                 onChange={onEditChange}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); onSave(); }
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    onSave();
+                  }
                   if (e.key === "Escape") onCancelEdit();
                 }}
               />
@@ -44,11 +56,11 @@ function MessageItem({
               msg.message
             )}
 
+            {/* ✅ REACCIONES */}
             <div className={styles.Container_Reactions_Message}>
-              {user_Reactions?.map((reaction) => (
-                <span key={reaction.emoji}>          // ✅ key estable
+              {reactions.map((reaction) => (
+                <span key={reaction.reactionid}>
                   {reaction.emoji}
-                  {reaction.count > 1 && <span>{reaction.count}</span>}
                 </span>
               ))}
             </div>
@@ -63,7 +75,10 @@ function MessageItem({
 
         <button
           className={styles.btn_ellipsis}
-          onClick={(e) => { e.stopPropagation(); onToggleMenu(); }} // ✅ stopPropagation
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleMenu();
+          }}
         >
           <i className="fa-solid fa-ellipsis" />
         </button>
@@ -82,5 +97,4 @@ function MessageItem({
     </div>
   );
 }
-
 export default MessageItem;
