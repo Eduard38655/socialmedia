@@ -5,20 +5,13 @@ export const postReactions = async (req, res) => {
     const userId = req.user.userid;
     const { reactionid, messageid, emoji } = req.body;
 
-    if (typeof reactionid !== "number" || typeof messageid !== "number") {
-      return res.status(400).json({
-        ok: false,
-        message: "Invalid reactionid or messageid",
-      });
-    }
-
     const result = await db.reactions.create({
       data: {
-        reactionid,
-        messageid,
+        reactionid: Number(reactionid),
+        messageid: Number(messageid),
         created_at: new Date(),
         emoji: emoji,
-        userid: userId,
+        userid: Number(userId),
       },
     });
 
