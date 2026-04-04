@@ -7,7 +7,7 @@ export const postReactions = async (req, res) => {
 
     const result = await db.reactions.create({
       data: {
-        reactionid: Number(reactionId),
+        
         messageid: Number(msgId),
         created_at: new Date(),
         emoji: emoji,
