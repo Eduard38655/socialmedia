@@ -17,13 +17,17 @@ import DeleteMessage from "./src/Messages/DeleteMessage.js";
 import SendDirectMessage from "./src/Messages/Messages.js";
 import PutMessage from "./src/Messages/PutMessage.js";
 
-import loginModel from "./src/models/login.model.js";
-import ProfileModel from "./src/models/Profile.model.js";
-import userdataModel from "./src/models/userdata.model.js";
-import WorkSpaceModel from "./src/models/WorkSpace.model.js";
+import userdataModel from "./src/models/delet4.js";
+import loginModel from "./src/models/delete3.js";
+import ProfileModel from "./src/models/deleteDeaiols.js";
+import WorkSpaceModel from "./src/models/deletes.js";
+
+import AuthRoutes from "./src/routes/auth.routes.js";
 import Channel_Routes from "./src/routes/channel.routes.js";
 import Direct_messages from "./src/routes/Direct_messages.routes.js";
+import profile_routes from "./src/routes/profile.routes.js";
 import Reactions_Routes from "./src/routes/reactions.routes.js";
+import Workspace_Routes from "./src/routes/workspace.routes.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -103,10 +107,16 @@ app.use("/private", Update_Group_Messages);
 app.use("/private", ProfileModel);
 app.use("/private", GroupMessages);
 app.use("/private", GroupMessagesDelete);
+
 app.use("/private/reactions", Reactions_Routes);
 app.use("/private/react_message", Reactions_Routes);
 app.use("/private", Channel_Routes);
 app.use("/private", Direct_messages);
+app.use("/private", Workspace_Routes);
+app.use("/public", AuthRoutes);
+app.use("/private", profile_routes);
+
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
