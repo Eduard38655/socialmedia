@@ -21,8 +21,10 @@ import loginModel from "./src/models/login.model.js";
 import ProfileModel from "./src/models/Profile.model.js";
 import userdataModel from "./src/models/userdata.model.js";
 import WorkSpaceModel from "./src/models/WorkSpace.model.js";
+import Channel_Routes from "./src/routes/channel.routes.js";
 import Reactions_Routes from "./src/routes/reactions.routes.js";
-  
+
+ 
 const app = express();
 const server = http.createServer(app);
 const __filename = fileURLToPath(import.meta.url);
@@ -101,7 +103,7 @@ app.use("/private", GroupMessages);
 app.use("/private", GroupMessagesDelete);
 app.use("/private/reactions", Reactions_Routes);
 app.use("/private/react_message", Reactions_Routes);
-
+app.use("/private", Channel_Routes);
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
