@@ -95,7 +95,7 @@ app.use("/public", loginModel);
 app.use("/private", userdataModel);
 
 app.use("/private", WorkSpaceModel);
-app.use("/private", ChatsMessagesListModel);
+ 
 app.use("/private", SendDirectMessage);
 app.use("/private", DeleteMessage);
 app.use("/private", PutMessage);
