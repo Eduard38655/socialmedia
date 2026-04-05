@@ -16,15 +16,15 @@ import Update_Group_Messages from "./src/GroupMessages/GroupMessages.js";
 import DeleteMessage from "./src/Messages/DeleteMessage.js";
 import SendDirectMessage from "./src/Messages/Messages.js";
 import PutMessage from "./src/Messages/PutMessage.js";
-import ChatsMessagesListModel from "./src/models/ChatsMessagesList.model.js";
+
 import loginModel from "./src/models/login.model.js";
 import ProfileModel from "./src/models/Profile.model.js";
 import userdataModel from "./src/models/userdata.model.js";
 import WorkSpaceModel from "./src/models/WorkSpace.model.js";
 import Channel_Routes from "./src/routes/channel.routes.js";
+import Direct_messages from "./src/routes/Direct_messages.routes.js";
 import Reactions_Routes from "./src/routes/reactions.routes.js";
 
- 
 const app = express();
 const server = http.createServer(app);
 const __filename = fileURLToPath(import.meta.url);
@@ -58,10 +58,12 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors({
-  origin: true,
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  }),
+);
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
@@ -91,7 +93,7 @@ io.on("connection", (socket) => {
 // rutas
 app.use("/public", loginModel);
 app.use("/private", userdataModel);
- 
+
 app.use("/private", WorkSpaceModel);
 app.use("/private", ChatsMessagesListModel);
 app.use("/private", SendDirectMessage);
@@ -104,6 +106,7 @@ app.use("/private", GroupMessagesDelete);
 app.use("/private/reactions", Reactions_Routes);
 app.use("/private/react_message", Reactions_Routes);
 app.use("/private", Channel_Routes);
+app.use("/private", Direct_messages);
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
