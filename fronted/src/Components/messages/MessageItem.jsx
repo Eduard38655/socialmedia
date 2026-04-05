@@ -6,38 +6,39 @@ import OptionsMessages from "../Chat/OptionsMessages";
 function MessageItem({
   user_Reactions, msg, msgId, onGoToDM, user, time,
   editId, editText, onEditChange, onSave, onCancelEdit,
-  openMenuId, onToggleMenu, onEdit, onDelete, onClose,
+  openMenuId, onToggleMenu, onEdit, onDelete, onClose,goToDM
 }) {
   const { channelid } = useParams();
   const isEditing = editId === msgId;
 
-function handleReact(msgId, emoji) {
-  const getMessage = msg[0].messageid;
-  socket.emit("send_emoji_message_room", {
-    messageid: getMessage,
-    emoji,
-    channelid
-  });
-}
+  function handleReact(msgId, emoji) {
+    const getMessage = msg.messageid;
+
+    socket.emit("send_emoji_message_room", {
+      messageid: getMessage,
+      emoji,
+      channelid
+    });
+  }
 
   // ✅ AQUÍ VA
   const reactions = user_Reactions || [];
 
   useEffect(() => {
-    console.log(user,"sss");
-    
+    console.log(user, "sss");
+
     console.log("RENDER:", msg);
     console.log("REACCIONES:", reactions);
   }, [reactions]);
 
   return (
     <div className={styles.Container_Messageid}>
-      <div className={styles.message_container_details}>
+      <div className={styles.message_container_details} >
         <img
           src={user?.img ?? "/default-avatar.png"}
           alt={user?.name ?? "User"}
           className={styles.message_avatar}
-          onClick={onGoToDM}
+         
         />
 
         <div className={styles.message_div}>
@@ -99,6 +100,7 @@ function handleReact(msgId, emoji) {
           onClose={onClose}
           onReact={handleReact}
           msgId={msgId}
+          goToDM={goToDM}
         />
       )}
     </div>

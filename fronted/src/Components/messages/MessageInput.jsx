@@ -4,11 +4,12 @@ import styles from "../../Styles/ChatScreen.module.css";
 function MessageInput({ value, onChange, onSend }) {
     const { senderid } = useParams();
     const [message, setMessage] = useState("");
-   
+
 
     return (<>
         <aside className={styles.Send_Message_container}>
-            <div className={styles.Section_Icons}>
+            <div className={styles.Section_Icons}> 
+
                 <div className={styles.textarea_container}>
                     <textarea
                         className={styles.textarea}
@@ -31,6 +32,8 @@ function MessageInput({ value, onChange, onSend }) {
                     </div>
                 </div>
             </div>
+            
+
         </aside>
 
     </>)

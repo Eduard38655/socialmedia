@@ -10,7 +10,6 @@ router.get("/channel_members/:groupid", TokenVerifyAuth, async (req, res) => {
     // Intenta obtener userid de req.user o de req.login como fallback
     const userid = req.user?.userid ?? req.user?.id ?? req.login?.loginid;
     const { groupid } = req.params;
-    console.log(groupid, "dd");
 
     if (!userid) {
       return res
@@ -28,7 +27,7 @@ router.get("/channel_members/:groupid", TokenVerifyAuth, async (req, res) => {
         },
       },
     });
-    console.log(workspace_members_Data);
+   
 
     return res.status(200).json({ ok: true, data: workspace_members_Data });
   } catch (error) {
@@ -93,7 +92,7 @@ router.get(
               last_name: true,
             },
           },
-          reactions: true
+          reactions: true,
         },
       });
       console.log(channel_members_messages_data);
@@ -141,11 +140,4 @@ router.get(
   },
 );
 
-
-
-
- 
-
-
- 
 export default router;

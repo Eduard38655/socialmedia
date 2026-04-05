@@ -16,14 +16,13 @@ import Update_Group_Messages from "./src/GroupMessages/GroupMessages.js";
 import DeleteMessage from "./src/Messages/DeleteMessage.js";
 import SendDirectMessage from "./src/Messages/Messages.js";
 import PutMessage from "./src/Messages/PutMessage.js";
-import ChannelsModel from "./src/models/Channels.model.js";
 import ChatsMessagesListModel from "./src/models/ChatsMessagesList.model.js";
 import loginModel from "./src/models/login.model.js";
 import ProfileModel from "./src/models/Profile.model.js";
 import userdataModel from "./src/models/userdata.model.js";
 import WorkSpaceModel from "./src/models/WorkSpace.model.js";
 import Reactions_Routes from "./src/routes/reactions.routes.js";
-
+  
 const app = express();
 const server = http.createServer(app);
 const __filename = fileURLToPath(import.meta.url);
@@ -90,7 +89,7 @@ io.on("connection", (socket) => {
 // rutas
 app.use("/public", loginModel);
 app.use("/private", userdataModel);
-app.use("/private", ChannelsModel);
+ 
 app.use("/private", WorkSpaceModel);
 app.use("/private", ChatsMessagesListModel);
 app.use("/private", SendDirectMessage);

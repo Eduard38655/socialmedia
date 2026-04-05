@@ -40,7 +40,7 @@ function GroupMessages() {
     return () => socket.off("receive_message_room", handleReceive);
   }, []);
 
- 
+
   // ✅ ENTRAR AL CHANNEL
   useEffect(() => {
     if (!channelid) return;
@@ -95,8 +95,8 @@ function GroupMessages() {
     socket.emit("send_message_room", {
       message,
       channelid,
-      
-      
+
+
     });
 
     setMessage("");
@@ -131,37 +131,38 @@ function GroupMessages() {
     "/private/Delete_channel_messages"
   );// ✅ Un único useEffect para reacciones
 
-  
-useEffect(() => {
-  function handleReaction(data) {
-    console.log("LLEGO REACTION:", data);
 
-    setMessages((prev) =>
-      prev.map((msg) => {
-        if (Number(msg.messageid) !== Number(data.msgId)) return msg;
+  useEffect(() => {
+    function handleReaction(data) {
+      console.log("LLEGO REACTION:", data);
 
-        return {
-          ...msg,
-          reactions: [
-            ...(msg.reactions || []),
-            {
-              reactionid: data.reactionid,
-              emoji: data.emoji,
-              userid: data.userid,
-            },
-          ],
-        };
-      })
-    );
-  }
+      setMessages((prev) =>
+        prev.map((msg) => {
+          if (Number(msg.messageid) !== Number(data.msgId)) return msg;
 
-  socket.on("receive_emoji_message_room", handleReaction);
-  return () => socket.off("receive_emoji_message_room", handleReaction);
-}, []);
+          return {
+            ...msg,
+            reactions: [
+              ...(msg.reactions || []),
+              {
+                reactionid: data.reactionid,
+                emoji: data.emoji,
+                userid: data.userid,
+              },
+            ],
+          };
+        })
+      );
+    }
+
+    socket.on("receive_emoji_message_room", handleReaction);
+    return () => socket.off("receive_emoji_message_room", handleReaction);
+  }, []);
   return (
     <article className={styles.container_NewMessage_chat}>
       <div className={styles.Infocontainer_messages}>
         <div className={styles.container_messages_chat_container}>
+
           {messages
             .filter((msg) => msg.message?.trim())
             .map((msg, index) => {
@@ -179,8 +180,9 @@ useEffect(() => {
                   msg={msg}
                   msgId={id}
                   user={user}
-                 setMessages={setMessages}
-                 setUsersCache={setUsersCache}
+                  goToDM={goToDM}
+                  setMessages={setMessages}
+                  setUsersCache={setUsersCache}
                   user_Reactions={user_Reactions}
                   time={time}
                   editId={editId}
@@ -211,14 +213,17 @@ useEffect(() => {
 
                 />
               );
-            })}
-          <MessageInput
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onSend={handleSend}
-          />
+
+            })
+          }
+
         </div>
 
+        <MessageInput
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onSend={handleSend}
+        />
       </div>
 
       {ShowSidebar && <SideBarMembers />}
