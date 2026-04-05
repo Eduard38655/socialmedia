@@ -4,10 +4,10 @@ import { getReactions } from "../controller/Reactions.controller.js";
 import { postReactions } from "../controller/ReactToPost.controller.js";
 import TokenVerifyAuth from "../middleware/TokenVerify.auth.js";
 
-import getChannelMembers from "../controllers/channel/getChannelMembers.js";
-import getChannelMembersWithGroup from "../controllers/channel/getChannelMembersWithGroup.js";
-import getChannelMessages from "../controllers/channel/getChannelMessages.js";
-import getWorkspaceChannels from "../controllers/channel/getWorkspaceChannels.js";
+import getChannelMembers from "../controller/channel/getChannelMembers.js";
+import getChannelMembersWithGroup from "../controller/channel/getChannelMembersWithGroup.js";
+import getChannelMessages from "../controller/channel/getChannelMessages.js";
+import getWorkspaceChannels from "../controller/channel/getWorkspaceChannels.js";
 
 const router = express.Router();
 
